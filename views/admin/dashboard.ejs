@@ -1,0 +1,225 @@
+<div class="container-fluid">
+  <% if (typeof error !== 'undefined' && error) { %>
+  <div class="alert alert-danger"><%= error %></div>
+  <% } else { %>
+
+  <!-- Dashboard Stats -->
+  <div class="row">
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card dashboard-card bg-primary">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs text-white text-uppercase mb-1">
+                Total Shipments
+              </div>
+              <div class="h5 mb-0 text-white font-weight-bold">
+                <%= stats.totalShipments %>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-shipping-fast fa-2x text-white-50"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card dashboard-card bg-warning">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs text-white text-uppercase mb-1">
+                Pending Shipments
+              </div>
+              <div class="h5 mb-0 text-white font-weight-bold">
+                <%= stats.pendingShipments %>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-clock fa-2x text-white-50"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card dashboard-card bg-success">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs text-white text-uppercase mb-1">
+                Delivered Shipments
+              </div>
+              <div class="h5 mb-0 text-white font-weight-bold">
+                <%= stats.deliveredShipments %>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-check-circle fa-2x text-white-50"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card dashboard-card bg-info">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs text-white text-uppercase mb-1">
+                Newsletter Subscribers
+              </div>
+              <div class="h5 mb-0 text-white font-weight-bold">
+                <%= stats.subscribers %>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-envelope fa-2x text-white-50"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Recent Shipments -->
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h6 class="m-0 font-weight-bold">Recent Shipments</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Tracking #</th>
+                  <th>Customer</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (recentShipments && recentShipments.length > 0) { %> <%
+                recentShipments.forEach(shipment => { %>
+                <tr>
+                  <td>
+                    <a href="/admin/shipment/<%= shipment._id %>"
+                      ><%= shipment.trackingNumber %></a
+                    >
+                  </td>
+                  <td><%= shipment.customer.name %></td>
+                  <td>
+                    <%= shipment.origin.city %>, <%= shipment.origin.country %>
+                  </td>
+                  <td>
+                    <%= shipment.destination.city %>, <%=
+                    shipment.destination.country %>
+                  </td>
+                  <td>
+                    <% if (shipment.status === 'created') { %>
+                    <span class="badge bg-secondary">Created</span>
+                    <% } else if (shipment.status === 'processing') { %>
+                    <span class="badge bg-primary">Processing</span>
+                    <% } else if (shipment.status === 'in_transit') { %>
+                    <span class="badge bg-info">In Transit</span>
+                    <% } else if (shipment.status === 'delivered') { %>
+                    <span class="badge bg-success">Delivered</span>
+                    <% } else if (shipment.status === 'cancelled') { %>
+                    <span class="badge bg-danger">Cancelled</span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <%= new Date(shipment.createdAt).toLocaleDateString() %>
+                  </td>
+                </tr>
+                <% }) %> <% } else { %>
+                <tr>
+                  <td colspan="6" class="text-center">No shipments found</td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          <a href="/admin/shipments" class="btn btn-primary btn-sm mt-2"
+            >View All Shipments</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Inquiries -->
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h6 class="m-0 font-weight-bold">Unresolved Inquiries</h6>
+        </div>
+        <div class="card-body">
+          <% if (stats.contacts > 0) { %>
+          <p>You have <%= stats.contacts %> unresolved contact inquiries.</p>
+          <a href="/admin/contacts" class="btn btn-primary btn-sm"
+            >View Inquiries</a
+          >
+          <% } else { %>
+          <p>No unresolved contact inquiries.</p>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h6 class="m-0 font-weight-bold">Quick Actions</h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6 mb-2">
+              <a
+                href="/shipment/create"
+                class="btn btn-primary btn-sm btn-block"
+                >Create Shipment</a
+              >
+            </div>
+            <div class="col-6 mb-2">
+              <a href="/admin/newsletter" class="btn btn-info btn-sm btn-block"
+                >Manage Newsletter</a
+              >
+            </div>
+            <div class="col-6">
+              <a
+                href="/admin/profile"
+                class="btn btn-secondary btn-sm btn-block"
+                >My Profile</a
+              >
+            </div>
+            <div class="col-6">
+              <a href="/" class="btn btn-outline-dark btn-sm btn-block"
+                >Visit Site</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // Initialize DataTables
+    $(".table").DataTable({
+      paging: false,
+      searching: false,
+      ordering: false,
+      info: false,
+    });
+  });
+</script>

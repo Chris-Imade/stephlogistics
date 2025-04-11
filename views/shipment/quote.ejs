@@ -1,0 +1,857 @@
+<!-- Start Breadcrumb Area -->
+<div
+  class="trucker__breadcrumb-area"
+  data-background="/assets/images/breadcrumb/bg.jpg"
+>
+  <div class="trucker__breadcrumb-inner">
+    <div class="trucker__breadcrumb-link">
+      <span class="trucker__breadcrumb-link-current trucker__dashed"
+        >Get a Quote</span
+      >
+    </div>
+    <h2 class="trucker__breadcrumb-title">Shipping Quote</h2>
+  </div>
+</div>
+<!-- End Breadcrumb Area -->
+
+<!-- Quote Calculator Area -->
+<div class="trucker__section-padding">
+  <div class="trucker__container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="quote-intro text-center mb-5">
+          <h2 class="quote-title mb-4">Get an Instant Shipping Quote</h2>
+          <p class="quote-description">
+            Enter your shipment details below to get an instant quote for your
+            delivery needs. We offer competitive rates for both domestic and
+            international shipping.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="quote-calculator-wrapper p-4 rounded shadow">
+          <form id="quote-form" class="quote-form">
+            <div class="row">
+              <!-- Shipment Type Selection -->
+              <div class="col-md-12 mb-4">
+                <div class="form-group">
+                  <label>Shipment Type</label>
+                  <div class="shipment-type-options d-flex">
+                    <div class="form-check me-4">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="shipmentType"
+                        id="parcelOption"
+                        value="parcel"
+                        checked
+                      />
+                      <label class="form-check-label" for="parcelOption"
+                        >Parcel</label
+                      >
+                    </div>
+                    <div class="form-check me-4">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="shipmentType"
+                        id="palletOption"
+                        value="pallet"
+                      />
+                      <label class="form-check-label" for="palletOption"
+                        >Pallet</label
+                      >
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="shipmentType"
+                        id="freightOption"
+                        value="freight"
+                      />
+                      <label class="form-check-label" for="freightOption"
+                        >Freight</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Origin and Destination -->
+              <div class="col-md-6 mb-4">
+                <div class="form-group">
+                  <label for="originPostcode">Origin Postcode*</label>
+                  <input
+                    type="text"
+                    id="originPostcode"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="form-group">
+                  <label for="destinationPostcode">Destination Postcode*</label>
+                  <input
+                    type="text"
+                    id="destinationPostcode"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Country Selection -->
+              <div class="col-md-6 mb-4">
+                <div class="form-group">
+                  <label for="originCountry">Origin Country*</label>
+                  <select id="originCountry" class="form-control" required>
+                    <option value="UK" selected>United Kingdom</option>
+                    <option value="FR">France</option>
+                    <option value="DE">Germany</option>
+                    <option value="IT">Italy</option>
+                    <option value="ES">Spain</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="AU">Australia</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="form-group">
+                  <label for="destinationCountry">Destination Country*</label>
+                  <select id="destinationCountry" class="form-control" required>
+                    <option value="UK" selected>United Kingdom</option>
+                    <option value="FR">France</option>
+                    <option value="DE">Germany</option>
+                    <option value="IT">Italy</option>
+                    <option value="ES">Spain</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="AU">Australia</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Package Details -->
+              <div class="col-md-12 mb-4">
+                <h5 class="form-section-title">Package Details</h5>
+              </div>
+
+              <!-- Weight -->
+              <div class="col-md-6 mb-4">
+                <div class="form-group">
+                  <label for="weight">Weight (kg)*</label>
+                  <input
+                    type="number"
+                    id="weight"
+                    min="0.1"
+                    step="0.1"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Dimensions -->
+              <div class="col-md-6 mb-4">
+                <div class="form-group">
+                  <label for="length">Dimensions (cm)</label>
+                  <div class="input-group">
+                    <input
+                      type="number"
+                      id="length"
+                      placeholder="Length"
+                      min="1"
+                      class="form-control"
+                      required
+                    />
+                    <input
+                      type="number"
+                      id="width"
+                      placeholder="Width"
+                      min="1"
+                      class="form-control"
+                      required
+                    />
+                    <input
+                      type="number"
+                      id="height"
+                      placeholder="Height"
+                      min="1"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quantity and Value -->
+              <div class="col-md-6 mb-4">
+                <div class="form-group">
+                  <label for="quantity">Quantity*</label>
+                  <input
+                    type="number"
+                    id="quantity"
+                    min="1"
+                    value="1"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="form-group">
+                  <label for="value">Declared Value (£)*</label>
+                  <input
+                    type="number"
+                    id="value"
+                    min="1"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Service Options -->
+              <div class="col-md-12 mb-4">
+                <h5 class="form-section-title">Service Options</h5>
+                <div class="service-options">
+                  <div class="form-check mb-2">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="insurance"
+                    />
+                    <label class="form-check-label" for="insurance">
+                      Insurance (+ 2% of declared value)
+                    </label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="signature"
+                    />
+                    <label class="form-check-label" for="signature">
+                      Signature Required (+ £2.00)
+                    </label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="express"
+                    />
+                    <label class="form-check-label" for="express">
+                      Express Delivery (+ £15.00)
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12 text-center">
+                <button
+                  type="submit"
+                  class="trucker__btn-style-1"
+                  id="calculate-button"
+                >
+                  Calculate Quote <i class="fa-light fa-calculator"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quote Results Section (initially hidden) -->
+    <div class="row mt-5" id="quote-results" style="display: none">
+      <div class="col-lg-10 mx-auto">
+        <div class="quote-results-wrapper p-4 rounded shadow">
+          <h3 class="quote-results-title mb-4 text-center">Shipping Options</h3>
+
+          <div class="shipping-options">
+            <!-- Standard Shipping Option -->
+            <div class="shipping-option mb-4 p-3 rounded">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="shipping-option-details">
+                  <h5 class="shipping-option-name">Standard Delivery</h5>
+                  <p class="shipping-option-description mb-2">
+                    Estimated delivery in 3-5 business days
+                  </p>
+                  <div class="shipping-features">
+                    <span class="badge bg-light text-dark me-2"
+                      >Tracking Included</span
+                    >
+                    <span class="badge bg-light text-dark">Door-to-Door</span>
+                  </div>
+                </div>
+                <div class="shipping-option-price">
+                  <h4 class="price" id="standard-price">£24.99</h4>
+                  <button
+                    class="trucker__btn-style-1 mt-2 select-option"
+                    data-option="standard"
+                  >
+                    Select <i class="fa-light fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Express Shipping Option -->
+            <div class="shipping-option mb-4 p-3 rounded">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="shipping-option-details">
+                  <h5 class="shipping-option-name">Express Delivery</h5>
+                  <p class="shipping-option-description mb-2">
+                    Estimated delivery in 1-2 business days
+                  </p>
+                  <div class="shipping-features">
+                    <span class="badge bg-light text-dark me-2"
+                      >Priority Handling</span
+                    >
+                    <span class="badge bg-light text-dark me-2"
+                      >Tracking Included</span
+                    >
+                    <span class="badge bg-light text-dark">Door-to-Door</span>
+                  </div>
+                </div>
+                <div class="shipping-option-price">
+                  <h4 class="price" id="express-price">£39.99</h4>
+                  <button
+                    class="trucker__btn-style-1 mt-2 select-option"
+                    data-option="express"
+                  >
+                    Select <i class="fa-light fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Premium Shipping Option -->
+            <div class="shipping-option mb-4 p-3 rounded">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="shipping-option-details">
+                  <h5 class="shipping-option-name">Next Day Delivery</h5>
+                  <p class="shipping-option-description mb-2">
+                    Guaranteed delivery by next business day
+                  </p>
+                  <div class="shipping-features">
+                    <span class="badge bg-light text-dark me-2"
+                      >Priority Handling</span
+                    >
+                    <span class="badge bg-light text-dark me-2"
+                      >Tracking Included</span
+                    >
+                    <span class="badge bg-light text-dark me-2"
+                      >Signature Required</span
+                    >
+                    <span class="badge bg-light text-dark">Door-to-Door</span>
+                  </div>
+                </div>
+                <div class="shipping-option-price">
+                  <h4 class="price" id="premium-price">£59.99</h4>
+                  <button
+                    class="trucker__btn-style-1 mt-2 select-option"
+                    data-option="premium"
+                  >
+                    Select <i class="fa-light fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote-disclaimer mt-4">
+            <p class="small text-muted">
+              <i class="fa-light fa-info-circle me-1"></i> Prices are estimates
+              based on the information provided. Actual shipping costs may vary
+              based on final weight and dimensions. Additional fees may apply
+              for remote locations or special handling requirements.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkout Section (initially hidden) -->
+    <div class="row mt-5" id="checkout-section" style="display: none">
+      <div class="col-lg-10 mx-auto">
+        <div class="checkout-wrapper p-4 rounded shadow">
+          <h3 class="checkout-title mb-4 text-center">Complete Your Booking</h3>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="checkout-form">
+                <form id="booking-form">
+                  <h5 class="mb-3">Contact Information</h5>
+
+                  <div class="form-group mb-3">
+                    <label for="fullName">Full Name*</label>
+                    <input
+                      type="text"
+                      id="fullName"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group mb-3">
+                    <label for="email">Email Address*</label>
+                    <input
+                      type="email"
+                      id="email"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group mb-3">
+                    <label for="phone">Phone Number*</label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+
+                  <h5 class="mt-4 mb-3">Payment Information</h5>
+
+                  <div class="form-group mb-3">
+                    <label>Payment Method*</label>
+                    <div class="payment-options">
+                      <div class="form-check mb-2">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="paymentMethod"
+                          id="creditCard"
+                          value="creditCard"
+                          checked
+                        />
+                        <label class="form-check-label" for="creditCard">
+                          <i class="fa-light fa-credit-card me-2"></i>
+                          Credit/Debit Card
+                        </label>
+                      </div>
+                      <div class="form-check mb-2">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="paymentMethod"
+                          id="paypal"
+                          value="paypal"
+                        />
+                        <label class="form-check-label" for="paypal">
+                          <i class="fa-brands fa-paypal me-2"></i> PayPal
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="paymentMethod"
+                          id="gocardless"
+                          value="gocardless"
+                        />
+                        <label class="form-check-label" for="gocardless">
+                          <i class="fa-light fa-money-bill me-2"></i> GoCardless
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Credit Card Details (shown conditionally) -->
+                  <div id="creditCardDetails">
+                    <div class="form-group mb-3">
+                      <label for="cardNumber">Card Number*</label>
+                      <input
+                        type="text"
+                        id="cardNumber"
+                        class="form-control"
+                        placeholder="•••• •••• •••• ••••"
+                      />
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group mb-3">
+                          <label for="expiryDate">Expiry Date*</label>
+                          <input
+                            type="text"
+                            id="expiryDate"
+                            class="form-control"
+                            placeholder="MM/YY"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group mb-3">
+                          <label for="cvv">CVV*</label>
+                          <input
+                            type="text"
+                            id="cvv"
+                            class="form-control"
+                            placeholder="•••"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group mt-4">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="termsAgree"
+                        required
+                      />
+                      <label class="form-check-label" for="termsAgree">
+                        I agree to the
+                        <a href="#" class="text-decoration-underline"
+                          >Terms and Conditions</a
+                        >
+                      </label>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="order-summary p-3 bg-light rounded">
+                <h5 class="mb-3">Order Summary</h5>
+
+                <div class="summary-item d-flex justify-content-between mb-2">
+                  <span>Shipping Option:</span>
+                  <span id="summary-option">Standard Delivery</span>
+                </div>
+
+                <div class="summary-item d-flex justify-content-between mb-2">
+                  <span>Origin:</span>
+                  <span id="summary-origin">London, UK</span>
+                </div>
+
+                <div class="summary-item d-flex justify-content-between mb-2">
+                  <span>Destination:</span>
+                  <span id="summary-destination">Manchester, UK</span>
+                </div>
+
+                <div class="summary-item d-flex justify-content-between mb-2">
+                  <span>Package Details:</span>
+                  <span id="summary-package">2kg, 30x20x15cm</span>
+                </div>
+
+                <hr />
+
+                <div class="summary-item d-flex justify-content-between mb-2">
+                  <span>Base Shipping:</span>
+                  <span id="summary-base-price">£24.99</span>
+                </div>
+
+                <div class="summary-item d-flex justify-content-between mb-2">
+                  <span>Insurance:</span>
+                  <span id="summary-insurance">£0.00</span>
+                </div>
+
+                <div class="summary-item d-flex justify-content-between mb-2">
+                  <span>Additional Services:</span>
+                  <span id="summary-additional">£0.00</span>
+                </div>
+
+                <hr />
+
+                <div
+                  class="summary-item d-flex justify-content-between mb-2 fw-bold"
+                >
+                  <span>Total:</span>
+                  <span id="summary-total">£24.99</span>
+                </div>
+
+                <button
+                  class="trucker__btn-style-1 w-100 mt-4"
+                  id="complete-booking"
+                >
+                  Complete Booking <i class="fa-light fa-check"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Quote Calculator Area -->
+
+<style>
+  /* Quote Page Styles */
+  .quote-calculator-wrapper,
+  .quote-results-wrapper,
+  .checkout-wrapper {
+    background-color: #fff;
+    transition: all 0.3s ease;
+  }
+
+  .quote-title {
+    color: #2a9d8f;
+    font-weight: 700;
+  }
+
+  .form-section-title {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    color: #2a9d8f;
+  }
+
+  .quote-form .form-control {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  .quote-form label {
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .shipping-option {
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+  }
+
+  .shipping-option:hover {
+    border-color: #2a9d8f;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .shipping-option-name {
+    color: #2a9d8f;
+    margin-bottom: 5px;
+  }
+
+  .shipping-option-price .price {
+    color: #1a1a1a;
+    font-weight: 700;
+  }
+
+  .shipping-features {
+    margin-top: 10px;
+  }
+
+  .order-summary {
+    height: 100%;
+  }
+
+  /* Payment method styles */
+  .payment-options {
+    margin-bottom: 20px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .shipping-option {
+      flex-direction: column;
+    }
+
+    .shipping-option-price {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const quoteForm = document.getElementById("quote-form");
+    const quoteResults = document.getElementById("quote-results");
+    const checkoutSection = document.getElementById("checkout-section");
+    const standardPrice = document.getElementById("standard-price");
+    const expressPrice = document.getElementById("express-price");
+    const premiumPrice = document.getElementById("premium-price");
+    const selectOptionButtons = document.querySelectorAll(".select-option");
+    const completeBookingButton = document.getElementById("complete-booking");
+
+    // Payment method toggle
+    const creditCardRadio = document.getElementById("creditCard");
+    const paypalRadio = document.getElementById("paypal");
+    const gocardlessRadio = document.getElementById("gocardless");
+    const creditCardDetails = document.getElementById("creditCardDetails");
+
+    if (creditCardRadio && paypalRadio && gocardlessRadio) {
+      creditCardRadio.addEventListener("change", togglePaymentDetails);
+      paypalRadio.addEventListener("change", togglePaymentDetails);
+      gocardlessRadio.addEventListener("change", togglePaymentDetails);
+    }
+
+    function togglePaymentDetails() {
+      if (creditCardRadio.checked) {
+        creditCardDetails.style.display = "block";
+      } else {
+        creditCardDetails.style.display = "none";
+      }
+    }
+
+    // Simulate quote calculation
+    if (quoteForm) {
+      quoteForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Get form values
+        const weight = parseFloat(document.getElementById("weight").value) || 1;
+        const length =
+          parseFloat(document.getElementById("length").value) || 20;
+        const width = parseFloat(document.getElementById("width").value) || 15;
+        const height =
+          parseFloat(document.getElementById("height").value) || 10;
+        const quantity =
+          parseInt(document.getElementById("quantity").value) || 1;
+        const value = parseFloat(document.getElementById("value").value) || 50;
+        const isInsurance = document.getElementById("insurance").checked;
+        const isSignature = document.getElementById("signature").checked;
+        const isExpress = document.getElementById("express").checked;
+
+        // Calculate volumetric weight
+        const volumetricWeight = (length * width * height) / 5000;
+        const chargeableWeight = Math.max(weight, volumetricWeight);
+
+        // Calculate base prices
+        let standardBasePrice = 15 + chargeableWeight * 3 * quantity;
+        let expressBasePrice = standardBasePrice * 1.5;
+        let premiumBasePrice = standardBasePrice * 2.2;
+
+        // Add insurance if selected
+        if (isInsurance) {
+          const insuranceAmount = value * 0.02;
+          standardBasePrice += insuranceAmount;
+          expressBasePrice += insuranceAmount;
+          premiumBasePrice += insuranceAmount;
+        }
+
+        // Add signature if selected
+        if (isSignature) {
+          standardBasePrice += 2;
+          expressBasePrice += 2;
+          premiumBasePrice += 2;
+        }
+
+        // Add express if selected
+        if (isExpress) {
+          standardBasePrice += 15;
+          expressBasePrice += 15;
+          premiumBasePrice += 15;
+        }
+
+        // Update the price displays
+        standardPrice.textContent = `£${standardBasePrice.toFixed(2)}`;
+        expressPrice.textContent = `£${expressBasePrice.toFixed(2)}`;
+        premiumPrice.textContent = `£${premiumBasePrice.toFixed(2)}`;
+
+        // Show the results section
+        quoteResults.style.display = "block";
+
+        // Scroll to results
+        quoteResults.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+
+    // Handle option selection
+    if (selectOptionButtons) {
+      selectOptionButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          const option = this.getAttribute("data-option");
+          let optionName = "Standard Delivery";
+          let price = standardPrice.textContent;
+
+          if (option === "express") {
+            optionName = "Express Delivery";
+            price = expressPrice.textContent;
+          } else if (option === "premium") {
+            optionName = "Next Day Delivery";
+            price = premiumPrice.textContent;
+          }
+
+          // Update the order summary
+          document.getElementById("summary-option").textContent = optionName;
+          document.getElementById("summary-base-price").textContent = price;
+          document.getElementById("summary-total").textContent = price;
+
+          // Get origin and destination
+          const originPostcode =
+            document.getElementById("originPostcode").value || "London";
+          const originCountry =
+            document.getElementById("originCountry").options[
+              document.getElementById("originCountry").selectedIndex
+            ].text;
+          const destinationPostcode =
+            document.getElementById("destinationPostcode").value ||
+            "Manchester";
+          const destinationCountry =
+            document.getElementById("destinationCountry").options[
+              document.getElementById("destinationCountry").selectedIndex
+            ].text;
+
+          // Update summary
+          document.getElementById(
+            "summary-origin"
+          ).textContent = `${originPostcode}, ${originCountry}`;
+          document.getElementById(
+            "summary-destination"
+          ).textContent = `${destinationPostcode}, ${destinationCountry}`;
+
+          // Package details
+          const weight = document.getElementById("weight").value || "1";
+          const length = document.getElementById("length").value || "20";
+          const width = document.getElementById("width").value || "15";
+          const height = document.getElementById("height").value || "10";
+          document.getElementById(
+            "summary-package"
+          ).textContent = `${weight}kg, ${length}x${width}x${height}cm`;
+
+          // Show checkout section
+          checkoutSection.style.display = "block";
+
+          // Scroll to checkout
+          checkoutSection.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+    }
+
+    // Handle booking completion
+    if (completeBookingButton) {
+      completeBookingButton.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const termsAgreed = document.getElementById("termsAgree").checked;
+
+        if (!termsAgreed) {
+          alert("Please agree to the Terms and Conditions");
+          return;
+        }
+
+        // Simulate payment processing
+        completeBookingButton.disabled = true;
+        completeBookingButton.innerHTML =
+          'Processing <i class="fa-light fa-spinner fa-spin"></i>';
+
+        setTimeout(() => {
+          alert(
+            "Your booking has been completed! A confirmation email will be sent shortly."
+          );
+          window.location.href = "/";
+        }, 2000);
+      });
+    }
+  });
+</script>
