@@ -1,0 +1,96 @@
+<div class="auth-form-container">
+  <h2>Login to Your Account</h2>
+
+  <% if (typeof message !== 'undefined' && message) { %>
+  <div class="alert alert-info"><%= message %></div>
+  <% } %>
+
+  <form id="login-form" class="auth-form">
+    <div class="alert alert-danger d-none" id="login-error"></div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="form-group form-check">
+      <input
+        type="checkbox"
+        id="remember"
+        name="remember"
+        class="form-check-input"
+      />
+      <label for="remember" class="form-check-label">Remember me</label>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </div>
+  </form>
+
+  <div class="auth-links">
+    <a href="/auth/forgot-password">Forgot Password?</a>
+    <span class="separator">|</span>
+    <a href="/auth/register">Create an Account</a>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#login-form").on("submit", function (e) {
+      e.preventDefault();
+
+      const email = $("#email").val();
+      const password = $("#password").val();
+      const remember = $("#remember").is(":checked");
+
+      // Hide any previous error
+      $("#login-error").addClass("d-none");
+
+      // Disable submit button
+      const submitBtn = $(this).find('button[type="submit"]');
+      const originalBtnText = submitBtn.text();
+      submitBtn.prop("disabled", true).text("Logging in...");
+
+      $.ajax({
+        url: "/auth/login",
+        method: "POST",
+        data: { email, password, remember },
+        success: function (response) {
+          // Redirect to the specified URL or homepage
+          window.location.href = response.redirectTo || "/";
+        },
+        error: function (xhr) {
+          // Display error message
+          const response = xhr.responseJSON;
+          $("#login-error")
+            .removeClass("d-none")
+            .text(
+              response.message ||
+                "An error occurred during login. Please try again."
+            );
+
+          // Re-enable submit button
+          submitBtn.prop("disabled", false).text(originalBtnText);
+        },
+      });
+    });
+  });
+</script>

@@ -1,0 +1,116 @@
+<div class="admin-header">
+  <div class="admin-header-left">
+    <div class="admin-header-title">
+      <h1><%= title %></h1>
+    </div>
+  </div>
+  <div class="admin-header-right">
+    <div class="admin-header-search">
+      <form id="admin-search-form">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            id="admin-search-input"
+          />
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="admin-header-actions">
+      <div class="dropdown">
+        <button
+          class="btn dropdown-toggle"
+          type="button"
+          id="notificationsDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="fas fa-bell"></i>
+          <span class="badge bg-danger">3</span>
+        </button>
+        <ul
+          class="dropdown-menu dropdown-menu-end notification-dropdown"
+          aria-labelledby="notificationsDropdown"
+        >
+          <li class="dropdown-header">Notifications</li>
+          <li><a class="dropdown-item" href="#">New shipment created</a></li>
+          <li><a class="dropdown-item" href="#">New contact inquiry</a></li>
+          <li><a class="dropdown-item" href="#">New subscriber</a></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item text-center" href="#"
+              >View all notifications</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <button
+          class="btn dropdown-toggle user-dropdown"
+          type="button"
+          id="userDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="fas fa-user-circle"></i>
+          <span><%= user.name %></span>
+        </button>
+        <ul
+          class="dropdown-menu dropdown-menu-end"
+          aria-labelledby="userDropdown"
+        >
+          <li>
+            <a class="dropdown-item" href="/admin/profile"
+              ><i class="fas fa-user"></i> My Profile</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" href="/"
+              ><i class="fas fa-home"></i> Visit Site</a
+            >
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item" href="/auth/logout"
+              ><i class="fas fa-sign-out-alt"></i> Logout</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // Handle admin search form
+    $("#admin-search-form").on("submit", function (e) {
+      e.preventDefault();
+      const searchQuery = $("#admin-search-input").val().trim();
+
+      if (searchQuery) {
+        // Determine the search context based on current page
+        const currentPath = window.location.pathname;
+        let searchUrl = "/admin/search?q=" + encodeURIComponent(searchQuery);
+
+        if (currentPath.includes("/shipments")) {
+          searchUrl += "&context=shipments";
+        } else if (currentPath.includes("/newsletter")) {
+          searchUrl += "&context=newsletter";
+        } else if (currentPath.includes("/contacts")) {
+          searchUrl += "&context=contacts";
+        } else if (currentPath.includes("/franchises")) {
+          searchUrl += "&context=franchises";
+        } else if (currentPath.includes("/users")) {
+          searchUrl += "&context=users";
+        }
+
+        window.location.href = searchUrl;
+      }
+    });
+  });
+</script>

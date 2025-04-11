@@ -1,0 +1,125 @@
+<div class="auth-form-container">
+  <h2>Create an Account</h2>
+
+  <form id="register-form" class="auth-form">
+    <div class="alert alert-danger d-none" id="register-error"></div>
+
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-control"
+        required
+      />
+      <small class="form-text text-muted"
+        >Password must be at least 8 characters long</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary w-100">
+        Create Account
+      </button>
+    </div>
+  </form>
+
+  <div class="auth-links">
+    <span>Already have an account?</span>
+    <a href="/auth/login">Login</a>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#register-form").on("submit", function (e) {
+      e.preventDefault();
+
+      const name = $("#name").val();
+      const email = $("#email").val();
+      const phone = $("#phone").val();
+      const password = $("#password").val();
+      const confirmPassword = $("#confirmPassword").val();
+
+      // Validate password length
+      if (password.length < 8) {
+        $("#register-error")
+          .removeClass("d-none")
+          .text("Password must be at least 8 characters long");
+        return;
+      }
+
+      // Validate password match
+      if (password !== confirmPassword) {
+        $("#register-error")
+          .removeClass("d-none")
+          .text("Passwords do not match");
+        return;
+      }
+
+      // Hide any previous error
+      $("#register-error").addClass("d-none");
+
+      // Disable submit button
+      const submitBtn = $(this).find('button[type="submit"]');
+      const originalBtnText = submitBtn.text();
+      submitBtn.prop("disabled", true).text("Creating account...");
+
+      $.ajax({
+        url: "/auth/register",
+        method: "POST",
+        data: { name, email, phone, password, confirmPassword },
+        success: function (response) {
+          // Redirect to the specified URL or homepage
+          window.location.href = response.redirectTo || "/";
+        },
+        error: function (xhr) {
+          // Display error message
+          const response = xhr.responseJSON;
+          $("#register-error")
+            .removeClass("d-none")
+            .text(
+              response.message ||
+                "An error occurred during registration. Please try again."
+            );
+
+          // Re-enable submit button
+          submitBtn.prop("disabled", false).text(originalBtnText);
+        },
+      });
+    });
+  });
+</script>
