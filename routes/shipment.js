@@ -56,6 +56,14 @@ router.get("/quote", (req, res) => {
   });
 });
 
+// Create shipment page (consolidated)
+router.get("/create-shipment", (req, res) => {
+  res.render("shipment/create-shipment", {
+    title: "Create Shipment - Steph Logistics",
+    layout: "layouts/main",
+  });
+});
+
 // Shipment tracking result page
 router.get("/track/:trackingNumber", async (req, res) => {
   try {
