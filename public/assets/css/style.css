@@ -119,7 +119,7 @@ textarea {
 }
 
 .trucker__container {
-  max-width: 1296px;
+  max-width: 1550px !important;
   margin: 0 auto;
   padding: 0 20px;
 }

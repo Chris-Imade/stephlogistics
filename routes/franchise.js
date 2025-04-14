@@ -1,63 +1,148 @@
 const express = require("express");
 const router = express.Router();
 const Franchise = require("../models/Franchise");
-const { authenticateUser, isAdmin } = require("../middleware/auth");
+const { isAuthenticated, isAdmin } = require("../middleware/auth");
+const {
+  sendFranchiseConfirmation,
+  sendFranchiseAdminNotification,
+} = require("../config/email");
 
-// Franchise page route
+// Main franchise page
 router.get("/", (req, res) => {
   res.render("franchise/index", {
-    title: "Franchise Opportunities - DXpress",
+    title: "Franchise Opportunities - Steph Logistics",
     layout: "layouts/main",
   });
 });
 
-// Submit franchise application
+// Franchise application form submission
 router.post("/apply", async (req, res) => {
   try {
+    // Extract data from req.body
     const {
-      applicantName,
+      firstName,
+      lastName,
       email,
       phone,
-      address,
-      businessExperience,
-      investmentCapability,
-      preferredLocation,
-      comments,
+      location,
+      investment,
+      experience,
+      timeline,
     } = req.body;
 
-    // Create new franchise application
-    const franchiseApplication = new Franchise({
-      applicantName,
+    // Validate required fields
+    if (!firstName || !lastName || !email || !phone || !investment) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide all required information",
+      });
+    }
+
+    // Map investment values to match the enum values in the Franchise model
+    let investmentCapability;
+    switch (investment) {
+      case "50000-75000":
+        investmentCapability = "$50k-$100k";
+        break;
+      case "75000-100000":
+        investmentCapability = "$100k-$150k";
+        break;
+      case "100000+":
+        investmentCapability = "$150k-$200k";
+        break;
+      default:
+        investmentCapability = "$50k-$100k";
+    }
+
+    // Create applicant data
+    const applicantData = {
+      applicantName: `${firstName} ${lastName}`,
       email,
       phone,
-      address,
-      businessExperience,
+      address: {
+        street: "N/A", // Default value to pass validation
+        city: "N/A", // Default value to pass validation
+        state: "N/A", // Default value to pass validation
+        postalCode: "N/A", // Default value to pass validation
+        country: "N/A", // Default value to pass validation
+      },
+      businessExperience: experience || "",
       investmentCapability,
-      preferredLocation,
-      comments,
-    });
+      preferredLocation: location || "",
+      applicationStatus: "pending",
+      comments: `Timeline: ${timeline || "Not specified"}`,
+    };
 
-    await franchiseApplication.save();
+    // Save to database
+    const application = new Franchise(applicantData);
+    await application.save();
 
-    res.status(201).json({
+    // Send confirmation email to applicant
+    const applicantDetails = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      location,
+      investment,
+      experience,
+      timeline,
+    };
+
+    try {
+      await sendFranchiseConfirmation(email, applicantDetails);
+    } catch (emailError) {
+      console.error(
+        "Failed to send confirmation email to applicant:",
+        emailError
+      );
+      // Continue with the process even if email sending fails
+    }
+
+    // Send notification to admin
+    try {
+      await sendFranchiseAdminNotification(applicantDetails);
+    } catch (emailError) {
+      console.error("Failed to send notification email to admin:", emailError);
+      // Continue with the process even if email sending fails
+    }
+
+    // Send success response
+    res.json({
       success: true,
       message:
-        "Your franchise application has been submitted successfully. Our team will contact you soon.",
+        "Your franchise application has been received. We will contact you shortly.",
     });
   } catch (error) {
-    console.error("Franchise application error:", error);
+    console.error("Franchise application submission error:", error);
     res.status(500).json({
       success: false,
       message:
-        "An error occurred while submitting your application. Please try again.",
+        "An error occurred while submitting your application. Please try again or contact us directly.",
     });
   }
+});
+
+// Franchise opportunity details
+router.get("/opportunity-details", (req, res) => {
+  res.render("franchise/details", {
+    title: "Franchise Details - Steph Logistics",
+    layout: "layouts/main",
+  });
+});
+
+// Franchise success stories
+router.get("/success-stories", (req, res) => {
+  res.render("franchise/success-stories", {
+    title: "Franchise Success Stories - Steph Logistics",
+    layout: "layouts/main",
+  });
 });
 
 // Admin: List franchise applications (API)
 router.get(
   "/admin/applications",
-  authenticateUser,
+  isAuthenticated,
   isAdmin,
   async (req, res) => {
     try {
@@ -98,7 +183,7 @@ router.get(
 // Admin: Get single franchise application (API)
 router.get(
   "/admin/application/:id",
-  authenticateUser,
+  isAuthenticated,
   isAdmin,
   async (req, res) => {
     try {
@@ -131,7 +216,7 @@ router.get(
 // Admin: Update franchise application status (API)
 router.patch(
   "/admin/application/:id",
-  authenticateUser,
+  isAuthenticated,
   isAdmin,
   async (req, res) => {
     try {
@@ -176,7 +261,7 @@ router.patch(
 // Admin: Delete franchise application (API)
 router.delete(
   "/admin/application/:id",
-  authenticateUser,
+  isAuthenticated,
   isAdmin,
   async (req, res) => {
     try {

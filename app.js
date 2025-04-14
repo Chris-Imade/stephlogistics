@@ -53,13 +53,43 @@ const adminRoutes = require("./routes/admin");
 const shipmentRoutes = require("./routes/shipment");
 const newsletterRoutes = require("./routes/newsletter");
 const franchiseRoutes = require("./routes/franchise");
+const aboutRoutes = require("./routes/about");
+const serviceRoutes = require("./routes/service");
+const contactRoutes = require("./routes/contact");
+const blogRoutes = require("./routes/blog");
+const teamRoutes = require("./routes/team");
+const projectRoutes = require("./routes/project");
+const apiRoutes = require("./routes/api");
+const ecommerceRoutes = require("./routes/ecommerce");
+const shippingRoutes = require("./routes/shipping");
+const trackRoutes = require("./routes/track");
+const pricingRoutes = require("./routes/pricing");
+const faqRoutes = require("./routes/faq");
+const careersRoutes = require("./routes/careers");
+const legalRoutes = require("./routes/legal");
 
+// Apply routes
 app.use("/", indexRoutes);
 app.use("/auth", authRoutes);
 app.use("/admin", adminRoutes);
 app.use("/shipment", shipmentRoutes);
 app.use("/newsletter", newsletterRoutes);
 app.use("/franchise", franchiseRoutes);
+app.use("/about", aboutRoutes);
+app.use("/service", serviceRoutes);
+app.use("/services", serviceRoutes); // Alias for service routes
+app.use("/contact", contactRoutes);
+app.use("/blog", blogRoutes);
+app.use("/team", teamRoutes);
+app.use("/project", projectRoutes);
+app.use("/api", apiRoutes);
+app.use("/ecommerce-integration", ecommerceRoutes);
+app.use("/international-shipping", shippingRoutes);
+app.use("/track", trackRoutes);
+app.use("/pricing", pricingRoutes);
+app.use("/faq", faqRoutes);
+app.use("/careers", careersRoutes);
+app.use("/legal", legalRoutes);
 
 // 404 page
 app.use((req, res) => {
