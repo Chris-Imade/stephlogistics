@@ -1,196 +1,47 @@
 const mongoose = require("mongoose");
 
 const shipmentSchema = new mongoose.Schema({
-  trackingNumber: {
+  trackingId: {
     type: String,
+    required: true,
     unique: true,
   },
-  customer: {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+  customerName: {
+    type: String,
+    required: true,
+  },
+  customerEmail: {
+    type: String,
+    required: true,
+  },
+  customerPhone: {
+    type: String,
+    required: true,
   },
   origin: {
-    address: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    city: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    state: {
-      type: String,
-      trim: true,
-    },
-    postalCode: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    country: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    type: String,
+    required: true,
   },
   destination: {
-    address: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    city: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    state: {
-      type: String,
-      trim: true,
-    },
-    postalCode: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    country: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    type: String,
+    required: true,
   },
-  package: {
-    type: {
-      type: String,
-      enum: ["document", "package", "pallet"],
-      required: true,
-    },
-    weight: {
-      value: {
-        type: Number,
-        required: true,
-      },
-      unit: {
-        type: String,
-        enum: ["kg", "lb"],
-        default: "kg",
-      },
-    },
-    dimensions: {
-      length: {
-        type: Number,
-        required: true,
-      },
-      width: {
-        type: Number,
-        required: true,
-      },
-      height: {
-        type: Number,
-        required: true,
-      },
-      unit: {
-        type: String,
-        enum: ["cm", "in"],
-        default: "cm",
-      },
-    },
-    isFragile: {
-      type: Boolean,
-      default: false,
-    },
-    insuranceRequired: {
-      type: Boolean,
-      default: false,
-    },
-    declaredValue: {
-      value: {
-        type: Number,
-        default: 0,
-      },
-      currency: {
-        type: String,
-        default: "USD",
-      },
-    },
+  shipmentDate: {
+    type: Date,
+    default: Date.now,
   },
-  shipping: {
-    carrier: {
-      type: String,
-      required: true,
-      enum: ["DHL", "FedEx", "UPS"],
-    },
-    service: {
-      type: String,
-      required: true,
-    },
-    estimatedDelivery: {
-      type: Date,
-    },
-    rate: {
-      value: {
-        type: Number,
-        required: true,
-      },
-      currency: {
-        type: String,
-        default: "USD",
-      },
-    },
-  },
-  payment: {
-    method: {
-      type: String,
-      enum: ["credit_card", "paypal", "cash"],
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: ["pending", "completed", "failed"],
-      default: "pending",
-    },
-    transactionId: String,
-    amount: {
-      type: Number,
-      required: true,
-    },
-    currency: {
-      type: String,
-      default: "USD",
-    },
-    paidAt: Date,
+  estimatedDelivery: {
+    type: Date,
+    required: true,
   },
   status: {
     type: String,
-    enum: ["created", "processing", "in_transit", "delivered", "cancelled"],
-    default: "created",
+    enum: ["Pending", "In Transit", "Delivered", "Delayed", "Cancelled"],
+    default: "Pending",
   },
   statusHistory: [
     {
-      status: {
-        type: String,
-        required: true,
-      },
+      status: String,
       location: String,
       timestamp: {
         type: Date,
@@ -199,7 +50,33 @@ const shipmentSchema = new mongoose.Schema({
       note: String,
     },
   ],
-  labelUrl: String,
+  weight: {
+    type: Number,
+    required: true,
+  },
+  dimensions: {
+    length: Number,
+    width: Number,
+    height: Number,
+  },
+  packageType: {
+    type: String,
+    enum: ["Document", "Parcel", "Freight", "Express"],
+    required: true,
+  },
+  fragile: {
+    type: Boolean,
+    default: false,
+  },
+  insuranceIncluded: {
+    type: Boolean,
+    default: false,
+  },
+  expressDelivery: {
+    type: Boolean,
+    default: false,
+  },
+  additionalNotes: String,
   createdAt: {
     type: Date,
     default: Date.now,
@@ -208,22 +85,126 @@ const shipmentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  // New fields for e-commerce shipping platform
+  carrier: {
+    type: String,
+    enum: ["DHL", "FedEx", "UPS", "USPS", "Other"],
+  },
+  carrierServiceLevel: String,
+  carrierTrackingId: String,
+  shippingCost: {
+    amount: Number,
+    currency: {
+      type: String,
+      default: "USD",
+    },
+  },
+  shippingRates: [
+    {
+      carrier: String,
+      serviceLevel: String,
+      cost: Number,
+      estimatedDays: Number,
+      selected: {
+        type: Boolean,
+        default: false,
+      },
+    },
+  ],
+  paymentStatus: {
+    type: String,
+    enum: ["Unpaid", "Paid", "Refunded"],
+    default: "Unpaid",
+  },
+  paymentMethod: String,
+  paymentId: String,
+  invoiceId: String,
 });
 
-// Generate tracking number before saving if one doesn't exist
-shipmentSchema.pre("save", function (next) {
-  if (!this.trackingNumber) {
-    const prefix = "SL";
-    const timestamp = Date.now().toString().slice(-8);
-    const random = Math.floor(Math.random() * 1000)
-      .toString()
-      .padStart(3, "0");
-    this.trackingNumber = `${prefix}${timestamp}${random}`;
+// Generate tracking ID pre-save
+shipmentSchema.pre("validate", async function (next) {
+  if (!this.isNew) {
+    this.updatedAt = new Date();
+    return next();
   }
-  this.updatedAt = Date.now();
-  next();
+
+  try {
+    // If trackingId is already set manually (e.g. by admin), use it
+    if (this.trackingId) {
+      // Still need to check for uniqueness even if set manually
+      const Shipment = mongoose.model("Shipment");
+      const existingWithId = await Shipment.findOne({
+        trackingId: this.trackingId,
+      });
+
+      if (existingWithId && !existingWithId._id.equals(this._id)) {
+        throw new Error(
+          `Tracking ID ${this.trackingId} already exists. Please use a different ID.`
+        );
+      }
+      return next();
+    }
+
+    // Generate a unique tracking ID with format SP123456ABC
+    const Shipment = mongoose.model("Shipment");
+    let isUnique = false;
+    let candidate = "";
+    let attempts = 0;
+    const maxAttempts = 5;
+
+    // Keep trying until we get a unique ID or max attempts reached
+    while (!isUnique && attempts < maxAttempts) {
+      // Generate a timestamp part that includes milliseconds for more uniqueness
+      const timestamp = new Date().getTime().toString().slice(-6);
+
+      // Generate random characters (3 chars, uppercase)
+      const randomChars = Math.random()
+        .toString(36)
+        .substring(2, 5)
+        .toUpperCase();
+
+      candidate = `SP${timestamp}${randomChars}`;
+
+      // Check if this ID already exists
+      const existingShipment = await Shipment.findOne({
+        trackingId: candidate,
+      });
+
+      if (!existingShipment) {
+        isUnique = true;
+      } else {
+        attempts++;
+        // Add small delay to ensure timestamp changes
+        await new Promise((resolve) => setTimeout(resolve, 10));
+      }
+    }
+
+    // If we couldn't generate a unique ID after max attempts, add more random data
+    if (!isUnique) {
+      const extraRandom = Math.random()
+        .toString(36)
+        .substring(2, 8)
+        .toUpperCase();
+      const timestamp = new Date().getTime().toString().slice(-6);
+      candidate = `SP${timestamp}${extraRandom}`;
+
+      // Check one more time
+      const existingShipment = await Shipment.findOne({
+        trackingId: candidate,
+      });
+      if (existingShipment) {
+        throw new Error(
+          "Could not generate a unique tracking ID after multiple attempts"
+        );
+      }
+    }
+
+    this.trackingId = candidate;
+    this.updatedAt = new Date();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
-const Shipment = mongoose.model("Shipment", shipmentSchema);
-
-module.exports = Shipment;
+module.exports = mongoose.model("Shipment", shipmentSchema);

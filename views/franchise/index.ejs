@@ -1,15 +1,674 @@
+<style>
+  :root {
+    --primary-color: #2a9d8f;
+    --secondary-color: #e9c46a;
+    --dark-color: #264653;
+    --light-color: #f8f9fa;
+    --accent-color: #e76f51;
+    --text-color: #333;
+    --light-text: #fff;
+    --gray-text: #6c757d;
+    --border-radius: 8px;
+    --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+
+  /* Header & Hero Section */
+  .trucker__breadcrumb-area {
+    background-image: linear-gradient(
+        rgba(38, 70, 83, 0.8),
+        rgba(42, 157, 143, 0.8)
+      ),
+      url("/assets/images/breadcrumb/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 120px 0;
+    color: var(--light-text);
+    text-align: center;
+    position: relative;
+  }
+
+  .trucker__breadcrumb-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .trucker__breadcrumb-link {
+    margin-bottom: 15px;
+  }
+
+  .trucker__breadcrumb-link-current {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .trucker__dashed::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 3px;
+    background-color: var(--secondary-color);
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Section Styling */
+  .trucker__section-padding {
+    padding: 100px 0;
+  }
+
+  .trucker__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  .trucker__section-title {
+    margin-bottom: 50px;
+  }
+
+  .trucker__section-title-subtitle {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .trucker__section-title-main {
+    font-size: 2.5rem;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 0;
+  }
+
+  .trucker__section-title-main::after {
+    content: "";
+    position: absolute;
+    width: 70px;
+    height: 3px;
+    background-color: var(--secondary-color);
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .text-center .trucker__section-title-main::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .text-left .trucker__section-title-main::after {
+    left: 0;
+    transform: none;
+  }
+
+  /* Intro Section */
+  .franchise-intro {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .franchise-title {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    font-weight: 700;
+  }
+
+  .franchise-description {
+    font-size: 1.2rem;
+    color: var(--gray-text);
+  }
+
+  /* Button Styles */
+  .trucker__btn-style-1 {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    padding: 15px 30px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .trucker__btn-style-1:disabled {
+    cursor: not-allowed;
+    background-color: var(--primary-color);
+    opacity: 0.8;
+  }
+
+  .trucker__btn-style-1 span {
+    transition: opacity 0.3s ease;
+  }
+
+  .trucker__btn-style-1:hover {
+    background-color: var(--dark-color);
+    color: var(--light-text);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .trucker__btn-style-1 i {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  .trucker__btn-style-1:hover i {
+    transform: translateX(5px);
+  }
+
+  .trucker__btn-style-2 {
+    display: inline-block;
+    background-color: transparent;
+    color: var(--primary-color);
+    padding: 14px 30px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary-color);
+  }
+
+  .trucker__btn-style-2:hover {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+  }
+
+  /* Service Items / Benefits */
+  .trucker__service-item {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+    border-bottom: 4px solid transparent;
+    box-shadow: var(--box-shadow);
+  }
+
+  .trucker__service-item:hover {
+    transform: translateY(-10px);
+    border-bottom: 4px solid var(--primary-color);
+  }
+
+  .trucker__service-icon {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(42, 157, 143, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--primary-color);
+    font-size: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .trucker__service-item:hover .trucker__service-icon {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+  }
+
+  .trucker__service-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .trucker__service-text {
+    color: var(--gray-text);
+    margin-bottom: 0;
+  }
+
+  /* Investment Section */
+  .franchise-investment-content {
+    padding: 40px;
+    background-color: var(--light-color);
+    border-radius: var(--border-radius);
+    height: 100%;
+    box-shadow: var(--box-shadow);
+  }
+
+  .franchise-investment-content .trucker__section-title {
+    text-align: left;
+    margin-bottom: 30px;
+  }
+
+  .franchise-investment-content .trucker__section-title-main::after {
+    left: 0;
+    transform: none;
+  }
+
+  .investment-item {
+    font-size: 1.1rem;
+  }
+
+  .investment-item i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+  }
+
+  /* Testimonial */
+  .franchise-testimonial {
+    height: 100%;
+    padding: 20px;
+  }
+
+  .testimonial-card {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius);
+    position: relative;
+    height: 100%;
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+  }
+
+  .testimonial-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: var(--primary-color);
+  }
+
+  .testimonial-content {
+    padding: 30px;
+  }
+
+  .testimonial-content i.fa-quote-left {
+    color: rgba(42, 157, 143, 0.2);
+    font-size: 3rem;
+  }
+
+  .testimonial-content p {
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.8;
+  }
+
+  .author-avatar img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
+  }
+
+  /* Process Steps */
+  .process-steps {
+    padding: 50px 0;
+  }
+
+  .process-step-wrapper {
+    position: relative;
+  }
+
+  .process-step-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #e9ecef;
+    z-index: 0;
+  }
+
+  .process-step {
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
+
+  .process-step:hover {
+    transform: translateY(-10px);
+  }
+
+  .step-number {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(42, 157, 143, 0.3);
+  }
+
+  .process-step:hover .step-number {
+    background: var(--dark-color);
+    transform: scale(1.1);
+  }
+
+  .step-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 20px;
+    color: var(--dark-color);
+  }
+
+  /* Form Styling */
+  .franchise-form-wrapper {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+
+  .franchise-form .form-control {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .franchise-form .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(42, 157, 143, 0.25);
+  }
+
+  .franchise-form label {
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--dark-color);
+  }
+
+  /* FAQ Section */
+  .faq-section {
+    margin-top: 80px;
+    margin-bottom: 50px;
+  }
+
+  .accordion-item {
+    margin-bottom: 15px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid #ddd;
+  }
+
+  .accordion-header {
+    margin-bottom: 0;
+  }
+
+  .accordion-button {
+    font-weight: 600;
+    padding: 18px 20px;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    border-radius: 0 !important;
+  }
+
+  .accordion-button:not(.collapsed) {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+  }
+
+  .accordion-button:focus {
+    box-shadow: none;
+    border-color: var(--primary-color);
+  }
+
+  .accordion-body {
+    padding: 20px;
+    background-color: var(--light-color);
+  }
+
+  /* Stats Section */
+  .stats-section {
+    background-color: var(--dark-color);
+    padding: 80px 0;
+    color: var(--light-text);
+    margin: 80px 0;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 30px 20px;
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .stat-title {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(rgba(38, 70, 83, 0.9), rgba(42, 157, 143, 0.9)),
+      url("/assets/images/breadcrumb/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 100px 0;
+    color: var(--light-text);
+    text-align: center;
+    margin-top: 80px;
+  }
+
+  .cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .cta-text {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 30px;
+  }
+
+  /* Animation Classes */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-up.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Floating Contact Button */
+  .floating-contact {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+  }
+
+  .contact-btn {
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .contact-btn:hover {
+    background-color: var(--dark-color);
+    transform: scale(1.1);
+  }
+
+  /* Success Message */
+  .success-message {
+    display: none;
+    padding: 20px;
+    background-color: #d4edda;
+    color: #155724;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  /* Error Message */
+  .error-message {
+    display: none;
+    padding: 20px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  /* Modal Styling */
+  .modal-content {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: none;
+  }
+
+  .modal-header {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    border-bottom: none;
+    padding: 20px 30px;
+  }
+
+  .modal-title {
+    font-weight: 600;
+  }
+
+  .modal-body {
+    padding: 30px;
+  }
+
+  .btn-close {
+    color: var(--light-text);
+    background: transparent;
+    opacity: 1;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 991px) {
+    .trucker__breadcrumb-title {
+      font-size: 2.5rem;
+    }
+
+    .trucker__section-padding {
+      padding: 70px 0;
+    }
+
+    .franchise-title {
+      font-size: 2rem;
+    }
+
+    .process-step {
+      flex-basis: 33.333%;
+      margin-bottom: 30px;
+    }
+
+    .process-step-wrapper::before {
+      display: none;
+    }
+
+    .cta-title {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .trucker__breadcrumb-area {
+      padding: 80px 0;
+    }
+
+    .trucker__breadcrumb-title {
+      font-size: 2rem;
+    }
+
+    .trucker__section-padding {
+      padding: 50px 0;
+    }
+
+    .trucker__section-title-main {
+      font-size: 2rem;
+    }
+
+    .process-step {
+      flex-basis: 50%;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .process-step {
+      flex-basis: 100%;
+    }
+
+    .franchise-investment-content {
+      padding: 20px;
+    }
+
+    .trucker__service-item {
+      padding: 20px;
+    }
+  }
+
+  .spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+  }
+</style>
+
 <!-- Start Breadcrumb Area -->
-<div
-  class="trucker__breadcrumb-area"
-  data-background="/assets/images/breadcrumb/bg.jpg"
->
+<div class="trucker__breadcrumb-area" style="padding-top: 20rem">
   <div class="trucker__breadcrumb-inner">
     <div class="trucker__breadcrumb-link">
       <span class="trucker__breadcrumb-link-current trucker__dashed"
         >Franchise Opportunity</span
       >
     </div>
-    <h2 class="trucker__breadcrumb-title">Franchise Program</h2>
+    <h2 class="trucker__breadcrumb-title">GROW WITH STEPH LOGISTICS</h2>
   </div>
 </div>
 <!-- End Breadcrumb Area -->
@@ -19,16 +678,47 @@
   <div class="trucker__container">
     <div class="row">
       <div class="col-lg-12">
-        <div class="franchise-intro text-center mb-5">
-          <h2 class="franchise-title mb-4">
-            Grow Your Business with Steph Logistics
-          </h2>
+        <div class="franchise-intro text-center mb-5 fade-up">
+          <h2 class="franchise-title mb-4">Build Your Logistics Empire</h2>
           <p class="franchise-description">
-            Join our network of successful franchise partners and be part of the
-            fastest-growing logistics company in the UK. Our proven business
-            model offers substantial returns while leveraging our established
-            brand and operational expertise.
+            Join the Steph Logistics franchise network and become part of the
+            UK's fastest-growing logistics company. Our proven business model
+            delivers substantial returns while leveraging our established brand,
+            cutting-edge technology, and operational expertise. Start your
+            journey to entrepreneurial success today.
           </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-section fade-up">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 col-6">
+            <div class="stat-item">
+              <span class="stat-number" data-count="98">0</span>
+              <span class="stat-title">Franchisee Success Rate</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="stat-item">
+              <span class="stat-number" data-count="45">0</span>
+              <span class="stat-title">UK Locations</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="stat-item">
+              <span class="stat-number" data-count="7">0</span>
+              <span class="stat-title">Years Established</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="stat-item">
+              <span class="stat-number" data-count="150">0</span>
+              <span class="stat-title">K+ Monthly Deliveries</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -36,97 +726,97 @@
     <!-- Benefits Section -->
     <div class="row mb-5">
       <div class="col-lg-12">
-        <div class="trucker__section-title text-center mb-5">
+        <div class="trucker__section-title text-center mb-5 fade-up">
           <span class="trucker__section-title-subtitle">Benefits</span>
           <h2 class="trucker__section-title-main">Why Partner With Us</h2>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 mb-4">
+      <div class="col-lg-4 col-md-6 mb-4 fade-up">
         <div class="trucker__service-item wow fadeInUp" data-wow-delay="0.1s">
           <div class="trucker__service-icon">
-            <i class="fa-light fa-chart-line"></i>
+            <i class="fa-solid fa-chart-line"></i>
           </div>
           <div class="trucker__service-content">
             <h5 class="trucker__service-title">Proven Business Model</h5>
             <p class="trucker__service-text">
               Benefit from our established operations system with demonstrated
-              profitability and growth.
+              profitability and growth potentials of 25-35% ROI.
             </p>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 mb-4">
+      <div class="col-lg-4 col-md-6 mb-4 fade-up">
         <div class="trucker__service-item wow fadeInUp" data-wow-delay="0.2s">
           <div class="trucker__service-icon">
-            <i class="fa-light fa-graduation-cap"></i>
+            <i class="fa-solid fa-graduation-cap"></i>
           </div>
           <div class="trucker__service-content">
             <h5 class="trucker__service-title">Comprehensive Training</h5>
             <p class="trucker__service-text">
-              Receive extensive initial and ongoing training for you and your
-              staff in all aspects of the business.
+              Receive 4 weeks of initial training and ongoing support for you
+              and your staff in all aspects of the business.
             </p>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 mb-4">
+      <div class="col-lg-4 col-md-6 mb-4 fade-up">
         <div class="trucker__service-item wow fadeInUp" data-wow-delay="0.3s">
           <div class="trucker__service-icon">
-            <i class="fa-light fa-bullhorn"></i>
+            <i class="fa-solid fa-bullhorn"></i>
           </div>
           <div class="trucker__service-content">
             <h5 class="trucker__service-title">Marketing Support</h5>
             <p class="trucker__service-text">
               Access to national advertising campaigns, local marketing
-              strategies, and branded materials.
+              strategies, and professionally designed branded materials.
             </p>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 mb-4">
+      <div class="col-lg-4 col-md-6 mb-4 fade-up">
         <div class="trucker__service-item wow fadeInUp" data-wow-delay="0.4s">
           <div class="trucker__service-icon">
-            <i class="fa-light fa-headset"></i>
+            <i class="fa-solid fa-headset"></i>
           </div>
           <div class="trucker__service-content">
             <h5 class="trucker__service-title">Ongoing Support</h5>
             <p class="trucker__service-text">
-              Dedicated franchise support team available to assist with
-              day-to-day operations and growth strategies.
+              Dedicated franchise support team available 7 days a week to assist
+              with operations and growth strategies.
             </p>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 mb-4">
+      <div class="col-lg-4 col-md-6 mb-4 fade-up">
         <div class="trucker__service-item wow fadeInUp" data-wow-delay="0.5s">
           <div class="trucker__service-icon">
-            <i class="fa-light fa-laptop-code"></i>
+            <i class="fa-solid fa-laptop-code"></i>
           </div>
           <div class="trucker__service-content">
             <h5 class="trucker__service-title">Cutting-Edge Technology</h5>
             <p class="trucker__service-text">
-              State-of-the-art logistics management software, tracking systems,
-              and business intelligence tools.
+              State-of-the-art logistics management software, real-time tracking
+              systems, and business intelligence tools.
             </p>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 mb-4">
+      <div class="col-lg-4 col-md-6 mb-4 fade-up">
         <div class="trucker__service-item wow fadeInUp" data-wow-delay="0.6s">
           <div class="trucker__service-icon">
-            <i class="fa-light fa-handshake"></i>
+            <i class="fa-solid fa-handshake"></i>
           </div>
           <div class="trucker__service-content">
             <h5 class="trucker__service-title">Exclusive Territory</h5>
             <p class="trucker__service-text">
-              Secure your own exclusive operational area to develop and grow
-              your business without internal competition.
+              Secure your own exclusive operational area with a minimum
+              population of 150,000 to develop your business.
             </p>
           </div>
         </div>
@@ -134,61 +824,68 @@
     </div>
 
     <!-- Investment Section -->
-    <div class="row mb-5">
-      <div class="col-lg-6">
+    <div class="row mb-5 fade-up">
+      <div class="col-lg-6 mb-4 mb-lg-0">
         <div class="franchise-investment-content">
-          <div class="trucker__section-title mb-4">
+          <div class="trucker__section-title mb-4 text-left">
             <span class="trucker__section-title-subtitle">Investment</span>
             <h2 class="trucker__section-title-main">Financial Overview</h2>
           </div>
           <div class="franchise-investment-details">
             <div class="investment-item d-flex align-items-center mb-3">
-              <i class="fa-light fa-circle-check me-2 text-success"></i>
+              <i class="fa-solid fa-circle-check me-2 text-success"></i>
               <span><strong>Initial Franchise Fee:</strong> £25,000</span>
             </div>
             <div class="investment-item d-flex align-items-center mb-3">
-              <i class="fa-light fa-circle-check me-2 text-success"></i>
+              <i class="fa-solid fa-circle-check me-2 text-success"></i>
               <span
                 ><strong>Total Investment Range:</strong> £50,000 -
                 £100,000</span
               >
             </div>
             <div class="investment-item d-flex align-items-center mb-3">
-              <i class="fa-light fa-circle-check me-2 text-success"></i>
+              <i class="fa-solid fa-circle-check me-2 text-success"></i>
               <span><strong>Royalty Fee:</strong> 6% of gross revenue</span>
             </div>
             <div class="investment-item d-flex align-items-center mb-3">
-              <i class="fa-light fa-circle-check me-2 text-success"></i>
+              <i class="fa-solid fa-circle-check me-2 text-success"></i>
               <span><strong>Marketing Fee:</strong> 2% of gross revenue</span>
             </div>
-            <div class="investment-item d-flex align-items-center">
-              <i class="fa-light fa-circle-check me-2 text-success"></i>
+            <div class="investment-item d-flex align-items-center mb-3">
+              <i class="fa-solid fa-circle-check me-2 text-success"></i>
               <span><strong>Contract Term:</strong> 5 years (renewable)</span>
+            </div>
+            <div class="investment-item d-flex align-items-center mb-4">
+              <i class="fa-solid fa-circle-check me-2 text-success"></i>
+              <span
+                ><strong>Break-even Point:</strong> Typically 8-12 months</span
+              >
             </div>
           </div>
           <div class="franchise-cta mt-4">
             <a href="#apply-now" class="trucker__btn-style-1"
-              >Apply Now <i class="fa-light fa-arrow-up-right"></i
+              >Request Information Pack <i class="fa-solid fa-arrow-right"></i
             ></a>
           </div>
         </div>
       </div>
       <div class="col-lg-6">
         <div class="franchise-testimonial">
-          <div class="testimonial-card p-4 rounded shadow">
+          <div class="testimonial-card">
             <div class="testimonial-content">
-              <i class="fa-light fa-quote-left fs-1 text-muted mb-3"></i>
+              <i class="fa-solid fa-quote-left fs-1 text-muted mb-3"></i>
               <p class="mb-4">
                 "Joining the Steph Logistics franchise network was the best
                 business decision I've made. The training and support have been
                 exceptional, and the return on investment has exceeded my
-                expectations. I'm now running a thriving logistics business with
-                a strong brand behind me."
+                expectations. In just 18 months, I've grown from 2 vans to a
+                fleet of 8, with a team of 12 staff serving over 500 regular
+                customers."
               </p>
               <div class="testimonial-author d-flex align-items-center">
                 <div class="author-avatar me-3">
                   <img
-                    src="/assets/images/testimonial/1.jpg"
+                    src="assets/images/home-1/home-1-about-content-writer.png"
                     alt="Franchise Partner"
                     class="rounded-circle"
                     width="60"
@@ -206,11 +903,11 @@
     </div>
 
     <!-- Application Process -->
-    <div class="row mb-5" id="apply-now">
+    <div class="row mb-5 fade-up" id="apply-now">
       <div class="col-lg-12">
         <div class="trucker__section-title text-center mb-5">
           <span class="trucker__section-title-subtitle">Process</span>
-          <h2 class="trucker__section-title-main">Application Process</h2>
+          <h2 class="trucker__section-title-main">Your Journey to Ownership</h2>
         </div>
       </div>
 
@@ -221,8 +918,8 @@
               <div class="step-number mb-3">1</div>
               <h5 class="step-title mb-3">Initial Inquiry</h5>
               <p class="step-description">
-                Complete the application form below to express your interest and
-                receive our franchise information pack.
+                Complete the application form to express your interest and
+                receive our comprehensive franchise information pack.
               </p>
             </div>
 
@@ -230,35 +927,44 @@
               <div class="step-number mb-3">2</div>
               <h5 class="step-title mb-3">Discovery Meeting</h5>
               <p class="step-description">
-                Meet with our franchise development team to discuss the
-                opportunity in detail and ask questions.
+                Meet with our franchise team to discuss the opportunity in
+                detail and get all your questions answered.
               </p>
             </div>
 
             <div class="process-step text-center p-4 flex-grow-1">
               <div class="step-number mb-3">3</div>
-              <h5 class="step-title mb-3">Evaluation</h5>
+              <h5 class="step-title mb-3">Business Planning</h5>
               <p class="step-description">
-                We'll evaluate your application and determine if you're a good
-                fit for the Steph Logistics franchise network.
+                Develop your business plan with guidance from our experts,
+                including territory analysis and financial projections.
               </p>
             </div>
 
             <div class="process-step text-center p-4 flex-grow-1">
               <div class="step-number mb-3">4</div>
-              <h5 class="step-title mb-3">Approval & Agreement</h5>
+              <h5 class="step-title mb-3">Approval</h5>
               <p class="step-description">
-                Upon approval, we'll provide the franchise agreement and support
-                you in setting up your business.
+                Upon approval, sign your franchise agreement and secure your
+                exclusive territory.
               </p>
             </div>
 
             <div class="process-step text-center p-4 flex-grow-1">
               <div class="step-number mb-3">5</div>
-              <h5 class="step-title mb-3">Training & Launch</h5>
+              <h5 class="step-title mb-3">Training</h5>
               <p class="step-description">
-                Complete our comprehensive training program and prepare for your
-                grand opening with our team's support.
+                Complete our comprehensive 4-week training program covering all
+                aspects of running your franchise.
+              </p>
+            </div>
+
+            <div class="process-step text-center p-4 flex-grow-1">
+              <div class="step-number mb-3">6</div>
+              <h5 class="step-title mb-3">Launch</h5>
+              <p class="step-description">
+                Grand opening of your Steph Logistics franchise with marketing
+                support and ongoing guidance.
               </p>
             </div>
           </div>
@@ -267,192 +973,584 @@
     </div>
 
     <!-- Application Form -->
-    <div class="row">
+    <div class="row mb-5 fade-up">
       <div class="col-lg-12">
         <div class="trucker__section-title text-center mb-5">
-          <span class="trucker__section-title-subtitle">Join Us</span>
-          <h2 class="trucker__section-title-main">Start Your Application</h2>
+          <span class="trucker__section-title-subtitle">Get Started</span>
+          <h2 class="trucker__section-title-main">Request Information Pack</h2>
         </div>
       </div>
 
-      <div class="col-lg-10 mx-auto">
-        <div class="franchise-form-wrapper p-4 rounded shadow">
-          <form id="franchise-form" class="franchise-form">
+      <div class="col-lg-8 mx-auto">
+        <div class="franchise-form-wrapper p-4 p-md-5">
+          <form class="franchise-form" id="franchiseForm">
             <div class="row">
               <div class="col-md-6 mb-4">
-                <div class="form-group">
-                  <label for="fullName">Full Name*</label>
-                  <input
-                    type="text"
-                    id="fullName"
-                    class="form-control"
-                    required
-                  />
-                </div>
+                <label for="firstName">First Name*</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firstName"
+                  required
+                />
               </div>
               <div class="col-md-6 mb-4">
-                <div class="form-group">
-                  <label for="email">Email Address*</label>
-                  <input
-                    type="email"
-                    id="email"
-                    class="form-control"
-                    required
-                  />
-                </div>
+                <label for="lastName">Last Name*</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label for="email">Email Address*</label>
+                <input type="email" class="form-control" id="email" required />
               </div>
               <div class="col-md-6 mb-4">
-                <div class="form-group">
-                  <label for="phone">Phone Number*</label>
-                  <input type="tel" id="phone" class="form-control" required />
-                </div>
+                <label for="phone">Phone Number*</label>
+                <input type="tel" class="form-control" id="phone" required />
               </div>
-              <div class="col-md-6 mb-4">
-                <div class="form-group">
-                  <label for="location">Preferred Location*</label>
-                  <input
-                    type="text"
-                    id="location"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="col-md-6 mb-4">
-                <div class="form-group">
-                  <label for="investment">Available Investment*</label>
-                  <select id="investment" class="form-control" required>
-                    <option value="">Select Range</option>
-                    <option value="50-75k">£50,000 - £75,000</option>
-                    <option value="75-100k">£75,000 - £100,000</option>
-                    <option value="100k+">£100,000+</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6 mb-4">
-                <div class="form-group">
-                  <label for="experience">Business Experience*</label>
-                  <select id="experience" class="form-control" required>
-                    <option value="">Select Experience</option>
-                    <option value="none">No Prior Business Ownership</option>
-                    <option value="some">Some Business Experience</option>
-                    <option value="extensive">
-                      Extensive Business Experience
-                    </option>
-                    <option value="logistics">
-                      Logistics Industry Experience
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-12 mb-4">
-                <div class="form-group">
-                  <label for="message"
-                    >Why are you interested in a Steph Logistics
-                    franchise?*</label
-                  >
-                  <textarea
-                    id="message"
-                    class="form-control"
-                    rows="5"
-                    required
-                  ></textarea>
-                </div>
-              </div>
-              <div class="col-md-12 text-center">
-                <button type="submit" class="trucker__btn-style-1">
-                  Submit Application <i class="fa-light fa-arrow-up-right"></i>
-                </button>
-              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="location">Preferred Territory/Location</label>
+              <input type="text" class="form-control" id="location" />
+            </div>
+
+            <div class="mb-4">
+              <label for="investment">Available Investment Capital (£)*</label>
+              <select class="form-control" id="investment" required>
+                <option value="">Select Investment Range</option>
+                <option value="50000-75000">£50,000 - £75,000</option>
+                <option value="75000-100000">£75,000 - £100,000</option>
+                <option value="100000+">£100,000+</option>
+              </select>
+            </div>
+
+            <div class="mb-4">
+              <label for="experience">Relevant Experience</label>
+              <textarea
+                class="form-control"
+                id="experience"
+                rows="4"
+                placeholder="Please describe any relevant business or logistics experience"
+              ></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label for="timeline">Timeline to Start</label>
+              <select class="form-control" id="timeline">
+                <option value="">Select Timeline</option>
+                <option value="immediate">Immediately</option>
+                <option value="3months">Within 3 months</option>
+                <option value="6months">Within 6 months</option>
+                <option value="future">Future consideration</option>
+              </select>
+            </div>
+
+            <div class="mb-4 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="privacy"
+                required
+              />
+              <label class="form-check-label" for="privacy"
+                >I agree to the privacy policy and consent to being contacted
+                about franchise opportunities.*</label
+              >
+            </div>
+
+            <div class="text-center">
+              <button
+                type="submit"
+                class="trucker__btn-style-1"
+                id="submitButton"
+              >
+                <span id="submitButtonText"
+                  >Submit Application <i class="fa-solid fa-paper-plane"></i
+                ></span>
+                <span
+                  id="submitSpinner"
+                  class="spinner-border spinner-border-sm ms-2"
+                  role="status"
+                  aria-hidden="true"
+                  style="display: none"
+                ></span>
+              </button>
+            </div>
+
+            <div class="success-message mt-4" id="successMessage">
+              <i class="fa-solid fa-circle-check me-2"></i> Your application has
+              been submitted successfully. A confirmation email has been sent to
+              your inbox. Our franchise team will contact you within 48 hours.
+            </div>
+
+            <div class="error-message mt-4" id="errorMessage">
+              <i class="fa-solid fa-circle-exclamation me-2"></i>
+              <span id="errorText"></span>
             </div>
           </form>
         </div>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section fade-up">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="trucker__section-title text-center mb-5">
+            <span class="trucker__section-title-subtitle">FAQ</span>
+            <h2 class="trucker__section-title-main">
+              Frequently Asked Questions
+            </h2>
+          </div>
+        </div>
+
+        <div class="col-lg-10 mx-auto">
+          <div class="accordion" id="franchiseFAQ">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                >
+                  What experience do I need to run a Steph Logistics franchise?
+                </button>
+              </h2>
+              <div
+                id="collapseOne"
+                class="accordion-collapse collapse show"
+                aria-labelledby="headingOne"
+                data-bs-parent="#franchiseFAQ"
+              >
+                <div class="accordion-body">
+                  While prior logistics or business experience is beneficial,
+                  it's not mandatory. We're looking for motivated individuals
+                  with strong leadership skills, business acumen, and dedication
+                  to customer service. Our comprehensive training program will
+                  equip you with all the necessary skills and knowledge to
+                  successfully run your franchise.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo"
+                >
+                  How long does it take to open a Steph Logistics franchise
+                  after signing?
+                </button>
+              </h2>
+              <div
+                id="collapseTwo"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingTwo"
+                data-bs-parent="#franchiseFAQ"
+              >
+                <div class="accordion-body">
+                  Typically, franchisees can be operational within 8-12 weeks of
+                  signing the franchise agreement. This includes the 4-week
+                  training period, location setup, staff recruitment, and
+                  initial marketing campaigns. Our support team works closely
+                  with you throughout this process to ensure a smooth launch.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree"
+                  aria-expanded="false"
+                  aria-controls="collapseThree"
+                >
+                  What ongoing support does Steph Logistics provide to
+                  franchisees?
+                </button>
+              </h2>
+              <div
+                id="collapseThree"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingThree"
+                data-bs-parent="#franchiseFAQ"
+              >
+                <div class="accordion-body">
+                  We provide continuous support in all aspects of your business
+                  including operations, marketing, technology, customer service,
+                  and business development. You'll have access to a dedicated
+                  franchise support manager, regular training updates, quarterly
+                  business reviews, marketing materials, and our proprietary
+                  logistics software. Additionally, we facilitate networking
+                  opportunities with other franchisees through regional meetings
+                  and annual conferences.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingFour">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseFour"
+                  aria-expanded="false"
+                  aria-controls="collapseFour"
+                >
+                  What are the typical ongoing expenses for a Steph Logistics
+                  franchise?
+                </button>
+              </h2>
+              <div
+                id="collapseFour"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingFour"
+                data-bs-parent="#franchiseFAQ"
+              >
+                <div class="accordion-body">
+                  Ongoing expenses typically include staff salaries, vehicle
+                  maintenance/leasing, premises rent, utilities, insurance,
+                  marketing activities, and the franchise royalty fee (6% of
+                  gross revenue) and marketing fee (2% of gross revenue). Your
+                  business plan will outline these expenses in detail, and we
+                  provide financial modeling tools to help you project and
+                  manage costs effectively.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingFive">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseFive"
+                  aria-expanded="false"
+                  aria-controls="collapseFive"
+                >
+                  How are territories defined and protected?
+                </button>
+              </h2>
+              <div
+                id="collapseFive"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingFive"
+                data-bs-parent="#franchiseFAQ"
+              >
+                <div class="accordion-body">
+                  Each franchise is granted an exclusive territory based on
+                  population (minimum 150,000) and business demographics.
+                  Territories are clearly defined in your franchise agreement
+                  using postal codes, ensuring you have exclusive rights to
+                  operate and market the Steph Logistics brand within your area.
+                  We maintain a minimum distance between franchises to prevent
+                  cannibalization and protect your business interests.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section fade-up">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2 class="cta-title mb-4">
+              Ready to Build Your Logistics Empire?
+            </h2>
+            <p class="cta-text mb-4">
+              Take the first step toward business ownership with Steph
+              Logistics. Our proven model, comprehensive support, and innovative
+              technology give you everything you need to succeed.
+            </p>
+            <a href="#apply-now" class="trucker__btn-style-1"
+              >Apply Today <i class="fa-solid fa-arrow-right"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
 <!-- End Franchise Area -->
 
-<style>
-  /* Franchise Page Specific Styles */
-  .franchise-title {
-    color: #2a9d8f;
-    font-weight: 700;
-  }
+<!-- Floating Contact Button -->
+<div class="floating-contact">
+  <div
+    class="contact-btn"
+    data-bs-toggle="modal"
+    data-bs-target="#contactModal"
+  >
+    <i class="fa-solid fa-headset"></i>
+  </div>
+</div>
 
-  .process-steps {
-    padding: 30px 0;
-  }
-
-  .process-step-wrapper {
-    position: relative;
-  }
-
-  .process-step {
-    flex-basis: 20%;
-    position: relative;
-  }
-
-  .step-number {
-    width: 60px;
-    height: 60px;
-    background: #2a9d8f;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 700;
-    margin: 0 auto;
-  }
-
-  .testimonial-card {
-    background-color: #f8f9fa;
-    height: 100%;
-  }
-
-  .franchise-form-wrapper {
-    background-color: #f8f9fa;
-  }
-
-  .franchise-form .form-control {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-
-  .franchise-form label {
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-
-  @media (max-width: 991px) {
-    .process-step {
-      flex-basis: 50%;
-    }
-  }
-
-  @media (max-width: 575px) {
-    .process-step {
-      flex-basis: 100%;
-    }
-  }
-</style>
+<!-- Contact Modal -->
+<div
+  class="modal fade"
+  id="contactModal"
+  tabindex="-1"
+  aria-labelledby="contactModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contactModalLabel">
+          Speak to a Franchise Advisor
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="contactForm">
+          <div class="mb-3">
+            <label for="contactName" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="contactName" required />
+          </div>
+          <div class="mb-3">
+            <label for="contactEmail" class="form-label">Email Address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="contactEmail"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="contactPhone" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="contactPhone" required />
+          </div>
+          <div class="mb-3">
+            <label for="contactMessage" class="form-label">Your Question</label>
+            <textarea
+              class="form-control"
+              id="contactMessage"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="trucker__btn-style-1 w-100"
+            id="contactSubmitButton"
+          >
+            <span id="contactSubmitText">Send Message</span>
+            <span
+              id="contactSubmitSpinner"
+              class="spinner-border spinner-border-sm ms-2"
+              role="status"
+              aria-hidden="true"
+              style="display: none"
+            ></span>
+          </button>
+          <div class="error-message mt-3" id="contactErrorMessage">
+            <i class="fa-solid fa-circle-exclamation me-2"></i>
+            <span id="contactErrorText"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
+  // Animate the stat numbers
   document.addEventListener("DOMContentLoaded", function () {
-    const franchiseForm = document.getElementById("franchise-form");
+    // Animate stats when in viewport
+    const stats = document.querySelectorAll(".stat-number");
+    stats.forEach((stat) => {
+      const targetValue = parseInt(stat.getAttribute("data-count"));
+      let currentValue = 0;
+      const duration = 2000; // milliseconds
+      const increment = targetValue / (duration / 16);
 
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                  clearInterval(timer);
+                  stat.textContent = targetValue;
+                } else {
+                  stat.textContent = Math.floor(currentValue);
+                }
+              }, 16);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      observer.observe(stat);
+    });
+
+    // Animate elements on scroll
+    const fadeElements = document.querySelectorAll(".fade-up");
+    const fadeObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    fadeElements.forEach((el) => {
+      fadeObserver.observe(el);
+    });
+
+    // Form submission handling
+    const franchiseForm = document.getElementById("franchiseForm");
     if (franchiseForm) {
       franchiseForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        // In a real implementation, you would send this data to your server
-        alert(
-          "Thank you for your interest in our franchise program! We will contact you shortly with more information."
+        // Get form data
+        const formData = {
+          firstName: document.getElementById("firstName").value,
+          lastName: document.getElementById("lastName").value,
+          email: document.getElementById("email").value,
+          phone: document.getElementById("phone").value,
+          location: document.getElementById("location").value,
+          investment: document.getElementById("investment").value,
+          experience: document.getElementById("experience").value,
+          timeline: document.getElementById("timeline").value,
+        };
+
+        // Disable button and show spinner
+        const submitButton = document.getElementById("submitButton");
+        const submitButtonText = document.getElementById("submitButtonText");
+        const submitSpinner = document.getElementById("submitSpinner");
+
+        submitButton.disabled = true;
+        submitButtonText.style.opacity = "0.6";
+        submitSpinner.style.display = "inline-block";
+
+        // Submit the form data to the server
+        fetch("/franchise/apply", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Enable button and hide spinner
+            submitButton.disabled = false;
+            submitButtonText.style.opacity = "1";
+            submitSpinner.style.display = "none";
+
+            if (data.success) {
+              document.getElementById("successMessage").style.display = "block";
+              document.getElementById("errorMessage").style.display = "none";
+              franchiseForm.reset();
+              setTimeout(() => {
+                document.getElementById("successMessage").style.display =
+                  "none";
+              }, 5000);
+            } else {
+              document.getElementById("errorText").textContent =
+                data.message ||
+                "There was an error submitting your application. Please try again.";
+              document.getElementById("errorMessage").style.display = "block";
+              document.getElementById("successMessage").style.display = "none";
+              setTimeout(() => {
+                document.getElementById("errorMessage").style.display = "none";
+              }, 5000);
+            }
+          })
+          .catch((error) => {
+            // Enable button and hide spinner
+            submitButton.disabled = false;
+            submitButtonText.style.opacity = "1";
+            submitSpinner.style.display = "none";
+
+            console.error("Error:", error);
+            document.getElementById("errorText").textContent =
+              "There was an error submitting your application. Please try again.";
+            document.getElementById("errorMessage").style.display = "block";
+            document.getElementById("successMessage").style.display = "none";
+            setTimeout(() => {
+              document.getElementById("errorMessage").style.display = "none";
+            }, 5000);
+          });
+      });
+    }
+
+    const contactForm = document.getElementById("contactForm");
+    if (contactForm) {
+      contactForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Disable button and show spinner
+        const contactSubmitButton = document.getElementById(
+          "contactSubmitButton"
         );
-        franchiseForm.reset();
+        const contactSubmitText = document.getElementById("contactSubmitText");
+        const contactSubmitSpinner = document.getElementById(
+          "contactSubmitSpinner"
+        );
+
+        contactSubmitButton.disabled = true;
+        contactSubmitText.style.opacity = "0.6";
+        contactSubmitSpinner.style.display = "inline-block";
+
+        try {
+          // Simulate server request with a timeout to show spinner
+          setTimeout(() => {
+            // Show success message
+            const modalBody = document.querySelector(".modal-body");
+            modalBody.innerHTML =
+              '<div class="alert alert-success text-center py-4"><i class="fa-solid fa-circle-check fs-1 mb-3"></i><p class="mb-0">Thank you for your message. A franchise advisor will contact you within 24 hours.</p></div>';
+            // In a real implementation, you would send the form data to the server here
+          }, 1000);
+        } catch (error) {
+          // Enable button and hide spinner
+          contactSubmitButton.disabled = false;
+          contactSubmitText.style.opacity = "1";
+          contactSubmitSpinner.style.display = "none";
+
+          document.getElementById("contactErrorText").textContent =
+            "There was an error sending your message. Please try again.";
+          document.getElementById("contactErrorMessage").style.display =
+            "block";
+        }
       });
     }
   });

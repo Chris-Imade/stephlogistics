@@ -1,0 +1,951 @@
+<style>
+  :root {
+    --primary: #2a9d8f;
+    --secondary: #062e39;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --white: #ffffff;
+    --gray: #6c757d;
+    --light-gray: #e9ecef;
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    color: var(--secondary);
+  }
+
+  .section-padding {
+    padding: 80px 0;
+  }
+
+  /* Header & Navigation */
+  .breadcrumb-area {
+    background: linear-gradient(
+      135deg,
+      var(--secondary) 0%,
+      var(--primary) 100%
+    );
+    padding: 60px 0;
+    color: var(--white);
+    padding-top: 10rem;
+  }
+
+  .breadcrumb-inner h1 {
+    color: var(--white);
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+  }
+
+  .breadcrumb {
+    justify-content: center;
+    background: transparent;
+  }
+
+  .breadcrumb-item a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+  }
+
+  .breadcrumb-item.active {
+    color: var(--white);
+  }
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* Main Content Styling */
+  .service-details-content img {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .service-details-content .title {
+    margin: 25px 0 15px;
+  }
+
+  .service-details-content p {
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+  }
+
+  /* Benefits Section */
+  .benefit-item {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--white);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    height: 100%;
+    transition: transform 0.3s ease;
+    margin-bottom: 15px;
+  }
+
+  .benefit-item:hover {
+    transform: translateY(-5px);
+  }
+
+  .benefit-item .icon {
+    color: var(--primary);
+  }
+
+  .benefit-item h4 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+  }
+
+  /* Process Steps */
+  .process-step {
+    position: relative;
+  }
+
+  .process-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    width: 1px;
+    height: calc(100% - 20px);
+    background-color: var(--primary);
+  }
+
+  .step-number span {
+    font-weight: bold;
+  }
+
+  /* Platform Logos */
+  .platform-logo {
+    transition: transform 0.3s ease;
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .platform-logo:hover {
+    transform: translateY(-5px);
+  }
+
+  .platform-logo img {
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+
+  .platform-logo p {
+    font-weight: 600;
+  }
+
+  /* Testimonials */
+  .testimonial-item {
+    border-left: 4px solid var(--primary);
+    transition: transform 0.3s ease;
+  }
+
+  .testimonial-item:hover {
+    transform: translateY(-5px);
+  }
+
+  .testimonial-content p {
+    font-size: 1.1rem;
+  }
+
+  /* Call to Action */
+  .service-details-cta {
+    background: linear-gradient(
+      135deg,
+      var(--primary) 0%,
+      var(--secondary) 100%
+    );
+  }
+
+  .service-details-cta .btn-light:hover {
+    background-color: var(--secondary);
+    color: var(--white);
+  }
+
+  /* Sidebar Styling */
+  .sidebar-widget {
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .widget-title {
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  .widget-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary);
+  }
+
+  .services-list a {
+    color: var(--secondary);
+    text-decoration: none;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .services-list a:hover,
+  .services-list a.active {
+    background-color: rgba(42, 157, 143, 0.1);
+    border-left-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .contact-info-item .icon {
+    font-size: 1.5rem;
+    color: var(--primary);
+  }
+
+  .contact-info-item a {
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .contact-info-item a:hover {
+    color: var(--primary);
+  }
+
+  /* FAQ Section */
+  .faq-section {
+    background-color: #f8f9fa;
+  }
+
+  .accordion-item {
+    border: none;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    border-radius: 8px !important;
+    overflow: hidden;
+  }
+
+  .accordion-button {
+    font-weight: 600;
+    padding: 1.25rem;
+    color: var(--secondary);
+  }
+
+  .accordion-button:not(.collapsed) {
+    color: var(--white);
+    background-color: var(--primary);
+  }
+
+  .accordion-button:focus {
+    box-shadow: none;
+  }
+
+  .accordion-button:not(.collapsed)::after {
+    filter: brightness(0) invert(1);
+  }
+
+  .accordion-body {
+    padding: 1.25rem;
+    font-size: 1.05rem;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    padding: 10px 25px;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover,
+  .btn-primary:focus {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-light {
+    background-color: var(--white);
+    color: var(--primary);
+    border-color: var(--white);
+    padding: 10px 25px;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-light:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animated {
+    animation: fadeIn 0.8s ease forwards;
+  }
+
+  .delay-1 {
+    animation-delay: 0.2s;
+  }
+  .delay-2 {
+    animation-delay: 0.4s;
+  }
+  .delay-3 {
+    animation-delay: 0.6s;
+  }
+  .delay-4 {
+    animation-delay: 0.8s;
+  }
+
+  /* Responsive */
+  @media (max-width: 991px) {
+    .service-details-sidebar {
+      margin-top: 50px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .breadcrumb-inner h1 {
+      font-size: 2.2rem;
+    }
+
+    .section-padding {
+      padding: 50px 0;
+    }
+
+    .testimonial-author {
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
+
+    .testimonial-author .author-avatar {
+      margin-bottom: 10px;
+    }
+  }
+  .scroll-up.active-scroll {
+    display: none;
+  }
+</style>
+<!-- Hero Section -->
+<div class="breadcrumb-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb-inner text-center animated">
+          <h1 class="heading">E-Commerce Integration</h1>
+          <nav aria-label="breadcrumb" class="page-navigation">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item"><a href="/service">Services</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                E-Commerce Integration
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="service-details-wrapper section-padding">
+  <div class="container">
+    <div class="row">
+      <!-- Main Content Column -->
+      <div class="col-lg-8">
+        <div class="service-details-content">
+          <!-- Service Overview -->
+          <div class="service-details-overview animated delay-1">
+            <div class="thumb">
+              <img
+                src="/assets/images/ecom/ecommerce.png"
+                alt="E-Commerce Integration"
+                class="img-fluid mb-4"
+              />
+            </div>
+            <h2 class="title">Seamless E-Commerce Logistics Solutions</h2>
+            <p>
+              At Steph Logistics, we understand that e-commerce businesses need
+              reliable, scalable shipping solutions that integrate seamlessly
+              with your online store. Our E-Commerce Integration service is
+              designed to streamline your order fulfillment process, reduce
+              shipping costs, and enhance the customer experience.
+            </p>
+            <p>
+              Whether you're running a small Etsy shop or managing a large-scale
+              Shopify or WooCommerce store, our platform integrates directly
+              with your e-commerce system to automate shipping processes, track
+              deliveries in real-time, and provide a professional experience for
+              your customers.
+            </p>
+          </div>
+
+          <!-- Service Benefits -->
+          <div class="service-details-benefits mt-5 animated delay-2">
+            <h3>Why Choose Our E-Commerce Integration?</h3>
+            <div class="row mt-4 row-gap-4">
+              <div class="col-md-6">
+                <div class="benefit-item">
+                  <div class="icon mb-3">
+                    <i class="fas fa-plug fa-2x"></i>
+                  </div>
+                  <h4>One-Click Integration</h4>
+                  <p>
+                    Easy integration with popular platforms including Shopify,
+                    WooCommerce, Magento, BigCommerce, and Etsy.
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="benefit-item">
+                  <div class="icon mb-3">
+                    <i class="fas fa-shipping-fast fa-2x"></i>
+                  </div>
+                  <h4>Automated Shipping</h4>
+                  <p>
+                    Automatically generate shipping labels, customs documents,
+                    and shipping notifications.
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="benefit-item">
+                  <div class="icon mb-3">
+                    <i class="fas fa-chart-line fa-2x"></i>
+                  </div>
+                  <h4>Real-Time Tracking</h4>
+                  <p>
+                    End-to-end visibility with branded tracking pages for a
+                    professional customer experience.
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="benefit-item">
+                  <div class="icon mb-3">
+                    <i class="fas fa-tags fa-2x"></i>
+                  </div>
+                  <h4>Competitive Pricing</h4>
+                  <p>
+                    Access to bulk shipping rates regardless of your business
+                    size.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Integration Process -->
+          <div class="service-details-process mt-5 animated delay-3">
+            <h3>How Our Integration Works</h3>
+            <div class="process-steps mt-4">
+              <div class="process-step d-flex align-items-start mb-4">
+                <div class="step-number me-3">
+                  <span
+                    class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px"
+                    >1</span
+                  >
+                </div>
+                <div class="step-content">
+                  <h4>Connect Your Store</h4>
+                  <p>
+                    Install our plugin from your e-commerce platform's app store
+                    or use our API for custom integrations. Setup takes less
+                    than 5 minutes.
+                  </p>
+                </div>
+              </div>
+              <div class="process-step d-flex align-items-start mb-4">
+                <div class="step-number me-3">
+                  <span
+                    class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px"
+                    >2</span
+                  >
+                </div>
+                <div class="step-content">
+                  <h4>Configure Shipping Rules</h4>
+                  <p>
+                    Set up your shipping preferences, pricing rules, and
+                    packaging options in our intuitive dashboard.
+                  </p>
+                </div>
+              </div>
+              <div class="process-step d-flex align-items-start mb-4">
+                <div class="step-number me-3">
+                  <span
+                    class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px"
+                    >3</span
+                  >
+                </div>
+                <div class="step-content">
+                  <h4>Start Shipping</h4>
+                  <p>
+                    When orders come in, shipping labels are automatically
+                    generated. Simply print, package, and send.
+                  </p>
+                </div>
+              </div>
+              <div class="process-step d-flex align-items-start">
+                <div class="step-number me-3">
+                  <span
+                    class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px"
+                    >4</span
+                  >
+                </div>
+                <div class="step-content">
+                  <h4>Track & Analyze</h4>
+                  <p>
+                    Monitor all shipments in real-time and access analytics to
+                    optimize your shipping strategy.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Platforms We Support -->
+          <div class="service-details-platforms mt-5 animated delay-4">
+            <h3>Platforms We Support</h3>
+            <div
+              class="platform-logos d-flex flex-wrap justify-content-center align-items-center mt-4 gap-4"
+            >
+              <div class="platform-logo text-center" style="width: 180px">
+                <img
+                  src="/assets/images/ecom/shopify.png"
+                  alt="Shopify"
+                  class="img-fluid"
+                />
+                <p class="mt-2 mb-0">Shopify</p>
+              </div>
+              <div class="platform-logo text-center" style="width: 180px">
+                <img
+                  src="/assets/images/ecom/woo.png"
+                  alt="WooCommerce"
+                  class="img-fluid"
+                />
+                <p class="mt-2 mb-0">WooCommerce</p>
+              </div>
+              <div class="platform-logo text-center" style="width: 180px">
+                <img
+                  src="/assets/images/ecom/magento.png"
+                  alt="Magento"
+                  class="img-fluid"
+                />
+                <p class="mt-2 mb-0">Magento</p>
+              </div>
+              <div class="platform-logo text-center" style="width: 180px">
+                <img
+                  src="/assets/images/ecom/bigcommerce.png"
+                  alt="Etsy"
+                  class="img-fluid"
+                />
+                <p class="mt-2 mb-0">Big Commerce</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonials -->
+          <div class="service-details-testimonials mt-5 animated delay-4">
+            <h3>What Our E-Commerce Clients Say</h3>
+            <div class="testimonial-item bg-light p-4 rounded mt-4">
+              <div class="testimonial-content">
+                <p class="fst-italic">
+                  "Since integrating Steph Logistics with our Shopify store, our
+                  shipping process has been completely transformed. What used to
+                  take hours now happens automatically, and our customers love
+                  the real-time tracking updates."
+                </p>
+                <div class="testimonial-author d-flex align-items-center mt-3">
+                  <div class="author-avatar me-3">
+                    <img
+                      src="assets/images/home-1/home-1-about-content-writer.png"
+                      alt="Emma Wilson"
+                      class="rounded-circle"
+                      width="50"
+                      height="50"
+                    />
+                  </div>
+                  <div class="author-info">
+                    <h5 class="mb-0">Emma Wilson</h5>
+                    <p class="text-muted mb-0">Founder, Urban Botanicals</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Call to Action -->
+          <div
+            class="service-details-cta text-white p-5 rounded mt-5 animated delay-4"
+          >
+            <h3>Ready to Streamline Your E-Commerce Shipping?</h3>
+            <p>
+              Get started today and see how our e-commerce integration can
+              transform your online business.
+            </p>
+            <a href="/contact" class="btn btn-light mt-3"
+              >Contact Us For A Demo</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Column -->
+      <div class="col-lg-4">
+        <div class="service-details-sidebar animated delay-2">
+          <!-- Services List -->
+          <div class="sidebar-widget services-list bg-light p-4 rounded mb-4">
+            <h4 class="widget-title">Our Services</h4>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2">
+                <a href="/service/parcel-delivery" class="d-block p-2"
+                  ><i class="fas fa-chevron-right me-2"></i>Parcel Delivery</a
+                >
+              </li>
+              <li class="mb-2">
+                <a href="/service/worldwide-shipping" class="d-block p-2"
+                  ><i class="fas fa-chevron-right me-2"></i>Worldwide
+                  Shipping</a
+                >
+              </li>
+              <li class="mb-2">
+                <a href="/service/freight-shipping" class="d-block p-2"
+                  ><i class="fas fa-chevron-right me-2"></i>Freight & Pallet
+                  Shipping</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="/service/ecommerce-integration"
+                  class="d-block p-2 active"
+                  ><i class="fas fa-chevron-right me-2"></i>E-Commerce
+                  Integration</a
+                >
+              </li>
+              <li class="mb-2">
+                <a href="/service/tracked-delivery" class="d-block p-2"
+                  ><i class="fas fa-chevron-right me-2"></i>Tracked & Signed
+                  Deliveries</a
+                >
+              </li>
+              <li>
+                <a href="/service/logistics-strategy" class="d-block p-2"
+                  ><i class="fas fa-chevron-right me-2"></i>Logistics
+                  Strategy</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="sidebar-widget contact-info bg-light p-4 rounded mb-4">
+            <h4 class="widget-title">Need Help?</h4>
+            <div class="contact-info-item d-flex align-items-center mb-3">
+              <div class="icon me-3">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+              <div class="content">
+                <h5 class="mb-1">Phone</h5>
+                <p class="mb-0">
+                  <a href="tel:+441234567890">+44 123 456 7890</a>
+                </p>
+              </div>
+            </div>
+            <div class="contact-info-item d-flex align-items-center mb-3">
+              <div class="icon me-3">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="content">
+                <h5 class="mb-1">Email</h5>
+                <p class="mb-0">
+                  <a href="mailto:ecommerce@stephlogistics.co.uk"
+                    >ecommerce@stephlogistics.co.uk</a
+                  >
+                </p>
+              </div>
+            </div>
+            <a href="/contact" class="btn btn-primary w-100 mt-3"
+              ><i class="fas fa-paper-plane me-2"></i>Get A Quote</a
+            >
+          </div>
+
+          <!-- Download App -->
+          <div class="sidebar-widget download-app bg-light p-4 rounded">
+            <h4 class="widget-title">Track Orders On-The-Go</h4>
+            <p>Download our mobile app to track shipments anytime, anywhere.</p>
+            <div class="download-buttons">
+              <a href="#" class="d-block mb-2"
+                ><img
+                  src="/api/placeholder/200/60"
+                  alt="App Store"
+                  class="img-fluid"
+              /></a>
+              <a href="#" class="d-block"
+                ><img
+                  src="/api/placeholder/200/60"
+                  alt="Google Play"
+                  class="img-fluid"
+              /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="faq-section section-padding bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <div class="section-title mb-5 animated">
+          <h2>Frequently Asked Questions</h2>
+          <p>Common questions about our e-commerce integration service</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-10 mx-auto animated delay-1">
+        <div class="accordion" id="ecommerceIntegrationFAQ">
+          <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingOne">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                How long does it take to integrate with my store?
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              class="accordion-collapse collapse show"
+              aria-labelledby="headingOne"
+              data-bs-parent="#ecommerceIntegrationFAQ"
+            >
+              <div class="accordion-body">
+                Most integrations can be completed in under 30 minutes. For
+                standard platforms like Shopify or WooCommerce, you can be up
+                and running in as little as 5 minutes. Custom integrations may
+                take longer depending on your specific requirements.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingTwo">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Can I use my own packaging?
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#ecommerceIntegrationFAQ"
+            >
+              <div class="accordion-body">
+                Yes, you can use your own branded packaging. We can also provide
+                cost-effective packaging solutions if needed. All packaging must
+                meet our shipping guidelines for size and durability to ensure
+                your products arrive safely.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingThree">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseThree"
+                aria-expanded="false"
+                aria-controls="collapseThree"
+              >
+                How do customers track their orders?
+              </button>
+            </h2>
+            <div
+              id="collapseThree"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingThree"
+              data-bs-parent="#ecommerceIntegrationFAQ"
+            >
+              <div class="accordion-body">
+                Customers receive automated tracking updates via email or SMS.
+                They can also track their order on our branded tracking page,
+                which can be customized with your business logo and colors for a
+                seamless customer experience.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="headingFour">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseFour"
+                aria-expanded="false"
+                aria-controls="collapseFour"
+              >
+                Is there a minimum order volume requirement?
+              </button>
+            </h2>
+            <div
+              id="collapseFour"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingFour"
+              data-bs-parent="#ecommerceIntegrationFAQ"
+            >
+              <div class="accordion-body">
+                No, there's no minimum order volume requirement. Our service is
+                designed to scale with your business, from a few orders per
+                month to thousands. Volume discounts are available as your
+                shipping needs increase.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFive">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseFive"
+                aria-expanded="false"
+                aria-controls="collapseFive"
+              >
+                What happens if an item is lost or damaged?
+              </button>
+            </h2>
+            <div
+              id="collapseFive"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingFive"
+              data-bs-parent="#ecommerceIntegrationFAQ"
+            >
+              <div class="accordion-body">
+                We offer insurance options for all shipments. If an item is lost
+                or damaged during transit, our dedicated claims team will
+                process your claim quickly, typically within 7-10 business days.
+                We aim to make the claims process as smooth as possible.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Back to Top Button -->
+<button
+  id="backToTop"
+  class="btn btn-primary rounded-circle"
+  style="
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+    width: 50px;
+    height: 50px;
+    z-index: 99;
+  "
+>
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+  // Back to Top Button functionality
+  document.addEventListener("DOMContentLoaded", function () {
+    const backToTopButton = document.getElementById("backToTop");
+
+    // Show/hide button based on scroll position
+    window.addEventListener("scroll", function () {
+      if (window.pageYOffset > 300) {
+        backToTopButton.style.display = "flex";
+        backToTopButton.style.justifyContent = "center";
+        backToTopButton.style.alignItems = "center";
+      } else {
+        backToTopButton.style.display = "none";
+      }
+    });
+
+    // Scroll to top when button is clicked
+    backToTopButton.addEventListener("click", function () {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+  });
+
+  // Animate elements on scroll
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add animation classes when elements come into view
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animated");
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    // Observe all elements with delay classes
+    document
+      .querySelectorAll(".delay-1, .delay-2, .delay-3, .delay-4")
+      .forEach((el) => {
+        observer.observe(el);
+      });
+  });
+</script>

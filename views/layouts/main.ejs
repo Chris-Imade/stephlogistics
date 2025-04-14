@@ -3,6 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <title><%= title %></title>
 
     <!-- Favicon -->
@@ -90,127 +98,9 @@
     <!-- Footer -->
     <%- include ../partials/footer %>
 
-    <!-- Start Mobile Menu -->
-    <div class="trucker__mobile-menu">
-      <div class="trucker__menu-header">
-        <div class="trucker__logo">
-          <a href="/">
-            <img
-              src="/assets/images/logo/logo.svg"
-              alt="Trucker - Transport Courier & Logistics Html Template"
-            />
-          </a>
-        </div>
-        <button class="trucker__close-btn">
-          <i class="fa-sharp fa-light fa-xmark"></i>
-        </button>
-      </div>
-
-      <div class="trucker__mobile-menu-search">
-        <form action="#">
-          <input type="text" placeholder="Search Here" />
-          <button type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
-      </div>
-
-      <div class="trucker__mobile-menu-btn">
-        <a href="/shipment/track" class="trucker__btn-style-1"
-          >Track Order <i class="fa-light fa-arrow-up-right"></i
-        ></a>
-      </div>
-
-      <nav>
-        <ul class="trucker__nav-list">
-          <li class="trucker__nav-item">
-            <a href="/" class="trucker__nav-link"> Home </a>
-          </li>
-          <li class="trucker__nav-item">
-            <a href="/about" class="trucker__nav-link">About</a>
-          </li>
-          <li class="trucker__nav-item">
-            <a href="/team" class="trucker__nav-link">Team</a>
-          </li>
-          <li class="trucker__nav-item">
-            <a href="/services" class="trucker__nav-link"> Services </a>
-          </li>
-          <li class="trucker__nav-item">
-            <a href="/shipment/quote" class="trucker__nav-link">Get a Quote</a>
-          </li>
-          <li class="trucker__nav-item">
-            <a href="/franchise" class="trucker__nav-link">Franchise</a>
-          </li>
-          <li class="trucker__nav-item">
-            <a href="/blog" class="trucker__nav-link"> Blog </a>
-          </li>
-          <li class="trucker__nav-item">
-            <a href="/contact" class="trucker__nav-link">Contact Us</a>
-          </li>
-        </ul>
-      </nav>
-      <div class="mobile-menu-contact-info">
-        <a
-          href="mailto:hello@stephlogistics.co.uk"
-          class="trucker__header-topbar-info trucker__fs-15 trucker__fw-400 trucker__white"
-          ><i class="fa-sharp fa-light fa-envelope"></i>
-          hello@stephlogistics.co.uk</a
-        >
-        <a
-          href="tel:02000000000"
-          class="trucker__header-topbar-info trucker__fs-15 trucker__fw-400 trucker__white"
-          ><i class="fa-light fa-phone"></i> 020 0000 0000</a
-        >
-      </div>
-      <div class="mobile-menu-social-media">
-        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="#"><i class="fa-brands fa-twitter"></i></a>
-      </div>
-      <div class="trucker__mobile-menu-copyright">
-        <p class="trucker__mobile-menu-copyright-text">
-          © <%= new Date().getFullYear() %> <a href="/">Steph Logistics</a>. All
-          Rights Reserved.
-        </p>
-      </div>
-    </div>
-    <!-- End Mobile Menu -->
-
     <!-- Start Overlay Add -->
     <div class="trucker__overlay"></div>
     <!-- End Overlay Add -->
-
-    <!-- Start Search Popup -->
-    <div class="search-popup">
-      <button class="close-search" aria-label="Close search">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
-      <div class="search-container">
-        <form class="search-form" id="searchForm">
-          <input
-            type="text"
-            class="search-input"
-            placeholder="Search..."
-            autocomplete="off"
-          />
-          <button type="submit" class="search-submit">Search</button>
-        </form>
-      </div>
-    </div>
-    <!-- End Search Popup -->
 
     <!--Start Js Files-->
     <!-- Bootstrap from CDN -->

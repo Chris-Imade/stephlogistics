@@ -8,36 +8,26 @@ const newsletterSchema = new mongoose.Schema({
     trim: true,
     lowercase: true,
   },
-  name: {
-    type: String,
-    trim: true,
-  },
-  isSubscribed: {
-    type: Boolean,
-    default: true,
-  },
-  subscribedAt: {
+  subscriptionDate: {
     type: Date,
     default: Date.now,
   },
-  unsubscribedAt: {
-    type: Date,
+  isConfirmed: {
+    type: Boolean,
+    default: false,
   },
-  token: {
+  confirmationToken: {
     type: String,
+    default: null,
+  },
+  confirmationExpires: {
+    type: Date,
+    default: null,
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
   },
 });
 
-// Generate a unique token for unsubscribe functionality
-newsletterSchema.pre("save", function (next) {
-  if (!this.token) {
-    this.token =
-      Math.random().toString(36).substring(2, 15) +
-      Math.random().toString(36).substring(2, 15);
-  }
-  next();
-});
-
-const Newsletter = mongoose.model("Newsletter", newsletterSchema);
-
-module.exports = Newsletter;
+module.exports = mongoose.model("Newsletter", newsletterSchema);

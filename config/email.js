@@ -151,9 +151,128 @@ const sendPasswordResetEmail = async (recipient, resetToken) => {
   }
 };
 
+// Send franchise information pack confirmation to applicant
+const sendFranchiseConfirmation = async (recipient, applicantDetails) => {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: `"Steph Logistics Franchise" <${process.env.EMAIL_USERNAME}>`,
+    to: recipient,
+    subject: "Your Steph Logistics Franchise Information Pack",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #2a9d8f;">Thank You for Your Interest in Steph Logistics Franchise</h2>
+        <p>Dear ${applicantDetails.firstName},</p>
+        <p>Thank you for your interest in becoming a Steph Logistics franchise partner. We're excited about the possibility of welcoming you to our growing family of successful franchise owners.</p>
+        <p>Your information pack request has been received and is being processed. You will receive a comprehensive information pack within the next 24-48 hours.</p>
+        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+          <p><strong>Next Steps:</strong></p>
+          <ol>
+            <li>Review the information pack that will be sent to you shortly</li>
+            <li>Schedule a discovery call with our franchise development team</li>
+            <li>Complete our full application process</li>
+          </ol>
+        </div>
+        <p>If you have any immediate questions, please feel free to contact our franchise team at <a href="mailto:franchise@stephlogistics.co.uk" style="color: #2a9d8f;">franchise@stephlogistics.co.uk</a> or call us at +44 7404 888 952.</p>
+        <p>We look forward to discussing this exciting opportunity with you further!</p>
+        <p>Best regards,<br>The Steph Logistics Franchise Team</p>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return true;
+  } catch (error) {
+    console.error("Franchise confirmation email sending failed:", error);
+    return false;
+  }
+};
+
+// Send franchise application notification to admin
+const sendFranchiseAdminNotification = async (applicantDetails) => {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: `"Steph Logistics Franchise System" <${process.env.EMAIL_USERNAME}>`,
+    to: "info@stephlogistics.co.uk",
+    subject: `New Franchise Information Request - ${applicantDetails.firstName} ${applicantDetails.lastName}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #264653;">New Franchise Information Request</h2>
+        <p>A new franchise information request has been submitted with the following details:</p>
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;"><strong>Name:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">${
+                applicantDetails.firstName
+              } ${applicantDetails.lastName}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;"><strong>Email:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;"><a href="mailto:${
+                applicantDetails.email
+              }" style="color: #2a9d8f;">${applicantDetails.email}</a></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;"><strong>Phone:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">${
+                applicantDetails.phone
+              }</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;"><strong>Location:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">${
+                applicantDetails.location || "Not specified"
+              }</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;"><strong>Investment:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">£${
+                applicantDetails.investment
+              }</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;"><strong>Experience:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">${
+                applicantDetails.experience || "Not specified"
+              }</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;"><strong>Timeline:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">${
+                applicantDetails.timeline || "Not specified"
+              }</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0;"><strong>Date Submitted:</strong></td>
+              <td style="padding: 8px 0;">${new Date().toLocaleString()}</td>
+            </tr>
+          </table>
+        </div>
+        <p>Please follow up with this applicant within 24 hours and send the franchise information pack.</p>
+        <p><a href="${
+          process.env.SITE_URL || "http://localhost:3000"
+        }/admin/franchise/applications" style="display: inline-block; background-color: #2a9d8f; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View in Admin Portal</a></p>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return true;
+  } catch (error) {
+    console.error("Franchise admin notification email sending failed:", error);
+    return false;
+  }
+};
+
 module.exports = {
   sendWelcomeEmail,
   sendShipmentConfirmation,
   sendContactConfirmation,
   sendPasswordResetEmail,
+  sendFranchiseConfirmation,
+  sendFranchiseAdminNotification,
 };
