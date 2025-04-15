@@ -32,7 +32,7 @@ const userReceiptTemplate = (name) => `
 <body>
     <div class="container">
         <div class="header">
-            <h1>Thank You for Contacting DXpress</h1>
+            <h1>Thank You for Contacting Steph Logistics</h1>
         </div>
         <div class="content">
             <p>Dear ${name},</p>
@@ -41,7 +41,7 @@ const userReceiptTemplate = (name) => `
             <p>If you have any urgent inquiries, please don't hesitate to call us at +44 7506 323070.</p>
         </div>
         <div class="footer">
-            <p>Best regards,<br>The DXpress Team</p>
+            <p>Best regards,<br>The Steph Logistics Team</p>
         </div>
     </div>
 </body>
@@ -78,7 +78,7 @@ const adminNotificationTemplate = (formData) => `
             </div>
         </div>
         <div class="footer">
-            <p>This is an automated message from the DXpress contact form.</p>
+            <p>This is an automated message from the Steph Logistics contact form.</p>
         </div>
     </div>
 </body>
@@ -137,14 +137,14 @@ exports.submitContactForm = async (req, res) => {
       await transporter.sendMail({
         from: process.env.SMTP_USER,
         to: email,
-        subject: "Thank You for Contacting DXpress",
+        subject: "Thank You for Contacting Steph Logistics",
         html: userReceiptTemplate(name),
       });
 
       // Send notification to admin
       await transporter.sendMail({
         from: process.env.SMTP_USER,
-        to: "support@dxpress.uk",
+        to: "support@stephlogistics.co.uk",
         subject: "New Contact Form Submission",
         html: adminNotificationTemplate({
           name,

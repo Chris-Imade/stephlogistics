@@ -13,79 +13,51 @@ router.get("/login", authController.getLoginPage);
 router.post("/login", authController.login);
 router.get("/logout", isAuthenticated, authController.logout);
 
-// Password reset
+// Password reset routes
 router.get("/forgot-password", authController.getForgotPasswordPage);
 router.post("/forgot-password", authController.forgotPassword);
 router.get("/reset-password/:token", authController.getResetPasswordPage);
-router.post("/reset-password/:token", authController.resetPassword);
+router.post("/reset-password", authController.resetPassword);
 
 // Admin dashboard
 router.get("/", isAuthenticated, isAdmin, adminController.getDashboard);
 
-// Users management
-router.get("/users", isAuthenticated, isAdmin, adminController.getUsers);
-router.post("/users", isAuthenticated, isAdmin, adminController.postUser);
-router.get("/users/:id", isAuthenticated, isAdmin, adminController.getUser);
-router.delete(
-  "/users/:id",
-  isAuthenticated,
-  isAdmin,
-  adminController.deleteUser
-);
-
-// Shipments management
+// Shipment management routes
 router.get(
   "/shipments",
   isAuthenticated,
-  isAdmin,
+  isStaff,
   adminController.getShipments
 );
 router.get(
   "/shipments/create",
   isAuthenticated,
-  isAdmin,
+  isStaff,
   adminController.getCreateShipment
+);
+router.post(
+  "/shipments/create",
+  isAuthenticated,
+  isStaff,
+  adminController.createShipment
 );
 router.get(
   "/shipments/edit/:id",
   isAuthenticated,
-  isAdmin,
+  isStaff,
   adminController.getEditShipment
 );
 router.post(
-  "/shipments",
+  "/shipments/edit/:id",
   isAuthenticated,
-  isAdmin,
-  adminController.createShipment
-);
-router.put(
-  "/shipments/:id",
-  isAuthenticated,
-  isAdmin,
+  isStaff,
   adminController.updateShipment
 );
-router.delete(
-  "/shipments/:id",
+router.post(
+  "/shipments/delete/:id",
   isAuthenticated,
   isAdmin,
   adminController.deleteShipment
-);
-
-// Analytics - using getDashboard as a fallback since getAnalyticsPage doesn't exist
-router.get(
-  "/analytics",
-  isAuthenticated,
-  isAdmin,
-  adminController.getDashboard
-);
-
-// Settings
-router.get("/settings", isAuthenticated, isAdmin, adminController.getSettings);
-router.post(
-  "/settings",
-  isAuthenticated,
-  isAdmin,
-  adminController.postSettings
 );
 
 // Newsletter management

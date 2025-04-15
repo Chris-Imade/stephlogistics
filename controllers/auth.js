@@ -162,8 +162,8 @@ exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    // Allow both support@dxpress.uk and test email
-    const allowedEmails = ["support@dxpress.uk", "imadechriswebdev@gmail.com"];
+    // Allow both support@stephlogistics.co.uk and test email
+    const allowedEmails = ["support@stephlogistics.co.uk", "imadechriswebdev@gmail.com"];
 
     // For security, always show success message even if user doesn't exist
     if (!email || !allowedEmails.includes(email)) {
@@ -177,7 +177,7 @@ exports.forgotPassword = async (req, res) => {
       });
     }
 
-    // Find user by email and role (could be support@dxpress.uk or test email)
+    // Find user by email and role (could be support@stephlogistics.co.uk or test email)
     const user = await User.findOne({ email, role: "admin" });
 
     if (!user) {
@@ -253,7 +253,7 @@ async function handlePasswordReset(user, req, res) {
 
   // Create the email message
   const message = `
-    <h1>DXpress Admin Password Reset</h1>
+    <h1>Steph Logistics Admin Password Reset</h1>
     <p>You requested a password reset for your admin account.</p>
     <p>Click this link to set a new password:</p>
     <a href="${resetUrl}" style="padding: 10px 15px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">Reset Password</a>
@@ -266,7 +266,7 @@ async function handlePasswordReset(user, req, res) {
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: user.email,
-      subject: "DXpress Admin Password Reset",
+      subject: "Steph Logistics Admin Password Reset",
       html: message,
     });
 
@@ -444,7 +444,7 @@ exports.resetPassword = async (req, res) => {
 
     // Send confirmation email
     const message = `
-      <h1>DXpress Admin Password Reset Confirmation</h1>
+      <h1>Steph Logistics Admin Password Reset Confirmation</h1>
       <p>Your password has been successfully reset.</p>
       <p>If you did not perform this action, please contact support immediately.</p>
     `;
@@ -452,7 +452,7 @@ exports.resetPassword = async (req, res) => {
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: user.email,
-      subject: "DXpress Admin Password Reset Confirmation",
+      subject: "Steph Logistics Admin Password Reset Confirmation",
       html: message,
     });
 

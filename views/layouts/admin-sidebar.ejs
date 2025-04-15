@@ -1,0 +1,116 @@
+<div class="admin-sidebar">
+  <div class="admin-sidebar-brand">
+    <a href="/">
+      <img
+        src="/assets/images/logo.png"
+        alt="Steph Logistics"
+        class="admin-logo"
+      />
+    </a>
+    <div class="admin-sidebar-toggle d-md-none">
+      <i class="fas fa-times"></i>
+    </div>
+  </div>
+
+  <div class="admin-sidebar-content">
+    <ul class="admin-sidebar-nav">
+      <li class="admin-sidebar-item">
+        <a href="/admin/dashboard" class="admin-sidebar-link">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="admin-sidebar-item">
+        <a href="/admin/shipments" class="admin-sidebar-link">
+          <i class="fas fa-shipping-fast"></i>
+          <span>Shipments</span>
+        </a>
+      </li>
+
+      <li class="admin-sidebar-item">
+        <a href="/admin/newsletter" class="admin-sidebar-link">
+          <i class="fas fa-envelope-open-text"></i>
+          <span>Newsletter</span>
+        </a>
+      </li>
+
+      <li class="admin-sidebar-item">
+        <a href="/admin/contacts" class="admin-sidebar-link">
+          <i class="fas fa-envelope"></i>
+          <span>Contact Inquiries</span>
+        </a>
+      </li>
+
+      <% if (user && user.role === 'admin') { %>
+      <li class="admin-sidebar-item">
+        <a href="/admin/franchises" class="admin-sidebar-link">
+          <i class="fas fa-store"></i>
+          <span>Franchise Applications</span>
+        </a>
+      </li>
+
+      <li class="admin-sidebar-item">
+        <a href="/admin/users" class="admin-sidebar-link">
+          <i class="fas fa-users"></i>
+          <span>User Management</span>
+        </a>
+      </li>
+      <% } %>
+
+      <li class="admin-sidebar-item">
+        <a href="/admin/profile" class="admin-sidebar-link">
+          <i class="fas fa-user-circle"></i>
+          <span>My Profile</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="admin-sidebar-footer">
+    <div class="admin-sidebar-user">
+      <div class="admin-sidebar-user-avatar">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <div class="admin-sidebar-user-info">
+        <span class="admin-sidebar-user-name"><%= user.name %></span>
+        <span class="admin-sidebar-user-role"
+          ><%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %></span
+        >
+      </div>
+    </div>
+    <a href="/auth/logout" class="admin-sidebar-logout">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+  </div>
+</div>
+
+<div class="admin-sidebar-toggle-btn d-md-none">
+  <i class="fas fa-bars"></i>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // Set active class for current page
+    const currentPath = window.location.pathname;
+    $(".admin-sidebar-link").each(function () {
+      const linkPath = $(this).attr("href");
+      if (
+        currentPath === linkPath ||
+        (linkPath !== "/admin/dashboard" && currentPath.startsWith(linkPath))
+      ) {
+        $(this).addClass("active");
+      }
+    });
+
+    // Mobile sidebar toggle
+    $(".admin-sidebar-toggle-btn").on("click", function () {
+      $(".admin-sidebar").addClass("show");
+    });
+
+    $(".admin-sidebar-toggle").on("click", function () {
+      $(".admin-sidebar").removeClass("show");
+    });
+  });
+</script>
