@@ -1,302 +1,436 @@
-<%- include layouts/admin-header %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
 
-<!-- Main content -->
-<main id="main-content">
-  <div
-    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-  >
-    <h1 class="h4" style="margin-left: 10px"><%= title %></h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <% if (path && path.includes('/admin/shipments') &&
-      !path.includes('/create') && !path.includes('/edit')) { %>
-      <a href="/admin/shipments/create" class="btn btn-sm btn-primary">
-        <i class="fas fa-plus me-1"></i>
-        New Shipment
-      </a>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="/assets/css/admin.css" />
+  </head>
+  <body>
+    <!-- Sidebar Toggle Button (visible on mobile) -->
+    <div class="sidebar-toggle d-md-none">
+      <button class="btn" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="position-sticky">
+        <div
+          class="sidebar-header py-3 px-3 d-flex align-items-center justify-content-between"
+        >
+          <a href="/admin/" class="d-flex align-items-center">
+            <div class="logo-wrapper">
+              <img
+                src="/assets/img/logo-light.png"
+                alt="Steph Logistics"
+                class="logo-img"
+                width="40"
+                height="30"
+              />
+              <span class="logo-text ms-2">Steph Logistics</span>
+            </div>
+          </a>
+          <button
+            class="btn text-white d-none d-md-block"
+            id="sidebarCollapseToggle"
+          >
+            <i class="fas fa-chevron-left"></i>
+          </button>
+        </div>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a
+              class="nav-link <%= path === '/admin/' ? 'active' : '' %>"
+              href="/admin/"
+            >
+              <i class="fas fa-tachometer-alt"></i>
+              <span class="nav-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= path && path.includes('/admin/shipments') ? 'active' : '' %>"
+              href="/admin/shipments"
+            >
+              <i class="fas fa-box"></i>
+              <span class="nav-text">Shipments</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= path === '/admin/newsletter' ? 'active' : '' %>"
+              href="/admin/newsletter"
+            >
+              <i class="fas fa-envelope"></i>
+              <span class="nav-text">Newsletter</span>
+            </a>
+          </li>
+          <li class="nav-item mt-5">
+            <a class="nav-link" href="/admin/logout">
+              <i class="fas fa-sign-out-alt"></i>
+              <span class="nav-text">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <main id="main-content">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h4" style="margin-left: 10px"><%= title %></h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <% if (path && path.includes('/admin/shipments') &&
+          !path.includes('/create') && !path.includes('/edit')) { %>
+          <a href="/admin/shipments/create" class="btn btn-sm btn-primary">
+            <i class="fas fa-plus me-1"></i>
+            New Shipment
+          </a>
+          <% } %>
+        </div>
+      </div>
+
+      <% if (typeof message !== 'undefined' && message) { %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= message %>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      <% } %> <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= errorMessage %>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
       <% } %>
-    </div>
-  </div>
 
-  <% if (typeof message !== 'undefined' && message) { %>
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <%= message %>
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-    ></button>
-  </div>
-  <% } %> <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <%= errorMessage %>
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-    ></button>
-  </div>
-  <% } %>
-
-  <div class="dashboard-content">
-    <div class="row g-4 mx-0 mb-4">
-      <div class="col-md-3">
-        <div class="card shadow-sm h-100">
-          <div class="card-body p-0">
-            <div class="d-flex flex-column p-3">
-              <div
-                class="d-flex justify-content-between align-items-center mb-2"
-              >
-                <h6 class="text-uppercase text-muted fs-sm fw-semibold mb-0">
-                  Total Shipments
-                </h6>
-                <div class="icon-circle bg-primary-soft">
-                  <i class="fas fa-box text-primary"></i>
-                </div>
-              </div>
-              <div>
-                <h3 class="fw-bold mb-0"><%= counts.shipments || 0 %></h3>
-                <p class="text-muted mb-0 fs-sm">All time</p>
-              </div>
-            </div>
-            <div class="card-footer py-2 border-0 bg-light">
-              <a
-                href="/admin/shipments"
-                class="text-decoration-none d-flex justify-content-between align-items-center"
-              >
-                <span class="text-primary small">View details</span>
-                <i class="fas fa-arrow-right text-primary small"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="card shadow-sm h-100">
-          <div class="card-body p-0">
-            <div class="d-flex flex-column p-3">
-              <div
-                class="d-flex justify-content-between align-items-center mb-2"
-              >
-                <h6 class="text-uppercase text-muted fs-sm fw-semibold mb-0">
-                  Pending
-                </h6>
-                <div class="icon-circle bg-warning-soft">
-                  <i class="fas fa-clock text-warning"></i>
-                </div>
-              </div>
-              <div>
-                <h3 class="fw-bold mb-0">
-                  <%= counts.pendingShipments || 0 %>
-                </h3>
-                <p class="text-muted mb-0 fs-sm">Waiting shipments</p>
-              </div>
-            </div>
-            <div class="card-footer py-2 border-0 bg-light">
-              <a
-                href="/admin/shipments?status=Pending"
-                class="text-decoration-none d-flex justify-content-between align-items-center"
-              >
-                <span class="text-warning small">View details</span>
-                <i class="fas fa-arrow-right text-warning small"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="card shadow-sm h-100">
-          <div class="card-body p-0">
-            <div class="d-flex flex-column p-3">
-              <div
-                class="d-flex justify-content-between align-items-center mb-2"
-              >
-                <h6 class="text-uppercase text-muted fs-sm fw-semibold mb-0">
-                  Delivered
-                </h6>
-                <div class="icon-circle bg-success-soft">
-                  <i class="fas fa-check-circle text-success"></i>
-                </div>
-              </div>
-              <div>
-                <h3 class="fw-bold mb-0">
-                  <%= counts.deliveredShipments || 0 %>
-                </h3>
-                <p class="text-muted mb-0 fs-sm">Completed</p>
-              </div>
-            </div>
-            <div class="card-footer py-2 border-0 bg-light">
-              <a
-                href="/admin/shipments?status=Delivered"
-                class="text-decoration-none d-flex justify-content-between align-items-center"
-              >
-                <span class="text-success small">View details</span>
-                <i class="fas fa-arrow-right text-success small"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="card shadow-sm h-100">
-          <div class="card-body p-0">
-            <div class="d-flex flex-column p-3">
-              <div
-                class="d-flex justify-content-between align-items-center mb-2"
-              >
-                <h6 class="text-uppercase text-muted fs-sm fw-semibold mb-0">
-                  Subscribers
-                </h6>
-                <div class="icon-circle bg-info-soft">
-                  <i class="fas fa-envelope text-info"></i>
-                </div>
-              </div>
-              <div>
-                <h3 class="fw-bold mb-0"><%= counts.newsletters || 0 %></h3>
-                <p class="text-muted mb-0 fs-sm">Newsletter</p>
-              </div>
-            </div>
-            <div class="card-footer py-2 border-0 bg-light">
-              <a
-                href="/admin/newsletter"
-                class="text-decoration-none d-flex justify-content-between align-items-center"
-              >
-                <span class="text-info small">View details</span>
-                <i class="fas fa-arrow-right text-info small"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row g-4 mx-0 mb-4">
-      <div class="col-md-8">
-        <div class="card shadow-sm h-100">
-          <div class="card-header bg-white py-3">
-            <div class="d-flex justify-content-between align-items-center">
-              <h5 class="mb-0 fw-semibold">Recent Shipments</h5>
-              <a href="/admin/shipments" class="btn btn-sm btn-outline-primary"
-                >View All</a
-              >
-            </div>
-          </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-hover mb-0">
-                <thead class="table-light">
-                  <tr>
-                    <th>Tracking ID</th>
-                    <th>Customer</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (recentShipments && recentShipments.length > 0) { %> <%
-                  recentShipments.forEach(function(shipment) { %>
-                  <tr>
-                    <td class="fw-medium"><%= shipment.trackingId %></td>
-                    <td>
-                      <div><%= shipment.customerName %></div>
-                      <small class="text-muted"
-                        ><%= shipment.customerEmail %></small
-                      >
-                    </td>
-                    <td>
-                      <% let badgeClass = ''; %> <% if (shipment.status ===
-                      'Pending') { %> <% badgeClass = 'badge-pending'; %> <% }
-                      else if (shipment.status === 'In Transit') { %> <%
-                      badgeClass = 'badge-transit'; %> <% } else if
-                      (shipment.status === 'Delivered') { %> <% badgeClass =
-                      'badge-delivered'; %> <% } else if (shipment.status ===
-                      'Delayed') { %> <% badgeClass = 'badge-delayed'; %> <% }
-                      else if (shipment.status === 'Cancelled') { %> <%
-                      badgeClass = 'badge-cancelled'; %> <% } else { %> <%
-                      badgeClass = 'badge-secondary'; %> <% } %>
-                      <span class="badge <%= badgeClass %>"
-                        ><%= shipment.status %></span
-                      >
-                    </td>
-                    <td>
-                      <%= new Date(shipment.createdAt).toLocaleDateString() %>
-                    </td>
-                    <td>
-                      <a
-                        href="/admin/shipments/edit/<%= shipment._id %>"
-                        class="btn btn-sm btn-outline-secondary"
-                      >
-                        <i class="fas fa-edit"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <% }); %> <% } else { %>
-                  <tr>
-                    <td colspan="5" class="text-center py-3">
-                      No recent shipments found
-                    </td>
-                  </tr>
-                  <% } %>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-header bg-white py-3">
-            <h5 class="mb-0 fw-semibold">Quick Actions</h5>
-          </div>
-          <div class="card-body">
-            <div class="d-grid gap-3">
-              <a
-                href="/admin/shipments/create"
-                class="btn btn-primary d-flex align-items-center justify-content-between"
-              >
-                <span><i class="fas fa-plus me-2"></i> Create Shipment</span>
-                <i class="fas fa-arrow-right"></i>
-              </a>
-
-              <a
-                href="/admin/shipments"
-                class="btn btn-outline-secondary d-flex align-items-center justify-content-between"
-              >
-                <span><i class="fas fa-search me-2"></i> Manage Shipments</span>
-                <i class="fas fa-arrow-right"></i>
-              </a>
-
-              <a
-                href="/admin/newsletter"
-                class="btn btn-outline-info d-flex align-items-center justify-content-between"
-              >
-                <span><i class="fas fa-envelope me-2"></i> Newsletter</span>
-                <i class="fas fa-arrow-right"></i>
-              </a>
-
-              <a
-                href="/shipment/track"
-                target="_blank"
-                class="btn btn-outline-dark d-flex align-items-center justify-content-between"
-              >
-                <span
-                  ><i class="fas fa-search-location me-2"></i> Track
-                  Shipment</span
+      <!-- Dashboard Content -->
+      <div class="row g-4 mx-0 mb-4">
+        <div class="col-md-3">
+          <div class="card shadow-sm h-100">
+            <div class="card-body p-0">
+              <div class="d-flex flex-column p-3">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-2"
                 >
-                <i class="fas fa-external-link-alt"></i>
-              </a>
+                  <h6 class="text-uppercase text-muted fs-sm fw-semibold mb-0">
+                    Total Shipments
+                  </h6>
+                  <div class="icon-circle bg-primary-soft">
+                    <i class="fas fa-box text-primary"></i>
+                  </div>
+                </div>
+                <div>
+                  <h3 class="fw-bold mb-0"><%= counts.shipments || 0 %></h3>
+                  <p class="text-muted mb-0 fs-sm">All time</p>
+                </div>
+              </div>
+              <div class="card-footer py-2 border-0 bg-light">
+                <a
+                  href="/admin/shipments"
+                  class="text-decoration-none d-flex justify-content-between align-items-center"
+                >
+                  <span class="text-primary small">View details</span>
+                  <i class="fas fa-arrow-right text-primary small"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card shadow-sm h-100">
+            <div class="card-body p-0">
+              <div class="d-flex flex-column p-3">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-2"
+                >
+                  <h6 class="text-uppercase text-muted fs-sm fw-semibold mb-0">
+                    Pending
+                  </h6>
+                  <div class="icon-circle bg-warning-soft">
+                    <i class="fas fa-clock text-warning"></i>
+                  </div>
+                </div>
+                <div>
+                  <h3 class="fw-bold mb-0">
+                    <%= counts.pendingShipments || 0 %>
+                  </h3>
+                  <p class="text-muted mb-0 fs-sm">Waiting shipments</p>
+                </div>
+              </div>
+              <div class="card-footer py-2 border-0 bg-light">
+                <a
+                  href="/admin/shipments?status=Pending"
+                  class="text-decoration-none d-flex justify-content-between align-items-center"
+                >
+                  <span class="text-warning small">View details</span>
+                  <i class="fas fa-arrow-right text-warning small"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card shadow-sm h-100">
+            <div class="card-body p-0">
+              <div class="d-flex flex-column p-3">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-2"
+                >
+                  <h6 class="text-uppercase text-muted fs-sm fw-semibold mb-0">
+                    Delivered
+                  </h6>
+                  <div class="icon-circle bg-success-soft">
+                    <i class="fas fa-check-circle text-success"></i>
+                  </div>
+                </div>
+                <div>
+                  <h3 class="fw-bold mb-0">
+                    <%= counts.deliveredShipments || 0 %>
+                  </h3>
+                  <p class="text-muted mb-0 fs-sm">Completed</p>
+                </div>
+              </div>
+              <div class="card-footer py-2 border-0 bg-light">
+                <a
+                  href="/admin/shipments?status=Delivered"
+                  class="text-decoration-none d-flex justify-content-between align-items-center"
+                >
+                  <span class="text-success small">View details</span>
+                  <i class="fas fa-arrow-right text-success small"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card shadow-sm h-100">
+            <div class="card-body p-0">
+              <div class="d-flex flex-column p-3">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-2"
+                >
+                  <h6 class="text-uppercase text-muted fs-sm fw-semibold mb-0">
+                    Subscribers
+                  </h6>
+                  <div class="icon-circle bg-info-soft">
+                    <i class="fas fa-envelope text-info"></i>
+                  </div>
+                </div>
+                <div>
+                  <h3 class="fw-bold mb-0"><%= counts.newsletters || 0 %></h3>
+                  <p class="text-muted mb-0 fs-sm">Newsletter</p>
+                </div>
+              </div>
+              <div class="card-footer py-2 border-0 bg-light">
+                <a
+                  href="/admin/newsletter"
+                  class="text-decoration-none d-flex justify-content-between align-items-center"
+                >
+                  <span class="text-info small">View details</span>
+                  <i class="fas fa-arrow-right text-info small"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</main>
 
-<%- include layouts/admin-footer %>
+      <div class="row g-4 mx-0 mb-4">
+        <div class="col-md-8">
+          <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-semibold">Recent Shipments</h5>
+                <a
+                  href="/admin/shipments"
+                  class="btn btn-sm btn-outline-primary"
+                  >View All</a
+                >
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Tracking ID</th>
+                      <th>Customer</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (recentShipments && recentShipments.length > 0) { %>
+                    <% recentShipments.forEach(function(shipment) { %>
+                    <tr>
+                      <td class="fw-medium"><%= shipment.trackingId %></td>
+                      <td>
+                        <div><%= shipment.customerName %></div>
+                        <small class="text-muted"
+                          ><%= shipment.customerEmail %></small
+                        >
+                      </td>
+                      <td>
+                        <% let badgeClass = ''; %> <% if (shipment.status ===
+                        'Pending') { %> <% badgeClass = 'badge-pending'; %> <% }
+                        else if (shipment.status === 'In Transit') { %> <%
+                        badgeClass = 'badge-transit'; %> <% } else if
+                        (shipment.status === 'Delivered') { %> <% badgeClass =
+                        'badge-delivered'; %> <% } else if (shipment.status ===
+                        'Delayed') { %> <% badgeClass = 'badge-delayed'; %> <% }
+                        else if (shipment.status === 'Cancelled') { %> <%
+                        badgeClass = 'badge-cancelled'; %> <% } else { %> <%
+                        badgeClass = 'badge-secondary'; %> <% } %>
+                        <span class="badge <%= badgeClass %>"
+                          ><%= shipment.status %></span
+                        >
+                      </td>
+                      <td>
+                        <%= new Date(shipment.createdAt).toLocaleDateString() %>
+                      </td>
+                      <td>
+                        <a
+                          href="/admin/shipments/edit/<%= shipment._id %>"
+                          class="btn btn-sm btn-outline-secondary"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <% }); %> <% } else { %>
+                    <tr>
+                      <td colspan="5" class="text-center py-3">
+                        No recent shipments found
+                      </td>
+                    </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+              <h5 class="mb-0 fw-semibold">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+              <div class="d-grid gap-3">
+                <a
+                  href="/admin/shipments/create"
+                  class="btn btn-primary d-flex align-items-center justify-content-between"
+                >
+                  <span><i class="fas fa-plus me-2"></i> Create Shipment</span>
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+
+                <a
+                  href="/admin/shipments"
+                  class="btn btn-outline-secondary d-flex align-items-center justify-content-between"
+                >
+                  <span
+                    ><i class="fas fa-search me-2"></i> Manage Shipments</span
+                  >
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+
+                <a
+                  href="/admin/newsletter"
+                  class="btn btn-outline-info d-flex align-items-center justify-content-between"
+                >
+                  <span><i class="fas fa-envelope me-2"></i> Newsletter</span>
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+
+                <a
+                  href="/shipment/track"
+                  target="_blank"
+                  class="btn btn-outline-dark d-flex align-items-center justify-content-between"
+                >
+                  <span
+                    ><i class="fas fa-search-location me-2"></i> Track
+                    Shipment</span
+                  >
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Admin JS -->
+    <script>
+      // Toggle sidebar on mobile
+      document
+        .getElementById("sidebarToggle")
+        .addEventListener("click", function () {
+          document.getElementById("sidebar").classList.toggle("show");
+        });
+
+      // Toggle sidebar collapse on desktop
+      document
+        .getElementById("sidebarCollapseToggle")
+        .addEventListener("click", function () {
+          document.getElementById("sidebar").classList.toggle("collapsed");
+          document.body.classList.toggle("sidebar-collapsed");
+        });
+
+      // Check for saved sidebar state
+      document.addEventListener("DOMContentLoaded", function () {
+        const sidebarState = localStorage.getItem("sidebarCollapsed");
+        if (sidebarState === "true") {
+          document.getElementById("sidebar").classList.add("collapsed");
+          document.body.classList.add("sidebar-collapsed");
+        }
+      });
+
+      // Save sidebar state
+      document
+        .getElementById("sidebarCollapseToggle")
+        .addEventListener("click", function () {
+          const isCollapsed = document
+            .getElementById("sidebar")
+            .classList.contains("collapsed");
+          localStorage.setItem("sidebarCollapsed", isCollapsed);
+        });
+    </script>
+  </body>
+</html>

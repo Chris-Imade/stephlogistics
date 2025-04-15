@@ -44,13 +44,13 @@ const customerShipmentConfirmationTemplate = (shipmentData) => `
         </div>
         <div class="content">
             <p>Dear ${shipmentData.customerName},</p>
-            <p>Thank you for choosing DXpress for your shipping needs. Your shipment has been successfully created and is being processed.</p>
+            <p>Thank you for choosing Steph Logistics for your shipping needs. Your shipment has been successfully created and is being processed.</p>
             
             <div class="tracking-info">
                 <p>Your Tracking Number:</p>
                 <p class="tracking-number">${shipmentData.trackingId}</p>
                 <p>You can use this number to track your shipment status at any time.</p>
-                <a href="https://www.dxpress.uk/shipment/track" class="button">Track Your Shipment</a>
+                <a href="https://www.stephlogistics.co.uk/shipment/track" class="button">Track Your Shipment</a>
             </div>
             
             <div class="shipment-details">
@@ -58,7 +58,7 @@ const customerShipmentConfirmationTemplate = (shipmentData) => `
                 <p><strong>Origin:</strong> ${shipmentData.origin}</p>
                 <p><strong>Destination:</strong> ${shipmentData.destination}</p>
                 <p><strong>Carrier:</strong> ${
-                  shipmentData.carrier || "DXpress"
+                  shipmentData.carrier || "Steph Logistics"
                 }</p>
                 <p><strong>Service:</strong> ${
                   shipmentData.service || "Standard"
@@ -77,8 +77,8 @@ const customerShipmentConfirmationTemplate = (shipmentData) => `
             <p>If you have any questions or need assistance, please don't hesitate to contact our customer service team.</p>
         </div>
         <div class="footer">
-            <p>Thank you for choosing DXpress</p>
-            <p>© ${new Date().getFullYear()} DXpress Courier Services. All rights reserved.</p>
+            <p>Thank you for choosing Steph Logistics</p>
+            <p>© ${new Date().getFullYear()} Steph Logistics Courier Services. All rights reserved.</p>
         </div>
     </div>
 </body>
@@ -125,7 +125,7 @@ const adminShipmentNotificationTemplate = (shipment) => `
                 <p><strong>Origin:</strong> ${shipment.origin}</p>
                 <p><strong>Destination:</strong> ${shipment.destination}</p>
                 <p><strong>Carrier:</strong> ${
-                  shipment.carrier || "DXpress"
+                  shipment.carrier || "Steph Logistics"
                 }</p>
                 <p><strong>Service:</strong> ${
                   shipment.service || "Standard"
@@ -163,7 +163,7 @@ const adminShipmentNotificationTemplate = (shipment) => `
             <p>Please log in to the admin dashboard to manage this shipment.</p>
         </div>
         <div class="footer">
-            <p>This is an automated message from the DXpress shipping system.</p>
+            <p>This is an automated message from the Steph Logistics shipping system.</p>
         </div>
     </div>
 </body>
@@ -269,14 +269,14 @@ router.post("/shipments/create", async (req, res) => {
       await transporter.sendMail({
         from: process.env.SMTP_USER,
         to: shipmentData.customerEmail,
-        subject: "Your Shipment Confirmation - DXpress",
+        subject: "Your Shipment Confirmation - Steph Logistics",
         html: customerShipmentConfirmationTemplate(shipmentData),
       });
 
       // Send notification to admin
       await transporter.sendMail({
         from: process.env.SMTP_USER,
-        to: "support@dxpress.uk",
+        to: "support@stephlogistics.co.uk",
         subject: `New Shipment Created - ${shipmentData.trackingId}`,
         html: adminShipmentNotificationTemplate(shipmentData),
       });

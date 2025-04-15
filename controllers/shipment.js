@@ -39,7 +39,7 @@ const customerShipmentConfirmationTemplate = (shipment) => `
         </div>
         <div class="content">
             <p>Dear ${shipment.customerName},</p>
-            <p>Thank you for choosing DXpress for your shipping needs. Your shipment has been confirmed and is now being processed.</p>
+            <p>Thank you for choosing Steph Logistics for your shipping needs. Your shipment has been confirmed and is now being processed.</p>
             
             <div class="shipment-details">
                 <p><strong>Tracking Number:</strong> <span class="tracking-number">${
@@ -57,14 +57,14 @@ const customerShipmentConfirmationTemplate = (shipment) => `
             
             <p>You can track your shipment at any time by visiting our website and entering your tracking number.</p>
             
-            <a href="https://www.dxpress.uk/shipment/track?id=${
+            <a href="https://www.stephlogistics.co.uk/shipment/track?id=${
               shipment.trackingId
             }" class="button">Track Shipment</a>
             
-            <p>If you have any questions about your shipment, please contact our customer service team at support@dxpress.uk or call +44 7506 323070.</p>
+            <p>If you have any questions about your shipment, please contact our customer service team at support@stephlogistics.co.uk or call +44 7506 323070.</p>
         </div>
         <div class="footer">
-            <p>Best regards,<br>The DXpress Team</p>
+            <p>Best regards,<br>The Steph Logistics Team</p>
         </div>
     </div>
 </body>
@@ -135,7 +135,7 @@ const adminShipmentNotificationTemplate = (shipment) => `
             <p>Please log in to the admin dashboard to manage this shipment.</p>
         </div>
         <div class="footer">
-            <p>This is an automated message from the DXpress shipping system.</p>
+            <p>This is an automated message from the Steph Logistics shipping system.</p>
         </div>
     </div>
 </body>
@@ -272,6 +272,8 @@ exports.getTrackingPage = async (req, res) => {
           shipment: shipment,
           statusProgress: statusProgress,
           progressStyle: progressStyle,
+          layout: "layouts/main",
+          extraCSS: '<link rel="stylesheet" href="/assets/css/track.css">',
         });
       }
     } catch (error) {
@@ -286,6 +288,8 @@ exports.getTrackingPage = async (req, res) => {
     path: "/shipment/track",
     errorMessage: null,
     shipment: null,
+    layout: "layouts/main",
+    extraCSS: '<link rel="stylesheet" href="/assets/css/track.css">',
   });
 };
 
@@ -453,14 +457,14 @@ exports.createShipmentRequest = async (req, res) => {
       await transporter.sendMail({
         from: process.env.SMTP_USER,
         to: customerEmail,
-        subject: "Your Shipment Confirmation - DXpress",
+        subject: "Your Shipment Confirmation - Steph Logistics",
         html: customerShipmentConfirmationTemplate(shipment),
       });
 
       // Send notification to admin
       await transporter.sendMail({
         from: process.env.SMTP_USER,
-        to: "support@dxpress.uk",
+        to: "support@stephlogistics.co.uk",
         subject: `New Shipment Created - ${shipment.trackingId}`,
         html: adminShipmentNotificationTemplate(shipment),
       });
@@ -491,6 +495,8 @@ exports.getCreateShipmentPage = (req, res) => {
   res.render("shipment/create-shipment", {
     title: "Create a Shipment",
     path: "/shipment/create",
+    layout: "layouts/main", // Explicitly specify the layout
+    extraCSS: '<link rel="stylesheet" href="/assets/css/create-shipment.css">',
   });
 };
 

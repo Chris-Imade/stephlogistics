@@ -42,7 +42,7 @@ const customerShipmentConfirmationTemplate = (shipment) => `
         </div>
         <div class="content">
             <p>Dear ${shipment.customerName},</p>
-            <p>Thank you for choosing DXpress for your shipping needs. Your shipment has been confirmed and is now being processed.</p>
+            <p>Thank you for choosing Steph Logistics ltd. for your shipping needs. Your shipment has been confirmed and is now being processed.</p>
             
             <div class="shipment-details">
                 <p><strong>Tracking Number:</strong> <span class="tracking-number">${
@@ -60,14 +60,14 @@ const customerShipmentConfirmationTemplate = (shipment) => `
             
             <p>You can track your shipment at any time by visiting our website and entering your tracking number.</p>
             
-            <a href="https://www.dxpress.uk/shipment/track?id=${
+            <a href="https://www.stephlogistics.co.uk/shipment/track?id=${
               shipment.trackingId
             }" class="button">Track Shipment</a>
             
-            <p>If you have any questions about your shipment, please contact our customer service team at support@dxpress.uk or call +44 7506 323070.</p>
+            <p>If you have any questions about your shipment, please contact our customer service team at support@stephlogistics.co.uk or call +44 7404 888 952.</p>
         </div>
         <div class="footer">
-            <p>Best regards,<br>The DXpress Team</p>
+            <p>Best regards,<br>The Steph Logistics ltd. Team</p>
         </div>
     </div>
 </body>
@@ -138,7 +138,7 @@ const adminShipmentNotificationTemplate = (shipment) => `
             <p>Please log in to the admin dashboard to manage this shipment.</p>
         </div>
         <div class="footer">
-            <p>This is an automated message from the DXpress shipping system.</p>
+            <p>This is an automated message from the Steph Logistics ltd. shipping system.</p>
         </div>
     </div>
 </body>
@@ -175,7 +175,7 @@ const statusUpdateTemplate = (
         </div>
         <div class="content">
             <p>Dear ${shipment.customerName},</p>
-            <p>Your shipment with DXpress has been updated:</p>
+            <p>Your shipment with Steph Logistics ltd. has been updated:</p>
             
             <div class="status-update">
                 <p><strong>New Status:</strong> <span class="status">${newStatus}</span></p>
@@ -201,14 +201,14 @@ const statusUpdateTemplate = (
             
             <p>You can track your shipment at any time by visiting our website.</p>
             
-            <a href="https://www.dxpress.uk/shipment/track?id=${
+            <a href="https://www.stephlogistics.co.uk/shipment/track?id=${
               shipment.trackingId
             }" class="button">Track Shipment</a>
             
-            <p>If you have any questions about your shipment, please contact our customer service team at support@dxpress.uk or call +44 7506 323070.</p>
+            <p>If you have any questions about your shipment, please contact our customer service team at support@stephlogistics.co.uk or call +44 7404 888 952.</p>
         </div>
         <div class="footer">
-            <p>Best regards,<br>The DXpress Team</p>
+            <p>Best regards,<br>The Steph Logistics Team</p>
         </div>
     </div>
 </body>
@@ -218,38 +218,35 @@ const statusUpdateTemplate = (
 // Dashboard
 exports.getDashboard = async (req, res) => {
   try {
-    // Get counts for dashboard stats
-    const shipmentCount = await Shipment.countDocuments();
-    const pendingCount = await Shipment.countDocuments({ status: "Pending" });
-    const deliveredCount = await Shipment.countDocuments({
-      status: "Delivered",
-    });
-    const newsletterCount = await Newsletter.countDocuments();
+    // Fetch counts for dashboard
+    const counts = {
+      shipments: await Shipment.countDocuments(),
+      pendingShipments: await Shipment.countDocuments({ status: "Pending" }),
+      deliveredShipments: await Shipment.countDocuments({
+        status: "Delivered",
+      }),
+      newsletters: await Newsletter.countDocuments(),
+    };
 
-    // Get recent shipments
+    // Fetch recent shipments
     const recentShipments = await Shipment.find()
       .sort({ createdAt: -1 })
       .limit(5);
 
-    // Render dashboard with data
     res.render("admin/dashboard", {
       title: "Admin Dashboard",
-      path: "/admin",
-      counts: {
-        shipments: shipmentCount,
-        pendingShipments: pendingCount,
-        deliveredShipments: deliveredCount,
-        newsletters: newsletterCount,
-      },
-      recentShipments: recentShipments,
-      layout: false, // Don't use a layout, admin/dashboard.ejs includes all needed markup
+      layout: false, // Use the admin layout
+      path: "/admin/dashboard",
+      counts,
+      recentShipments,
+      user: req.session.user, // Pass user data for the layout
     });
   } catch (error) {
     console.error("Dashboard error:", error);
-    res.status(500).render("admin/dashboard", {
+    res.render("admin/dashboard", {
       title: "Admin Dashboard",
-      path: "/admin",
-      errorMessage: "Error loading dashboard data",
+      layout: false, // Use the admin layout
+      path: "/admin/dashboard",
       counts: {
         shipments: 0,
         pendingShipments: 0,
@@ -257,7 +254,8 @@ exports.getDashboard = async (req, res) => {
         newsletters: 0,
       },
       recentShipments: [],
-      layout: false,
+      errorMessage: "Error loading dashboard data",
+      user: req.session.user, // Pass user data for the layout
     });
   }
 };
@@ -265,7 +263,6 @@ exports.getDashboard = async (req, res) => {
 exports.getLogin = (req, res) => {
   res.render("admin/login", {
     title: "Admin Login",
-    layout: "layouts/admin-login",
   });
 };
 
@@ -344,7 +341,6 @@ exports.getShipments = async (req, res) => {
     if (searchQuery) {
       filter.$or = [
         { trackingId: { $regex: searchQuery, $options: "i" } },
-        { trackingNumber: { $regex: searchQuery, $options: "i" } },
         { customerName: { $regex: searchQuery, $options: "i" } },
         { customerEmail: { $regex: searchQuery, $options: "i" } },
         { customerPhone: { $regex: searchQuery, $options: "i" } },
@@ -375,8 +371,6 @@ exports.getShipments = async (req, res) => {
       statusFilter,
       searchQuery,
       totalShipments,
-      errorMessage: null,
-      successMessage: req.flash("success"),
       req: req,
       layout: false,
     });
@@ -386,15 +380,16 @@ exports.getShipments = async (req, res) => {
       title: "Manage Shipments",
       path: "/admin/shipments",
       errorMessage: "Failed to load shipments",
-      successMessage: null,
       shipments: [],
-      currentPage: 1,
-      totalPages: 0,
-      limit: 10,
-      statusFilter: "",
+      pagination: {
+        page: 1,
+        limit: 10,
+        totalPages: 0,
+        totalItems: 0,
+      },
       searchQuery: req.query.search || "",
-      totalShipments: 0,
       req: req,
+      filters: {},
       layout: false,
     });
   }
@@ -406,7 +401,6 @@ exports.getCreateShipment = (req, res) => {
     title: "Create New Shipment",
     path: "/admin/shipments/create",
     errorMessage: null,
-    successMessage: null,
     formData: {},
     layout: false,
   });
@@ -475,7 +469,7 @@ exports.createShipment = async (req, res) => {
       await transporter.sendMail({
         from: process.env.SMTP_USER,
         to: customerEmail,
-        subject: "Your Shipment Confirmation - DXpress",
+        subject: "Your Shipment Confirmation - Steph Logistics ltd.",
         html: customerShipmentConfirmationTemplate(shipment),
       });
       console.log(`Sent confirmation email to customer: ${customerEmail}`);
@@ -483,7 +477,7 @@ exports.createShipment = async (req, res) => {
       // Send notification to admin
       await transporter.sendMail({
         from: process.env.SMTP_USER,
-        to: "support@dxpress.uk",
+        to: "support@stephlogistics.co.uk",
         subject: `New Shipment Created - ${shipment.trackingId}`,
         html: adminShipmentNotificationTemplate(shipment),
       });
@@ -526,7 +520,6 @@ exports.getEditShipment = async (req, res) => {
       path: "/admin/shipments/edit",
       shipment,
       errorMessage: null,
-      successMessage: null,
       layout: false,
     });
   } catch (error) {
@@ -700,26 +693,15 @@ exports.updateShipment = async (req, res) => {
     );
   } catch (error) {
     console.error("Update shipment error:", error);
-
-    // Try to get the shipment for re-rendering the form
-    try {
-      const shipment = await Shipment.findById(req.params.id);
-
-      // Render edit page with error
-      return res.status(500).render("admin/edit-shipment", {
-        title: "Edit Shipment",
-        path: "/admin/shipments/edit",
-        shipment: shipment || req.body, // Use fetched shipment or form data as fallback
-        errorMessage:
-          "An error occurred while updating the shipment: " + error.message,
-        successMessage: null,
-        layout: false,
-      });
-    } catch (findError) {
-      // If we can't get the shipment, redirect to shipments page
-      console.error("Error retrieving shipment after update error:", findError);
-      return res.redirect("/admin/shipments?error=Failed to update shipment");
-    }
+    const shipment = await Shipment.findById(req.params.id);
+    res.render("admin/edit-shipment", {
+      title: "Edit Shipment",
+      path: "/admin/shipments/edit",
+      shipment,
+      errorMessage:
+        "An error occurred while updating the shipment: " + error.message,
+      layout: false,
+    });
   }
 };
 
