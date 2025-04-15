@@ -1,5 +1,5 @@
-<%- include('../layouts/admin-header', { title: "Error 500", path:
-"/admin/error" }) %>
+<%- include('../../layouts/admin-header', { title: "Error 500", path:
+"/admin/500" }) %>
 
 <div class="dashboard-content">
   <div class="text-center py-5">
@@ -23,7 +23,7 @@
           class="bg-light p-3 rounded small"
           style="max-height: 200px; overflow-y: auto"
         >
-<%= error.stack %></pre
+        <%= error.stack %></pre
         >
       </div>
       <% } %>
@@ -46,4 +46,4 @@
   </div>
 </div>
 
-<%- include('../layouts/admin-footer') %>
+<%- include('../../layouts/admin-footer') %>

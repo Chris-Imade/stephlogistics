@@ -43,7 +43,10 @@ transporter.verify(function (error, success) {
 exports.getLoginPage = (req, res) => {
   res.render("admin/login", {
     title: "Admin Login",
-    layout: "layouts/admin-login",
+    errorMessage: null,
+    successMessage: null,
+    layout: false, // Don't use any layout
+    path: "/admin/login",
   });
 };
 
@@ -57,8 +60,10 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(401).render("admin/login", {
         title: "Admin Login",
-        layout: "layouts/admin-login",
-        error: "Invalid email or password",
+        errorMessage: "Invalid email or password",
+        successMessage: null,
+        layout: false,
+        path: "/admin/login",
       });
     }
 
@@ -67,8 +72,10 @@ exports.login = async (req, res) => {
     if (!isValidPassword) {
       return res.status(401).render("admin/login", {
         title: "Admin Login",
-        layout: "layouts/admin-login",
-        error: "Invalid email or password",
+        errorMessage: "Invalid email or password",
+        successMessage: null,
+        layout: false,
+        path: "/admin/login",
       });
     }
 
@@ -95,8 +102,10 @@ exports.login = async (req, res) => {
     console.error("Login error:", error);
     res.status(500).render("admin/login", {
       title: "Admin Login",
-      layout: "layouts/admin-login",
-      error: "An error occurred during login",
+      errorMessage: "An error occurred during login",
+      successMessage: null,
+      layout: false,
+      path: "/admin/login",
     });
   }
 };

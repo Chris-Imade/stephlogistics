@@ -216,11 +216,50 @@ const statusUpdateTemplate = (
 `;
 
 // Dashboard
-exports.getDashboard = (req, res) => {
-  res.render("admin/dashboard", {
-    title: "Admin Dashboard",
-    layout: "layouts/admin",
-  });
+exports.getDashboard = async (req, res) => {
+  try {
+    // Get counts for dashboard stats
+    const shipmentCount = await Shipment.countDocuments();
+    const pendingCount = await Shipment.countDocuments({ status: "Pending" });
+    const deliveredCount = await Shipment.countDocuments({
+      status: "Delivered",
+    });
+    const newsletterCount = await Newsletter.countDocuments();
+
+    // Get recent shipments
+    const recentShipments = await Shipment.find()
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    // Render dashboard with data
+    res.render("admin/dashboard", {
+      title: "Admin Dashboard",
+      path: "/admin",
+      counts: {
+        shipments: shipmentCount,
+        pendingShipments: pendingCount,
+        deliveredShipments: deliveredCount,
+        newsletters: newsletterCount,
+      },
+      recentShipments: recentShipments,
+      layout: false, // Don't use a layout, admin/dashboard.ejs includes all needed markup
+    });
+  } catch (error) {
+    console.error("Dashboard error:", error);
+    res.status(500).render("admin/dashboard", {
+      title: "Admin Dashboard",
+      path: "/admin",
+      errorMessage: "Error loading dashboard data",
+      counts: {
+        shipments: 0,
+        pendingShipments: 0,
+        deliveredShipments: 0,
+        newsletters: 0,
+      },
+      recentShipments: [],
+      layout: false,
+    });
+  }
 };
 
 exports.getLogin = (req, res) => {
@@ -305,6 +344,7 @@ exports.getShipments = async (req, res) => {
     if (searchQuery) {
       filter.$or = [
         { trackingId: { $regex: searchQuery, $options: "i" } },
+        { trackingNumber: { $regex: searchQuery, $options: "i" } },
         { customerName: { $regex: searchQuery, $options: "i" } },
         { customerEmail: { $regex: searchQuery, $options: "i" } },
         { customerPhone: { $regex: searchQuery, $options: "i" } },
@@ -335,6 +375,8 @@ exports.getShipments = async (req, res) => {
       statusFilter,
       searchQuery,
       totalShipments,
+      errorMessage: null,
+      successMessage: req.flash("success"),
       req: req,
       layout: false,
     });
@@ -344,16 +386,15 @@ exports.getShipments = async (req, res) => {
       title: "Manage Shipments",
       path: "/admin/shipments",
       errorMessage: "Failed to load shipments",
+      successMessage: null,
       shipments: [],
-      pagination: {
-        page: 1,
-        limit: 10,
-        totalPages: 0,
-        totalItems: 0,
-      },
+      currentPage: 1,
+      totalPages: 0,
+      limit: 10,
+      statusFilter: "",
       searchQuery: req.query.search || "",
+      totalShipments: 0,
       req: req,
-      filters: {},
       layout: false,
     });
   }
@@ -365,6 +406,7 @@ exports.getCreateShipment = (req, res) => {
     title: "Create New Shipment",
     path: "/admin/shipments/create",
     errorMessage: null,
+    successMessage: null,
     formData: {},
     layout: false,
   });
@@ -484,6 +526,7 @@ exports.getEditShipment = async (req, res) => {
       path: "/admin/shipments/edit",
       shipment,
       errorMessage: null,
+      successMessage: null,
       layout: false,
     });
   } catch (error) {
@@ -657,15 +700,26 @@ exports.updateShipment = async (req, res) => {
     );
   } catch (error) {
     console.error("Update shipment error:", error);
-    const shipment = await Shipment.findById(req.params.id);
-    res.render("admin/edit-shipment", {
-      title: "Edit Shipment",
-      path: "/admin/shipments/edit",
-      shipment,
-      errorMessage:
-        "An error occurred while updating the shipment: " + error.message,
-      layout: false,
-    });
+
+    // Try to get the shipment for re-rendering the form
+    try {
+      const shipment = await Shipment.findById(req.params.id);
+
+      // Render edit page with error
+      return res.status(500).render("admin/edit-shipment", {
+        title: "Edit Shipment",
+        path: "/admin/shipments/edit",
+        shipment: shipment || req.body, // Use fetched shipment or form data as fallback
+        errorMessage:
+          "An error occurred while updating the shipment: " + error.message,
+        successMessage: null,
+        layout: false,
+      });
+    } catch (findError) {
+      // If we can't get the shipment, redirect to shipments page
+      console.error("Error retrieving shipment after update error:", findError);
+      return res.redirect("/admin/shipments?error=Failed to update shipment");
+    }
   }
 };
 

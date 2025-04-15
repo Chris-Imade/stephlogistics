@@ -156,10 +156,10 @@ const createSampleShipment = async () => {
     }
 
     const sampleShipment = new Shipment({
-      trackingId: "DX123456TEST",
+      trackingId: "SP123456TEST",
       customerName: "Test Customer",
       customerEmail: "test@example.com",
-      customerPhone: "+44 7123 456789",
+      customerPhone: "+000 0000 0000",
       origin: "London, UK",
       destination: "Manchester, UK",
       estimatedDelivery: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
@@ -210,7 +210,10 @@ exports.getTrackingPage = async (req, res) => {
   if (trackingId) {
     try {
       // Ensure we get fresh data by using lean() to get plain objects
-      const shipment = await Shipment.findOne({ trackingId: trackingId })
+      // Find by either trackingId or trackingNumber (supports legacy IDs)
+      const shipment = await Shipment.findOne({
+        $or: [{ trackingId: trackingId }, { trackingNumber: trackingId }],
+      })
         .lean()
         .exec();
 
@@ -302,7 +305,9 @@ exports.trackShipment = async (req, res) => {
 
   try {
     // Ensure we get fresh data by using lean() to get plain objects and not mongoose documents
-    const shipment = await Shipment.findOne({ trackingId: trackingId })
+    const shipment = await Shipment.findOne({
+      $or: [{ trackingId: trackingId }, { trackingNumber: trackingId }],
+    })
       .lean() // Get plain JavaScript object instead of mongoose document
       .exec();
 
@@ -484,18 +489,146 @@ exports.createShipmentRequest = async (req, res) => {
 // Get create shipment page
 exports.getCreateShipmentPage = (req, res) => {
   res.render("shipment/create-shipment", {
-    title: "Create Shipment - Steph Logistics",
-    layout: "layouts/main",
+    title: "Create a Shipment",
+    path: "/shipment/create",
   });
 };
 
-// Create a new shipment
-exports.createShipment = (req, res) => {
-  // Process the form submission
-  // For now, just redirect back to the create page with a success message
-  res.render("shipment/create-shipment", {
-    title: "Create Shipment - Steph Logistics",
-    layout: "layouts/main",
-    success: "Shipment created successfully!",
-  });
+// Create a shipment
+exports.createShipment = async (req, res) => {
+  try {
+    const {
+      customerName,
+      customerEmail,
+      customerPhone,
+      company,
+      reference,
+      origin,
+      destination,
+      packageType,
+      weight,
+      dimensions,
+      contents,
+      fragile,
+      insuranceIncluded,
+      declaredValue,
+      carrier,
+      expressDelivery,
+      saturdayDelivery,
+      paymentMethod,
+      estimatedDelivery,
+    } = req.body;
+
+    // Validate required fields
+    if (
+      !customerName ||
+      !customerEmail ||
+      !customerPhone ||
+      !origin ||
+      !destination
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields",
+      });
+    }
+
+    // Map carrier to enum value
+    let carrierEnum = "Other";
+    if (carrier === "ups") carrierEnum = "UPS";
+    else if (carrier === "fedex") carrierEnum = "FedEx";
+    else if (carrier === "dhl") carrierEnum = "DHL";
+
+    // Map package type
+    let packageTypeEnum = "Parcel";
+    if (packageType === "envelope") packageTypeEnum = "Document";
+    else if (packageType === "pallet") packageTypeEnum = "Freight";
+    else if (expressDelivery) packageTypeEnum = "Express";
+
+    // Create new shipment
+    const shipment = new Shipment({
+      customerName,
+      customerEmail,
+      customerPhone,
+      origin,
+      destination,
+      packageType: packageTypeEnum,
+      weight,
+      dimensions: dimensions || {
+        length: 0,
+        width: 0,
+        height: 0,
+      },
+      estimatedDelivery: new Date(estimatedDelivery),
+      fragile: !!fragile,
+      insuranceIncluded: !!insuranceIncluded,
+      expressDelivery: !!expressDelivery,
+      additionalNotes: contents,
+      carrier: carrierEnum,
+      carrierServiceLevel:
+        carrierEnum + (saturdayDelivery ? " Saturday Delivery" : " Standard"),
+      paymentMethod,
+      paymentStatus: "Paid", // Since we're creating this after payment
+      statusHistory: [
+        {
+          status: "Pending",
+          location: origin,
+          note: "Shipment created",
+        },
+      ],
+      // Add trackingNumber field to match existing schema/index
+      trackingNumber: "PENDING", // This will be replaced with trackingId after save
+    });
+
+    // Save to database
+    await shipment.save();
+
+    // After saving, ensure trackingNumber matches trackingId (to fix database schema mismatch)
+    shipment.trackingNumber = shipment.trackingId;
+    await shipment.save();
+
+    console.log("Shipment created:", shipment.trackingId);
+
+    // Send email notifications
+    try {
+      // Send confirmation to customer
+      await transporter.sendMail({
+        from: `"Steph Logistics" <${
+          process.env.SMTP_USER || "noreply@stephlogistics.co.uk"
+        }>`,
+        to: customerEmail,
+        subject: "Your Shipment Confirmation",
+        html: customerShipmentConfirmationTemplate(shipment),
+      });
+
+      // Send notification to admin
+      await transporter.sendMail({
+        from: `"Steph Logistics System" <${
+          process.env.SMTP_USER || "noreply@stephlogistics.co.uk"
+        }>`,
+        to: process.env.ADMIN_EMAIL || "admin@stephlogistics.co.uk",
+        subject: `New Shipment Created - ${shipment.trackingId}`,
+        html: adminShipmentNotificationTemplate(shipment),
+      });
+
+      console.log("Shipment notification emails sent");
+    } catch (emailError) {
+      console.error("Error sending email notifications:", emailError);
+      // Continue even if emails fail
+    }
+
+    // Return success with IDs
+    res.status(201).json({
+      success: true,
+      message: "Shipment created successfully",
+      shipmentId: shipment._id,
+      trackingId: shipment.trackingId,
+    });
+  } catch (error) {
+    console.error("Error creating shipment:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while creating your shipment",
+    });
+  }
 };

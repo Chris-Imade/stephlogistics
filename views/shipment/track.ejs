@@ -543,26 +543,51 @@
   }
 </style>
 
+<!-- Tracking Form Script -->
 <script>
-  // Get DOM elements
-  const trackingForm = document.getElementById("tracking-form");
-  const trackingResult = document.querySelector(".tracking-result-section");
+  document.addEventListener("DOMContentLoaded", function () {
+    const trackingForm = document.getElementById("tracking-form");
+    const trackingInput = document.getElementById("trackingNumber");
+    const resultSection = document.querySelector(".tracking-result-section");
 
-  // Add event listener for form submission
-  trackingForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const trackingNumber = document
-      .getElementById("trackingNumber")
-      .value.trim();
+    // Initially hide result section
+    resultSection.style.display = "none";
 
-    if (!trackingNumber) {
-      alert("Please enter a tracking number");
-      return;
-    }
+    trackingForm.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    // In a real implementation, this would make an API call
-    // For now, we'll just show the hardcoded result
-    trackingResult.style.display = "block";
+      const trackingNumber = trackingInput.value.trim();
+
+      if (!trackingNumber) {
+        alert("Please enter a tracking number");
+        return;
+      }
+
+      // Show loading state
+      document.querySelector(".track-button span").innerText = "Tracking...";
+
+      // Fetch shipment details from server
+      fetch(`/shipment/track?id=${trackingNumber}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Shipment not found");
+          }
+          return response.text();
+        })
+        .then((html) => {
+          // Redirect to the track result page
+          window.location.href = `/shipment/track?id=${trackingNumber}`;
+        })
+        .catch((error) => {
+          console.error("Error tracking shipment:", error);
+          alert(
+            "No shipment found with that tracking number. Please check and try again."
+          );
+
+          // Reset button text
+          document.querySelector(".track-button span").innerText = "Track";
+        });
+    });
   });
 </script>
 
