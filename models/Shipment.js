@@ -6,6 +6,11 @@ const shipmentSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  trackingNumber: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
   customerName: {
     type: String,
     required: true,
@@ -154,8 +159,17 @@ shipmentSchema.pre("validate", async function (next) {
 
     // Keep trying until we get a unique ID or max attempts reached
     while (!isUnique && attempts < maxAttempts) {
-      // Generate a timestamp part that includes milliseconds for more uniqueness
-      const timestamp = new Date().getTime().toString().slice(-6);
+      // Get today's date in format MMDD (e.g., 0926 for September 26)
+      const today = new Date();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      const dateStr = month + day;
+
+      // Generate a 2-digit serial number, padded with zeros
+      const serialNum = String(Math.floor(Math.random() * 99) + 1).padStart(
+        2,
+        "0"
+      );
 
       // Generate random characters (3 chars, uppercase)
       const randomChars = Math.random()
@@ -163,7 +177,8 @@ shipmentSchema.pre("validate", async function (next) {
         .substring(2, 5)
         .toUpperCase();
 
-      candidate = `SP${timestamp}${randomChars}`;
+      // Format: SP + date + serial + random (e.g. SP092622UUT)
+      candidate = `SP${dateStr}${serialNum}${randomChars}`;
 
       // Check if this ID already exists
       const existingShipment = await Shipment.findOne({
@@ -181,12 +196,28 @@ shipmentSchema.pre("validate", async function (next) {
 
     // If we couldn't generate a unique ID after max attempts, add more random data
     if (!isUnique) {
+      // Get today's date
+      const today = new Date();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      const dateStr = month + day;
+
+      // Add year component for extra uniqueness
+      const year = String(today.getFullYear()).slice(-2);
+
+      // Generate a 3-digit serial number
+      const serialNum = String(Math.floor(Math.random() * 999) + 1).padStart(
+        3,
+        "0"
+      );
+
+      // Generate more random characters (4 chars)
       const extraRandom = Math.random()
         .toString(36)
-        .substring(2, 8)
+        .substring(2, 6)
         .toUpperCase();
-      const timestamp = new Date().getTime().toString().slice(-6);
-      candidate = `SP${timestamp}${extraRandom}`;
+
+      candidate = `SP${dateStr}${year}${serialNum}${extraRandom}`;
 
       // Check one more time
       const existingShipment = await Shipment.findOne({
@@ -200,6 +231,8 @@ shipmentSchema.pre("validate", async function (next) {
     }
 
     this.trackingId = candidate;
+    // Set trackingNumber to match trackingId
+    this.trackingNumber = candidate;
     this.updatedAt = new Date();
     next();
   } catch (error) {

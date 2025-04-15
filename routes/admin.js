@@ -46,6 +46,12 @@ router.get(
   isAdmin,
   adminController.getCreateShipment
 );
+router.get(
+  "/shipments/edit/:id",
+  isAuthenticated,
+  isAdmin,
+  adminController.getEditShipment
+);
 router.post(
   "/shipments",
   isAuthenticated,
