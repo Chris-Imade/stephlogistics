@@ -1,0 +1,110 @@
+<!-- Start Hero Area  -->
+<section
+  class="trucker__hero-area"
+  data-background="assets/images/home-1/home-1-hero.png"
+>
+  <div class="trucker__container">
+    <div class="trucker__hero-wrapper">
+      <div class="trucker__hero-text-content trucker__align-center">
+        <h5
+          class="trucker__hero-sub-title trucker__white trucker__fs-24 trucker__fw-500 wow img-custom-anim-left"
+        >
+          SHIPPING. DELIVERY. LOGISTICS
+        </h5>
+        <h2
+          class="trucker__hero-title trucker__white trucker__fs-70 trucker__fw-700 wow img-custom-anim-right"
+        >
+          Smarter Delivery for <br />
+          Forward-Thinking Businesses
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Hero Area -->
+
+<!-- Start About Area -->
+<section class="trucker__about-area-home-1">
+  <div class="trucker__container">
+    <div class="trucker__about-wrapper">
+      <div class="trucker__about-left-site wow img-custom-anim-left">
+        <img
+          src="assets/images/home-1/about.png"
+          alt="Steph Logistics - Smarter Delivery for Forward-Thinking Businesses"
+        />
+      </div>
+      <div class="trucker__about-right-site wow img-custom-anim-right">
+        <h3
+          class="trucker__about-title trucker__fs-35 trucker__fw-700 trucker__deep-sea-blue"
+        >
+          We Simplify the Complex <br />
+          World of Shipping
+        </h3>
+        <p
+          class="trucker__about-sub-titel trucker__fs-16 trucker__fw-400 trucker__gray"
+        >
+          At Steph Logistics, we empower your business with seamless logistics, <br />
+          delivered with a personal touch.
+        </p>
+        <div class="trucker__about-some-info-wrapper">
+          <div class="trucker__about-some-info-item">
+            <span class="trucker__about-some-info-icon">
+              <img
+                src="assets/images/icon/home-1-about-icon-1.png"
+                alt="Steph Logistics - Global Connections"
+              />
+            </span>
+            <h5
+              class="trucker__about-some-info-title trucker__fs-20 trucker__fw-700 trucker__deep-sea-blue"
+            >
+              Global Connections, Local Expertise
+            </h5>
+          </div>
+          <div class="trucker__about-some-info-item">
+            <span class="trucker__about-some-info-icon">
+              <img
+                src="assets/images/icon/home-1-about-icon-2.png"
+                alt="Steph Logistics - Dedicated Support Team"
+              />
+            </span>
+            <h5
+              class="trucker__about-some-info-title trucker__fs-20 trucker__fw-700 trucker__deep-sea-blue"
+            >
+              Dedicated Support Team
+            </h5>
+          </div>
+        </div>
+        <ul class="trucker__about-info-point">
+          <li>
+            <span class="trucker__about-info-point-icon">
+              <i class="fa-light fa-check"></i>
+            </span>
+            <span
+              class="trucker__about-info-point-text trucker__fs-16 trucker__fw-500 trucker__deep-sea-blue"
+              >Global shipping with premium carriers like DHL, UPS, FedEx</span
+            >
+          </li>
+          <li>
+            <span class="trucker__about-info-point-icon">
+              <i class="fa-light fa-check"></i>
+            </span>
+            <span
+              class="trucker__about-info-point-text trucker__fs-16 trucker__fw-500 trucker__deep-sea-blue"
+              >One dashboard for total control of all your shipments</span
+            >
+          </li>
+          <li>
+            <span class="trucker__about-info-point-icon">
+              <i class="fa-light fa-check"></i>
+            </span>
+            <span
+              class="trucker__about-info-point-text trucker__fs-16 trucker__fw-500 trucker__deep-sea-blue"
+              >Solutions tailored to your volume, location, and operations</span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End About Area -->
