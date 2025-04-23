@@ -181,10 +181,62 @@
               >
                 Cancel
               </button>
-              <form id="deleteSubscriberForm" method="POST" action="">
-                <button type="submit" class="btn btn-danger">Delete</button>
-              </form>
+              <button
+                type="button"
+                class="btn btn-danger"
+                id="confirmDeleteSubscriberBtn"
+              >
+                <span id="deleteBtnText">Delete</span>
+                <span
+                  id="deleteBtnSpinner"
+                  class="spinner-border spinner-border-sm d-none"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              </button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast Notifications -->
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+          id="successToast"
+          class="toast"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div class="toast-header bg-success text-white">
+            <strong class="me-auto">Success</strong>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="toast-body">Subscriber deleted successfully.</div>
+        </div>
+        <div
+          id="errorToast"
+          class="toast"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div class="toast-header bg-danger text-white">
+            <strong class="me-auto">Error</strong>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="toast-body">
+            Error deleting subscriber. Please try again.
           </div>
         </div>
       </div>
@@ -195,20 +247,68 @@
 
     <!-- Admin JS -->
     <script>
+      let selectedSubscriberId = null;
+
       // Delete subscriber modal handler
       document.querySelectorAll(".delete-subscriber-btn").forEach((button) => {
         button.addEventListener("click", function () {
-          const subscriberId = this.getAttribute("data-id");
-          const form = document.getElementById("deleteSubscriberForm");
-          form.action = `/admin/newsletter/${subscriberId}`;
-          // Add method override input for DELETE
-          let methodInput = document.createElement("input");
-          methodInput.type = "hidden";
-          methodInput.name = "_method";
-          methodInput.value = "DELETE";
-          form.appendChild(methodInput);
+          selectedSubscriberId = this.getAttribute("data-id");
         });
       });
+
+      // Handle confirm delete
+      document
+        .getElementById("confirmDeleteSubscriberBtn")
+        .addEventListener("click", function () {
+          if (!selectedSubscriberId) return;
+
+          const deleteBtn = this;
+          const deleteBtnText = document.getElementById("deleteBtnText");
+          const deleteBtnSpinner = document.getElementById("deleteBtnSpinner");
+
+          // Show loading spinner
+          deleteBtn.disabled = true;
+          deleteBtnText.textContent = "Deleting...";
+          deleteBtnSpinner.classList.remove("d-none");
+
+          fetch(`/admin/newsletter/${selectedSubscriberId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Show success toast
+              const successToast = new bootstrap.Toast(
+                document.getElementById("successToast")
+              );
+              successToast.show();
+
+              // Hide modal
+              const modal = bootstrap.Modal.getInstance(
+                document.getElementById("deleteSubscriberModal")
+              );
+              modal.hide();
+
+              // Reload page to reflect changes
+              setTimeout(() => window.location.reload(), 2000);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              // Show error toast
+              const errorToast = new bootstrap.Toast(
+                document.getElementById("errorToast")
+              );
+              errorToast.show();
+            })
+            .finally(() => {
+              // Reset button state
+              deleteBtn.disabled = false;
+              deleteBtnText.textContent = "Delete";
+              deleteBtnSpinner.classList.add("d-none");
+            });
+        });
     </script>
   </body>
 </html>

@@ -175,10 +175,32 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <form id="deleteShipmentForm" method="POST" action="">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                          <span class="button-text">Delete</span>
+                          <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-success text-white">
+                    <strong class="me-auto">Success</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Shipment deleted successfully.
+                </div>
+            </div>
+            <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-danger text-white">
+                    <strong class="me-auto">Error</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Error deleting shipment. Please try again.
                 </div>
             </div>
         </div>
@@ -189,13 +211,97 @@
     
     <!-- Admin JS -->
     <script>
-        // Handle delete shipment
-        document.querySelectorAll('.delete-shipment-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const shipmentId = this.getAttribute('data-id');
-                const form = document.getElementById('deleteShipmentForm');
-                form.action = `/admin/shipments/delete/${shipmentId}`;
+        console.log('Shipments page Admin JS executing...'); // Log to confirm script runs
+
+        let selectedShipmentId = null;
+        
+        // Ensure the DOM is fully loaded before attaching listeners
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log('DOM fully loaded and parsed. Attaching listeners...');
+
+            // Handle delete shipment button click (to set the ID)
+            document.querySelectorAll('.delete-shipment-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    selectedShipmentId = this.getAttribute('data-id');
+                    console.log('Delete button clicked, selectedShipmentId set to:', selectedShipmentId);
+                });
             });
+            
+            // Handle confirm delete button
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            if (confirmBtn) {
+                console.log('Found confirmDeleteBtn, attaching click listener.');
+                confirmBtn.addEventListener('click', function() {
+                  console.log('Confirm Delete Button Clicked! Attempting to delete shipment. Selected ID:', selectedShipmentId);
+                  if (!selectedShipmentId) {
+                    console.error('No shipment ID selected for deletion.');
+                    return;
+                  }
+
+                  const deleteBtn = this;
+                  const buttonText = deleteBtn.querySelector('.button-text');
+                  const spinner = deleteBtn.querySelector('.spinner-border');
+
+                  // Show loading spinner
+                  console.log('Showing loading indicator.');
+                  deleteBtn.disabled = true;
+                  buttonText.textContent = 'Deleting...';
+                  spinner.classList.remove('d-none');
+                  
+                  console.log(`Sending DELETE request to: /admin/shipments/delete/${selectedShipmentId}`);
+                  fetch(`/admin/shipments/delete/${selectedShipmentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    }
+                  })
+                  .then(response => {
+                    console.log('Received response from server:', response);
+                    if (response.ok) {
+                      console.log('Response status OK (2xx). Parsing JSON...');
+                      return response.json().then(data => {
+                        console.log('Parsed JSON response:', data);
+                        // Show success toast
+                        console.log('Showing success toast.');
+                        const successToast = new bootstrap.Toast(document.getElementById('successToast'));
+                        successToast.show();
+                        
+                        // Hide modal
+                        console.log('Hiding delete modal.');
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('deleteShipmentModal'));
+                        modal.hide();
+                        
+                        // Reload page to reflect changes
+                        console.log('Reloading page in 2 seconds...');
+                        setTimeout(() => window.location.reload(), 2000);
+                      });
+                    } else {
+                      console.error('Response status not OK:', response.status, response.statusText);
+                      return response.text().then(text => {
+                          console.error('Error response body:', text);
+                          throw new Error(`Failed to delete shipment. Status: ${response.status}`);
+                      }).catch(parseError => {
+                          console.error('Could not parse error response body:', parseError);
+                          throw new Error(`Failed to delete shipment. Status: ${response.status}`);
+                      });
+                    }
+                  })
+                  .catch(error => {
+                    console.error('Fetch error occurred:', error);
+                    console.log('Showing error toast.');
+                    const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+                    errorToast.show();
+                  })
+                  .finally(() => {
+                      console.log('Resetting button state.');
+                      deleteBtn.disabled = false;
+                      buttonText.textContent = 'Delete';
+                      spinner.classList.add('d-none');
+                  });
+                });
+            } else {
+                console.error('Could not find element with ID confirmDeleteBtn to attach listener.');
+            }
         });
     </script>
 </body>

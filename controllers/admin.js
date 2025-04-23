@@ -708,14 +708,52 @@ exports.updateShipment = async (req, res) => {
 
 // Delete shipment
 exports.deleteShipment = async (req, res) => {
-  try {
-    const shipmentId = req.params.id;
-    await Shipment.findByIdAndDelete(shipmentId);
+  const shipmentId = req.params.id;
+  console.log(
+    `[Admin Controller] Received request to delete shipment with ID: ${shipmentId}`
+  );
 
-    res.redirect("/admin/shipments?message=Shipment deleted successfully");
+  if (!shipmentId) {
+    console.error("[Admin Controller] No shipment ID provided in request.");
+    return res.status(400).json({
+      success: false,
+      message: "Shipment ID is required",
+    });
+  }
+
+  try {
+    console.log(
+      `[Admin Controller] Attempting to delete shipment ${shipmentId} from database...`
+    );
+    const shipment = await Shipment.findByIdAndDelete(shipmentId);
+
+    if (!shipment) {
+      console.warn(
+        `[Admin Controller] Shipment with ID ${shipmentId} not found for deletion.`
+      );
+      return res.status(404).json({
+        success: false,
+        message: "Shipment not found",
+      });
+    }
+
+    console.log(
+      `[Admin Controller] Successfully deleted shipment ${shipmentId}.`
+    );
+    res.status(200).json({
+      success: true,
+      message: "Shipment deleted successfully",
+    });
   } catch (error) {
-    console.error("Delete shipment error:", error);
-    res.redirect("/admin/shipments?message=Failed to delete shipment");
+    console.error(
+      `[Admin Controller] Error deleting shipment ${shipmentId}:`,
+      error
+    );
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete shipment",
+      error: error.message, // Include error message in response for easier debugging (consider removing in production)
+    });
   }
 };
 
