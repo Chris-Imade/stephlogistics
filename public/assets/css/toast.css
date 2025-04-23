@@ -1,3 +1,64 @@
+/* Toast Notification Styling */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.toast {
+  min-width: 300px;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast.success {
+  background-color: #ebf7ee;
+  border-left: 4px solid #34c759;
+}
+
+.toast.error {
+  background-color: #feecf0;
+  border-left: 4px solid #ff3b30;
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+}
+
+.toast-icon {
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.toast.success .toast-icon {
+  color: #34c759;
+}
+
+.toast.error .toast-icon {
+  color: #ff3b30;
+}
+
+.toast-message {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
 /* Toast Notification Styles */
 .toast-container {
   position: fixed;
@@ -8,19 +69,6 @@
   flex-direction: column;
   gap: 10px;
   max-width: 350px;
-}
-
-.toast {
-  position: relative;
-  background-color: white;
-  border-radius: 8px;
-  padding: 15px 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  animation: slideIn 0.3s ease forwards;
-  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .toast.hiding {
@@ -34,23 +82,6 @@
   left: 0;
   width: 4px;
   height: 100%;
-}
-
-.toast-icon {
-  margin-right: 12px;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.toast-content {
-  flex: 1;
-}
-
-.toast-message {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--dark);
 }
 
 .toast-close {
@@ -70,22 +101,6 @@
 }
 
 /* Toast Types */
-.toast.success {
-  border-left: 4px solid var(--success);
-}
-
-.toast.success .toast-icon {
-  color: var(--success);
-}
-
-.toast.error {
-  border-left: 4px solid var(--danger);
-}
-
-.toast.error .toast-icon {
-  color: var(--danger);
-}
-
 .toast.info {
   border-left: 4px solid var(--info);
 }

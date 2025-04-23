@@ -1,10 +1,11 @@
 <div class="admin-sidebar">
   <div class="admin-sidebar-brand">
-    <a href="/">
+    <a href="/" style="width: 100%;">
       <img
-        src="/assets/images/logo.png"
+        src="/assets/images/logo/logo.png"
         alt="Steph Logistics"
         class="admin-logo"
+        style="width: 100%;"
       />
     </a>
     <div class="admin-sidebar-toggle d-md-none">
@@ -15,7 +16,7 @@
   <div class="admin-sidebar-content">
     <ul class="admin-sidebar-nav">
       <li class="admin-sidebar-item">
-        <a href="/admin/dashboard" class="admin-sidebar-link">
+        <a href="/admin/" class="admin-sidebar-link">
           <i class="fas fa-tachometer-alt"></i>
           <span>Dashboard</span>
         </a>
@@ -98,7 +99,7 @@
       const linkPath = $(this).attr("href");
       if (
         currentPath === linkPath ||
-        (linkPath !== "/admin/dashboard" && currentPath.startsWith(linkPath))
+        (linkPath !== "/admin/" && currentPath.startsWith(linkPath))
       ) {
         $(this).addClass("active");
       }

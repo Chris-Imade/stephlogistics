@@ -3,6 +3,7 @@ const Newsletter = require("../models/Newsletter");
 const User = require("../models/User");
 const Contact = require("../models/Contact");
 const nodemailer = require("nodemailer");
+const Franchise = require("../models/Franchise");
 
 // Create a transporter using SMTP
 const transporter = nodemailer.createTransport({
@@ -235,8 +236,8 @@ exports.getDashboard = async (req, res) => {
 
     res.render("admin/dashboard", {
       title: "Admin Dashboard",
-      layout: false, // Use the admin layout
-      path: "/admin/dashboard",
+      layout: "layouts/admin", // Use the admin layout
+      path: "/admin/",
       counts,
       recentShipments,
       user: req.session.user, // Pass user data for the layout
@@ -245,8 +246,8 @@ exports.getDashboard = async (req, res) => {
     console.error("Dashboard error:", error);
     res.render("admin/dashboard", {
       title: "Admin Dashboard",
-      layout: false, // Use the admin layout
-      path: "/admin/dashboard",
+      layout: "layouts/admin", // Use the admin layout
+      path: "/admin/",
       counts: {
         shipments: 0,
         pendingShipments: 0,
@@ -372,7 +373,7 @@ exports.getShipments = async (req, res) => {
       searchQuery,
       totalShipments,
       req: req,
-      layout: false,
+      layout: "layouts/admin",
     });
   } catch (error) {
     console.error("Get shipments error:", error);
@@ -390,7 +391,7 @@ exports.getShipments = async (req, res) => {
       searchQuery: req.query.search || "",
       req: req,
       filters: {},
-      layout: false,
+      layout: "layouts/admin",
     });
   }
 };
@@ -402,7 +403,7 @@ exports.getCreateShipment = (req, res) => {
     path: "/admin/shipments/create",
     errorMessage: null,
     formData: {},
-    layout: false,
+    layout: "layouts/admin",
   });
 };
 
@@ -500,7 +501,7 @@ exports.createShipment = async (req, res) => {
       errorMessage:
         "An error occurred while creating the shipment: " + error.message,
       formData: req.body,
-      layout: false,
+      layout: "layouts/admin",
     });
   }
 };
@@ -520,7 +521,7 @@ exports.getEditShipment = async (req, res) => {
       path: "/admin/shipments/edit",
       shipment,
       errorMessage: null,
-      layout: false,
+      layout: "layouts/admin",
     });
   } catch (error) {
     console.error("Get edit shipment error:", error);
@@ -700,7 +701,7 @@ exports.updateShipment = async (req, res) => {
       shipment,
       errorMessage:
         "An error occurred while updating the shipment: " + error.message,
-      layout: false,
+      layout: "layouts/admin",
     });
   }
 };
@@ -750,7 +751,7 @@ exports.getNewsletterSubscribers = async (req, res) => {
       search,
       searchQuery: search,
       totalSubscribers,
-      layout: false,
+      layout: "layouts/admin",
     });
   } catch (error) {
     console.error("Get newsletter subscribers error:", error);
@@ -766,7 +767,7 @@ exports.getNewsletterSubscribers = async (req, res) => {
         totalPages: 0,
         totalItems: 0,
       },
-      layout: false,
+      layout: "layouts/admin",
     });
   }
 };
@@ -794,9 +795,10 @@ exports.exportNewsletterCSV = async (req, res) => {
     let csvContent = "Email,Subscribed On\n";
 
     subscribers.forEach((subscriber) => {
-      const subscribedDate = new Date(
-        subscriber.createdAt
-      ).toLocaleDateString();
+      // Format date as YYYY-MM-DD
+      const subscribedDate = subscriber.createdAt
+        ? new Date(subscriber.createdAt).toISOString().split("T")[0]
+        : "N/A";
       csvContent += `${subscriber.email},"${subscribedDate}"\n`;
     });
 
@@ -812,5 +814,154 @@ exports.exportNewsletterCSV = async (req, res) => {
   } catch (error) {
     console.error("Export newsletter CSV error:", error);
     res.status(500).json({ message: "Failed to export subscribers" });
+  }
+};
+
+// Get all franchise applications
+exports.getFranchiseApplications = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Process search query if provided
+    const searchQuery = req.query.search;
+    let query = {};
+
+    if (searchQuery) {
+      query = {
+        $or: [
+          { applicantName: { $regex: searchQuery, $options: "i" } },
+          { email: { $regex: searchQuery, $options: "i" } },
+          { phone: { $regex: searchQuery, $options: "i" } },
+        ],
+      };
+    }
+
+    // Process status filter if provided
+    const statusFilter = req.query.status;
+    if (statusFilter && statusFilter !== "all") {
+      query.applicationStatus = statusFilter;
+    }
+
+    // Get franchises with pagination
+    const franchises = await Franchise.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    // Get total count for pagination
+    const totalFranchises = await Franchise.countDocuments(query);
+    const totalPages = Math.ceil(totalFranchises / limit);
+
+    // Render the franchise management page
+    res.render("admin/franchises", {
+      title: "Franchise Applications",
+      franchises,
+      currentPage: page,
+      totalPages,
+      totalFranchises,
+      searchQuery,
+      statusFilter,
+      user: req.user,
+      path: "/admin/franchises",
+    });
+  } catch (error) {
+    console.error("Get franchises error:", error);
+    res.status(500).render("error", {
+      message: "Failed to load franchise applications",
+      error,
+    });
+  }
+};
+
+// Get single franchise details
+exports.getFranchiseDetails = async (req, res) => {
+  try {
+    const franchise = await Franchise.findById(req.params.id);
+
+    if (!franchise) {
+      return res.status(404).render("error", {
+        message: "Franchise application not found",
+      });
+    }
+
+    res.render("admin/franchise-details", {
+      title: "Franchise Application Details",
+      franchise,
+      user: req.user,
+      path: "/admin/franchises",
+    });
+  } catch (error) {
+    console.error("Get franchise details error:", error);
+    res.status(500).render("error", {
+      message: "Failed to load franchise details",
+      error,
+    });
+  }
+};
+
+// Update franchise status
+exports.updateFranchiseStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { applicationStatus, comments } = req.body;
+
+    const franchise = await Franchise.findById(id);
+
+    if (!franchise) {
+      return res.status(404).json({
+        success: false,
+        message: "Franchise application not found",
+      });
+    }
+
+    // Update fields
+    franchise.applicationStatus =
+      applicationStatus || franchise.applicationStatus;
+
+    if (comments) {
+      franchise.comments = comments;
+    }
+
+    await franchise.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Franchise application updated successfully",
+    });
+  } catch (error) {
+    console.error("Update franchise error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update franchise application",
+    });
+  }
+};
+
+// Delete franchise application
+exports.deleteFranchise = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const franchise = await Franchise.findByIdAndDelete(id);
+
+    if (!franchise) {
+      return res.status(404).json({
+        success: false,
+        message: "Franchise application not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Franchise application deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete franchise error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete franchise application",
+    });
   }
 };

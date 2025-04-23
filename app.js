@@ -6,7 +6,10 @@ const ejsLocals = require("ejs-locals");
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const methodOverride = require("method-override");
 const path = require("path");
+// Import seed file
+const { seedAll } = require("./seed");
 
 // Initialize Express app
 const app = express();
@@ -17,13 +20,24 @@ mongoose
   .connect(
     process.env.MONGODB_URI || "mongodb://localhost:27017/steph-logistics"
   )
-  .then(() => console.log("MongoDB connected"))
+  .then(() => {
+    console.log("MongoDB connected");
+    // Run seed after successful connection
+    seedAll()
+      .then(() => {
+        console.log("Database seeded successfully");
+      })
+      .catch((err) => {
+        console.error("Error seeding database:", err);
+      });
+  })
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(methodOverride("_method"));
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "secret-key",
@@ -64,7 +78,6 @@ app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 // Routes
 const indexRoutes = require("./routes/index");
-const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 const shipmentRoutes = require("./routes/shipment");
 const newsletterRoutes = require("./routes/newsletter");
@@ -86,7 +99,6 @@ const legalRoutes = require("./routes/legal");
 
 // Apply routes
 app.use("/", indexRoutes);
-app.use("/auth", authRoutes);
 app.use("/admin", adminRoutes);
 app.use("/shipment", shipmentRoutes);
 app.use("/newsletter", newsletterRoutes);

@@ -53,10 +53,10 @@ exports.getLoginPage = (req, res) => {
 // Handle login
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { password } = req.body;
 
     // Find user by email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: process.env.ADMIN_EMAIL });
     if (!user) {
       return res.status(401).render("admin/login", {
         title: "Admin Login",

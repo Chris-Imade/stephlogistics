@@ -1,7 +1,7 @@
 <div class="create-shipment-container">
   <div class="container">
     <div class="card">
-      <div class="card-header" style="padding-top: 10rem;">
+      <div class="card-header" style="padding-top: 10rem">
         <h2>Create Your Shipment</h2>
         <p>Complete the form below to set up your package delivery</p>
       </div>
@@ -780,3 +780,8 @@
     </div>
   </div>
 </div>
+
+<% if (typeof extraJS === 'undefined') { %> <% const extraJS = ''; %> <% } %>
+<%- extraJS %>
+
+<script src="/assets/js/shipment-form.js"></script>
