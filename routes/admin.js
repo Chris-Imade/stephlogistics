@@ -53,6 +53,14 @@ router.post(
   isStaff,
   adminController.updateShipment
 );
+router.delete(
+  "/shipments/delete/:id",
+  isAuthenticated,
+  isAdmin,
+  adminController.deleteShipment
+);
+
+// Fallback POST route for shipment deletion
 router.post(
   "/shipments/delete/:id",
   isAuthenticated,
@@ -74,6 +82,14 @@ router.get(
   adminController.exportNewsletterCSV
 );
 router.delete(
+  "/newsletter/:id",
+  isAuthenticated,
+  isAdmin,
+  adminController.deleteNewsletterSubscriber
+);
+
+// Fallback POST route for newsletter deletion
+router.post(
   "/newsletter/:id",
   isAuthenticated,
   isAdmin,
