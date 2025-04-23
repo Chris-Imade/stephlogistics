@@ -865,6 +865,7 @@ exports.getFranchiseApplications = async (req, res) => {
       statusFilter,
       user: req.user,
       path: "/admin/franchises",
+      layout: "layouts/admin",
     });
   } catch (error) {
     console.error("Get franchises error:", error);
@@ -891,6 +892,7 @@ exports.getFranchiseDetails = async (req, res) => {
       franchise,
       user: req.user,
       path: "/admin/franchises",
+      layout: "layouts/admin",
     });
   } catch (error) {
     console.error("Get franchise details error:", error);
