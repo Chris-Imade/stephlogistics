@@ -80,6 +80,32 @@ router.delete(
   adminController.deleteNewsletterSubscriber
 );
 
+// Franchise management
+router.get(
+  "/franchises",
+  isAuthenticated,
+  isAdmin,
+  adminController.getFranchiseApplications
+);
+router.get(
+  "/franchises/:id",
+  isAuthenticated,
+  isAdmin,
+  adminController.getFranchiseDetails
+);
+router.post(
+  "/franchises/:id/status",
+  isAuthenticated,
+  isAdmin,
+  adminController.updateFranchiseStatus
+);
+router.delete(
+  "/franchises/:id",
+  isAuthenticated,
+  isAdmin,
+  adminController.deleteFranchise
+);
+
 // Setup route (for initial admin creation) - should be removed or secured in production
 if (process.env.NODE_ENV !== "production") {
   router.post("/setup", authController.createAdminUser);

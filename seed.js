@@ -22,7 +22,7 @@ const seedAdminUser = async () => {
   try {
     // Check if admin user already exists
     const adminExists = await User.findOne({
-      email: process.env.ADMIN_EMAIL || "admin@stephlogistics.com",
+      email: process.env.ADMIN_EMAIL || "admin@stephlogistics.co.uk",
     });
 
     if (adminExists) {
@@ -32,9 +32,9 @@ const seedAdminUser = async () => {
 
     // Create admin user
     const adminUser = new User({
-      name: "Admin User",
-      email: process.env.ADMIN_EMAIL || "admin@stephlogistics.com",
-      password: process.env.ADMIN_PASSWORD || "admin123",
+      fullName: "Admin User",
+      email: process.env.ADMIN_EMAIL || "admin@stephlogistics.co.uk",
+      password: process.env.ADMIN_PASSWORD || "$IamtheAdmin11",
       role: "admin",
       phone: "+1234567890",
     });
@@ -60,78 +60,47 @@ const seedShipments = async () => {
     // Sample shipments data
     const shipments = [
       {
-        trackingNumber: "SL12345678",
-        customer: {
-          name: "John Doe",
-          email: "john@example.com",
-          phone: "+1234567890",
+        trackingId: "SP010123ABC",
+        trackingNumber: "SP010123ABC",
+        customerName: "John Doe",
+        customerEmail: "john@example.com",
+        customerPhone: "+1234567890",
+        origin: "123 Main St, New York, NY 10001, USA",
+        destination: "456 Market St, San Francisco, CA 94103, USA",
+        packageType: "Parcel",
+        weight: 5,
+        dimensions: {
+          length: 20,
+          width: 15,
+          height: 10,
         },
-        origin: {
-          address: "123 Main St",
-          city: "New York",
-          state: "NY",
-          postalCode: "10001",
-          country: "USA",
-        },
-        destination: {
-          address: "456 Market St",
-          city: "San Francisco",
-          state: "CA",
-          postalCode: "94103",
-          country: "USA",
-        },
-        package: {
-          type: "package",
-          weight: {
-            value: 5,
-            unit: "kg",
-          },
-          dimensions: {
-            length: 20,
-            width: 15,
-            height: 10,
-            unit: "cm",
-          },
-          isFragile: false,
-          insuranceRequired: true,
-          declaredValue: {
-            value: 100,
-            currency: "USD",
-          },
-        },
-        shipping: {
-          carrier: "DHL",
-          service: "Express",
-          estimatedDelivery: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
-          rate: {
-            value: 45.75,
-            currency: "USD",
-          },
-        },
-        payment: {
-          method: "credit_card",
-          status: "completed",
-          transactionId: "TR123456",
+        estimatedDelivery: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+        status: "In Transit",
+        fragile: false,
+        insuranceIncluded: true,
+        carrier: "DHL",
+        carrierServiceLevel: "Express",
+        shippingCost: {
           amount: 45.75,
           currency: "USD",
-          paidAt: new Date(),
         },
-        status: "in_transit",
+        paymentStatus: "Paid",
+        paymentMethod: "credit_card",
         statusHistory: [
           {
-            status: "created",
+            status: "Pending",
             location: "System",
             timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
             note: "Shipment created",
           },
           {
-            status: "processing",
+            status: "Pending",
             location: "New York Sorting Center",
             timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
             note: "Shipment processing",
           },
           {
-            status: "in_transit",
+            status: "In Transit",
             location: "New York International Airport",
             timestamp: new Date(),
             note: "Shipment in transit",
@@ -140,66 +109,35 @@ const seedShipments = async () => {
         createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
       },
       {
-        trackingNumber: "SL87654321",
-        customer: {
-          name: "Jane Smith",
-          email: "jane@example.com",
-          phone: "+1987654321",
+        trackingId: "SP010124XYZ",
+        trackingNumber: "SP010124XYZ",
+        customerName: "Jane Smith",
+        customerEmail: "jane@example.com",
+        customerPhone: "+1987654321",
+        origin: "789 Oak St, Chicago, IL 60601, USA",
+        destination: "321 Pine St, Miami, FL 33101, USA",
+        packageType: "Document",
+        weight: 0.5,
+        dimensions: {
+          length: 30,
+          width: 20,
+          height: 1,
         },
-        origin: {
-          address: "789 Oak St",
-          city: "Chicago",
-          state: "IL",
-          postalCode: "60601",
-          country: "USA",
-        },
-        destination: {
-          address: "321 Pine St",
-          city: "Miami",
-          state: "FL",
-          postalCode: "33101",
-          country: "USA",
-        },
-        package: {
-          type: "document",
-          weight: {
-            value: 0.5,
-            unit: "kg",
-          },
-          dimensions: {
-            length: 30,
-            width: 20,
-            height: 1,
-            unit: "cm",
-          },
-          isFragile: false,
-          insuranceRequired: false,
-          declaredValue: {
-            value: 20,
-            currency: "USD",
-          },
-        },
-        shipping: {
-          carrier: "FedEx",
-          service: "Priority",
-          estimatedDelivery: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-          rate: {
-            value: 25.3,
-            currency: "USD",
-          },
-        },
-        payment: {
-          method: "paypal",
-          status: "completed",
-          transactionId: "PP987654",
+        estimatedDelivery: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+        status: "Pending",
+        fragile: false,
+        insuranceIncluded: false,
+        carrier: "FedEx",
+        carrierServiceLevel: "Priority",
+        shippingCost: {
           amount: 25.3,
           currency: "USD",
-          paidAt: new Date(),
         },
-        status: "created",
+        paymentStatus: "Paid",
+        paymentMethod: "paypal",
         statusHistory: [
           {
-            status: "created",
+            status: "Pending",
             location: "System",
             timestamp: new Date(),
             note: "Shipment created",
@@ -323,12 +261,19 @@ const seedAll = async () => {
     await seedContactInquiries();
 
     console.log("Seeding completed successfully");
-    process.exit(0);
+    return true;
   } catch (error) {
     console.error("Error seeding data:", error);
-    process.exit(1);
+    throw error;
   }
 };
 
-// Run the seeder
-seedAll();
+// Export the seedAll function
+module.exports = { seedAll };
+
+// Only run the seeder if this file is executed directly
+if (require.main === module) {
+  seedAll()
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1));
+}

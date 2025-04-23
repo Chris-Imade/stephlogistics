@@ -15,7 +15,7 @@
   <div class="admin-sidebar-content">
     <ul class="admin-sidebar-nav">
       <li class="admin-sidebar-item">
-        <a href="/admin/dashboard" class="admin-sidebar-link">
+        <a href="/admin/" class="admin-sidebar-link">
           <i class="fas fa-tachometer-alt"></i>
           <span>Dashboard</span>
         </a>
@@ -98,7 +98,7 @@
       const linkPath = $(this).attr("href");
       if (
         currentPath === linkPath ||
-        (linkPath !== "/admin/dashboard" && currentPath.startsWith(linkPath))
+        (linkPath !== "/admin/" && currentPath.startsWith(linkPath))
       ) {
         $(this).addClass("active");
       }
