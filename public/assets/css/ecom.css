@@ -1,0 +1,370 @@
+:root {
+  --ecom-primary: #2a9d8f;
+  --ecom-secondary: #062e39;
+  --ecom-light: #f8f9fa;
+  --ecom-dark: #343a40;
+  --ecom-white: #ffffff;
+  --ecom-gray: #6c757d;
+  --ecom-light-gray: #e9ecef;
+}
+
+/* Base Styles */
+.ecom-wrapper {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+.ecom-wrapper h1,
+.ecom-wrapper h2,
+.ecom-wrapper h3,
+.ecom-wrapper h4,
+.ecom-wrapper h5,
+.ecom-wrapper h6 {
+  font-weight: 700;
+  color: var(--ecom-secondary);
+}
+
+.ecom-section-padding {
+  padding: 80px 0;
+}
+
+/* Header & Navigation */
+.ecom-breadcrumb-area {
+  background: linear-gradient(
+    135deg,
+    var(--ecom-secondary) 0%,
+    var(--ecom-primary) 100%
+  );
+  padding: 60px 0;
+  color: var(--ecom-white);
+  padding-top: 10rem;
+}
+
+.ecom-breadcrumb-inner h1 {
+  color: var(--ecom-white);
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+}
+
+.ecom-breadcrumb {
+  justify-content: center;
+  background: transparent;
+}
+
+.ecom-breadcrumb-item a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+}
+
+.ecom-breadcrumb-item.active {
+  color: var(--ecom-white);
+}
+
+.ecom-breadcrumb-item + .ecom-breadcrumb-item::before {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Main Content Styling */
+.ecom-service-details-content img {
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ecom-service-details-content .ecom-title {
+  margin: 25px 0 15px;
+}
+
+.ecom-service-details-content p {
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+}
+
+/* Benefits Section */
+.ecom-benefit-item {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: var(--ecom-white);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  transition: transform 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.ecom-benefit-item:hover {
+  transform: translateY(-5px);
+}
+
+.ecom-benefit-item .ecom-icon {
+  color: var(--ecom-primary);
+}
+
+.ecom-benefit-item h4 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+/* Process Steps */
+.ecom-process-step {
+  position: relative;
+}
+
+.ecom-process-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  width: 1px;
+  height: calc(100% - 20px);
+  background-color: var(--ecom-primary);
+}
+
+.ecom-step-number span {
+  font-weight: bold;
+}
+
+/* Platform Logos */
+.ecom-platform-logo {
+  transition: transform 0.3s ease;
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: var(--ecom-white);
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.ecom-platform-logo:hover {
+  transform: translateY(-5px);
+}
+
+.ecom-platform-logo img {
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.ecom-platform-logo p {
+  font-weight: 600;
+}
+
+/* Testimonials */
+.ecom-testimonial-item {
+  border-left: 4px solid var(--ecom-primary);
+  transition: transform 0.3s ease;
+}
+
+.ecom-testimonial-item:hover {
+  transform: translateY(-5px);
+}
+
+.ecom-testimonial-content p {
+  font-size: 1.1rem;
+}
+
+/* Call to Action */
+.ecom-service-details-cta {
+  background: linear-gradient(
+    135deg,
+    var(--ecom-primary) 0%,
+    var(--ecom-secondary) 100%
+  );
+}
+
+.ecom-service-details-cta .ecom-btn-light:hover {
+  background-color: var(--ecom-secondary);
+  color: var(--ecom-white);
+}
+
+/* Sidebar Styling */
+.ecom-sidebar-widget {
+  margin-bottom: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.ecom-widget-title {
+  position: relative;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.ecom-widget-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--ecom-primary);
+}
+
+.ecom-services-list a {
+  color: var(--ecom-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.ecom-services-list a:hover,
+.ecom-services-list a.active {
+  background-color: rgba(42, 157, 143, 0.1);
+  border-left-color: var(--ecom-primary);
+  color: var(--ecom-primary);
+}
+
+.ecom-contact-info-item .ecom-icon {
+  font-size: 1.5rem;
+  color: var(--ecom-primary);
+}
+
+.ecom-contact-info-item a {
+  color: var(--ecom-gray);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.ecom-contact-info-item a:hover {
+  color: var(--ecom-primary);
+}
+
+/* FAQ Section */
+.ecom-faq-section {
+  background-color: #f8f9fa;
+}
+
+.ecom-accordion-item {
+  border: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+
+.ecom-accordion-button {
+  font-weight: 600;
+  padding: 1.25rem;
+  color: var(--ecom-secondary);
+}
+
+.ecom-accordion-button:not(.collapsed) {
+  color: var(--ecom-white);
+  background-color: var(--ecom-primary);
+}
+
+.ecom-accordion-button:focus {
+  box-shadow: none;
+}
+
+.ecom-accordion-button:not(.collapsed)::after {
+  filter: brightness(0) invert(1);
+}
+
+.ecom-accordion-body {
+  padding: 1.25rem;
+  font-size: 1.05rem;
+}
+
+/* Buttons */
+.ecom-btn-primary {
+  background-color: var(--ecom-primary);
+  border-color: var(--ecom-primary);
+  padding: 10px 25px;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.ecom-btn-primary:hover,
+.ecom-btn-primary:focus {
+  background-color: var(--ecom-secondary);
+  border-color: var(--ecom-secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ecom-btn-light {
+  background-color: var(--ecom-white);
+  color: var(--ecom-primary);
+  border-color: var(--ecom-white);
+  padding: 10px 25px;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.ecom-btn-light:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation */
+@keyframes ecomFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ecom-animated {
+  animation: ecomFadeIn 0.8s ease forwards;
+}
+
+.ecom-delay-1 {
+  animation-delay: 0.2s;
+}
+.ecom-delay-2 {
+  animation-delay: 0.4s;
+}
+.ecom-delay-3 {
+  animation-delay: 0.6s;
+}
+.ecom-delay-4 {
+  animation-delay: 0.8s;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .ecom-service-details-sidebar {
+    margin-top: 50px;
+  }
+}
+
+@media (max-width: 767px) {
+  .ecom-breadcrumb-inner h1 {
+    font-size: 2.2rem;
+  }
+
+  .ecom-section-padding {
+    padding: 50px 0;
+  }
+
+  .ecom-testimonial-author {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .ecom-testimonial-author .ecom-author-avatar {
+    margin-bottom: 10px;
+  }
+}
+
+.ecom-scroll-up.ecom-active-scroll {
+  display: none;
+}
+
+/* Back to top button */
+#ecomBackToTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: none;
+  width: 50px;
+  height: 50px;
+  z-index: 99;
+  justify-content: center;
+  align-items: center;
+}
