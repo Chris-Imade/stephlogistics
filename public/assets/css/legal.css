@@ -1,0 +1,116 @@
+/* Legal Pages Styling (Terms of Use & Privacy Policy) */
+
+.trucker__page-header {
+  background-color: #f8f9fa;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.trucker__page-header-content h1 {
+  font-size: 36px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.trucker__breadcrumb {
+  font-size: 16px;
+}
+
+.trucker__breadcrumb a {
+  color: #2a9d8f;
+  text-decoration: none;
+}
+
+.trucker__breadcrumb-separator {
+  margin: 0 10px;
+  color: #6c757d;
+}
+
+.trucker__breadcrumb-current {
+  color: #6c757d;
+}
+
+.trucker__terms-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+.trucker__terms-content h2 {
+  color: #2c3e50;
+  font-size: 24px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.trucker__terms-content p {
+  color: #6c757d;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.trucker__terms-content a {
+  color: #2a9d8f;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.trucker__terms-content a:hover {
+  color: #1e7168;
+}
+
+.trucker__terms-content ul {
+  color: #6c757d;
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+.trucker__terms-content ul li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.trucker__terms-last-updated {
+  margin-top: 50px;
+  font-style: italic;
+  color: #6c757d;
+  border-top: 1px solid #eaeaea;
+  padding-top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .trucker__page-header {
+    padding: 40px 0;
+  }
+
+  .trucker__page-header-content h1 {
+    font-size: 28px;
+  }
+
+  .trucker__terms-content {
+    padding: 0 20px 40px;
+  }
+
+  .trucker__terms-content h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .trucker__page-header-content h1 {
+    font-size: 24px;
+  }
+
+  .trucker__terms-content h2 {
+    font-size: 20px;
+  }
+
+  .trucker__terms-content p,
+  .trucker__terms-content ul li {
+    font-size: 14px;
+  }
+}

@@ -33,7 +33,7 @@
 
     // Start Preloader
     sitePreLoader: function () {
-      $(window).on('load', function () {
+      $(window).on("load", function () {
         $("#trucker__preloader").delay(500).fadeOut(300);
       });
     },
@@ -41,7 +41,6 @@
 
     // Start Swiper Slider
     swiperActivation: function () {
-
       // Start Hero Slider Home 2
       $(document).ready(function () {
         var interleaveOffset = 0.5;
@@ -194,19 +193,18 @@
         });
       });
       // End Testimonial Area Home 2
-
     },
     // End Swiper Slider
 
     // Start Video Popup
     videoPopup: function () {
       $(document).ready(function () {
-        $('.trucker__popup-video').magnificPopup({
-          type: 'iframe',
-          mainClass: 'mfp-fade',
+        $(".trucker__popup-video").magnificPopup({
+          type: "iframe",
+          mainClass: "mfp-fade",
           removalDelay: 160,
           preloader: false,
-          fixedContentPos: false
+          fixedContentPos: false,
         });
       });
     },
@@ -215,15 +213,16 @@
     // Start Range Bar Activation
     rangeBarActivation: function () {
       $(document).ready(function () {
-        $('.rangeSlider').on('input', function () {
+        $(".rangeSlider").on("input", function () {
           const value = $(this).val();
-          $('.rangeValue').text(value);
-          const percentage = (value / $(this).attr('max')) * 100;
-          $(this).css('background', `linear-gradient(to right, #062E39 ${percentage}%, #FFFFFF ${percentage}%)`);
+          $(".rangeValue").text(value);
+          const percentage = (value / $(this).attr("max")) * 100;
+          $(this).css(
+            "background",
+            `linear-gradient(to right, #062E39 ${percentage}%, #FFFFFF ${percentage}%)`
+          );
         });
       });
-
-
     },
     // End Range Bar Activation
 
@@ -231,26 +230,26 @@
     faqActivation: function () {
       $(document).ready(function () {
         // FAQ Style 1
-        $('.trucker__faq-style-1 .trucker__faq-question').click(function () {
+        $(".trucker__faq-style-1 .trucker__faq-question").click(function () {
           toggleFAQ($(this), true);
         });
 
         // FAQ Style 2
-        $('.trucker__faq-style-2 .trucker__faq-question').click(function () {
+        $(".trucker__faq-style-2 .trucker__faq-question").click(function () {
           toggleFAQ($(this), false);
         });
 
         function toggleFAQ($question, isStyle1) {
           const $faqItem = $question.parent();
-          const $answer = $question.next('.trucker__faq-answer');
+          const $answer = $question.next(".trucker__faq-answer");
           const $faqStyle = $faqItem.parent();
 
-          if ($answer.is(':visible')) {
+          if ($answer.is(":visible")) {
             $answer.slideUp(200);
             toggleIcon($question, isStyle1, false);
           } else {
-            $faqStyle.find('.trucker__faq-answer').slideUp(200);
-            $faqStyle.find('.trucker__faq-question').each(function () {
+            $faqStyle.find(".trucker__faq-answer").slideUp(200);
+            $faqStyle.find(".trucker__faq-question").each(function () {
               toggleIcon($(this), isStyle1, false);
             });
 
@@ -261,11 +260,19 @@
 
         function toggleIcon($question, isStyle1, isOpen) {
           if (isStyle1) {
-            $question.find('.trucker__eye-icon').toggleClass('trucker__hidden', isOpen);
-            $question.find('.trucker__eye-off-icon').toggleClass('trucker__hidden', !isOpen);
+            $question
+              .find(".trucker__eye-icon")
+              .toggleClass("trucker__hidden", isOpen);
+            $question
+              .find(".trucker__eye-off-icon")
+              .toggleClass("trucker__hidden", !isOpen);
           } else {
-            $question.find('.trucker__chevron-right').toggleClass('trucker__hidden', isOpen);
-            $question.find('.trucker__chevron-down').toggleClass('trucker__hidden', !isOpen);
+            $question
+              .find(".trucker__chevron-right")
+              .toggleClass("trucker__hidden", isOpen);
+            $question
+              .find(".trucker__chevron-down")
+              .toggleClass("trucker__hidden", !isOpen);
           }
         }
       });
@@ -275,8 +282,8 @@
     // Start Footer Newslatter Checked
     footerNewslatterCheckmark: function () {
       $(document).ready(function () {
-        $('.trucker__agreement-container').on('click', function () {
-          $('.trucker__checkbox').toggleClass('trucker__checked');
+        $(".trucker__agreement-container").on("click", function () {
+          $(".trucker__checkbox").toggleClass("trucker__checked");
         });
       });
     },
@@ -288,7 +295,7 @@
         let animated = false;
 
         function animateProgress($element) {
-          const value = parseInt($element.data('value'));
+          const value = parseInt($element.data("value"));
           let currentValue = 0;
           const duration = 2000; // 2 seconds
           const steps = 60;
@@ -303,12 +310,15 @@
 
             // Only update the circle fill animation
             const degrees = (currentValue / 100) * 360;
-            $element.css('background', `conic-gradient(#2A9D8F ${degrees}deg, #E1E1E1 ${degrees}deg)`);
+            $element.css(
+              "background",
+              `conic-gradient(#2A9D8F ${degrees}deg, #E1E1E1 ${degrees}deg)`
+            );
           }, duration / steps);
         }
 
-        $(window).on('scroll', function () {
-          const $progress = $('.trucker__skill-area-home-2');
+        $(window).on("scroll", function () {
+          const $progress = $(".trucker__skill-area-home-2");
 
           if ($progress.length) {
             const scrollPosition = $(window).scrollTop() + $(window).height();
@@ -316,13 +326,12 @@
 
             if (scrollPosition > elementPosition && !animated) {
               animated = true;
-              $('.trucker__circular-progress').each(function () {
+              $(".trucker__circular-progress").each(function () {
                 animateProgress($(this));
               });
             }
           }
         });
-
       });
     },
     // End Circle Progress
@@ -330,7 +339,7 @@
     // Start Jarallax Activation
     jarallaxAactivation: function () {
       $(document).ready(function () {
-        $('.jarallax').jarallax({
+        $(".jarallax").jarallax({
           speed: 0.4,
         });
       });
@@ -354,57 +363,58 @@
     searchPopupActivation: function () {
       $(document).ready(function () {
         // Open search popup
-        $('.search-trigger').on('click', function () {
-          $('.search-popup').addClass('active');
+        $(".search-trigger").on("click", function () {
+          $(".search-popup").addClass("active");
           setTimeout(() => {
-            $('.search-input').focus();
+            $(".search-input").focus();
           }, 100);
         });
 
         // Close search popup - Fixed to work with close button
-        $('.close-search').on('click', function (e) {
+        $(".close-search").on("click", function (e) {
           e.stopPropagation();
-          $('.search-popup').removeClass('active');
+          $(".search-popup").removeClass("active");
         });
 
         // Close on background click
-        $('.search-popup').on('click', function (e) {
-          if ($(e.target).hasClass('search-popup')) {
-            $(this).removeClass('active');
+        $(".search-popup").on("click", function (e) {
+          if ($(e.target).hasClass("search-popup")) {
+            $(this).removeClass("active");
           }
         });
 
         // Prevent popup from closing when clicking inside search container
-        $('.search-container').on('click', function (e) {
+        $(".search-container").on("click", function (e) {
           e.stopPropagation();
         });
 
         // Handle search form submission
-        $('#searchForm').on('submit', function (e) {
+        $("#searchForm").on("submit", function (e) {
           e.preventDefault();
-          const searchTerm = $('.search-input').val().trim();
+          const searchTerm = $(".search-input").val().trim();
           if (searchTerm) {
-            console.log('Searching for:', searchTerm);
+            console.log("Searching for:", searchTerm);
             // Add your search logic here
           }
         });
 
         // Close popup on escape key
-        $(document).on('keydown', function (e) {
-          if (e.key === 'Escape') {
-            $('.search-popup').removeClass('active');
+        $(document).on("keydown", function (e) {
+          if (e.key === "Escape") {
+            $(".search-popup").removeClass("active");
           }
         });
       });
     },
     // End Search Popup Activation
 
-    // Start Top To Scroll 
+    // Start Top To Scroll
     topToScroll: function () {
       $(document).ready(function () {
         var scrollPath = document.querySelector(".scroll-up path");
         var pathLength = scrollPath.getTotalLength();
-        scrollPath.style.transition = scrollPath.style.WebkitTransition = "none";
+        scrollPath.style.transition = scrollPath.style.WebkitTransition =
+          "none";
         scrollPath.style.strokeDasharray = pathLength + " " + pathLength;
         scrollPath.style.strokeDashoffset = pathLength;
         scrollPath.getBoundingClientRect();
@@ -451,81 +461,115 @@
           } else {
             $(".trucker__header-menu").removeClass("trucker__header-sticky");
           }
-        })
-      })
+        });
+      });
     },
     // End Header Sticky Activation
 
     // Start Mobile Menu Activation
     mobileMenuActivation: function () {
-      $(document).ready(function () {
-        $('.trucker__mobile-menu-bar').click(function (e) {
+      $(function () {
+        console.log("Mobile menu initialized"); // Debug log
+
+        // Fix: Ensure the click event works properly
+        $(document).on("click", ".trucker__mobile-menu-bar", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log("Mobile menu button clicked"); // Debug log
+
           var rect = e.target.getBoundingClientRect();
           var x = e.clientX - rect.left;
           var y = e.clientY - rect.top;
 
-          $('.trucker__overlay').css({
-            '--x': x + 'px',
-            '--y': y + 'px'
-          }).addClass('trucker__animating');
+          $(".trucker__overlay")
+            .css({
+              "--x": x + "px",
+              "--y": y + "px",
+            })
+            .addClass("trucker__animating");
 
           setTimeout(function () {
-            $('.trucker__mobile-menu, .trucker__overlay').addClass('trucker__active');
+            $(".trucker__mobile-menu, .trucker__overlay").addClass(
+              "trucker__active"
+            );
             animateNavItems();
           }, 50);
 
           setTimeout(function () {
-            $('.trucker__overlay').removeClass('trucker__animating');
+            $(".trucker__overlay").removeClass("trucker__animating");
           }, 500);
         });
 
-        $('.trucker__close-btn, .trucker__overlay').click(function () {
-          $('.trucker__mobile-menu, .trucker__overlay').removeClass('trucker__active');
+        // Fix: Ensure both close button and overlay work for closing the menu
+        $(document).on("click", ".trucker__close-btn", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log("Close button clicked"); // Debug log
+          $(".trucker__mobile-menu, .trucker__overlay").removeClass(
+            "trucker__active"
+          );
         });
 
-        $('.trucker__nav-link').click(function (e) {
-          e.preventDefault();
+        $(document).on("click", ".trucker__overlay", function () {
+          console.log("Overlay clicked"); // Debug log
+          $(".trucker__mobile-menu, .trucker__overlay").removeClass(
+            "trucker__active"
+          );
+        });
 
-          var $submenu = $(this).next('.trucker__submenu');
-          var $toggleBtn = $(this).find('.trucker__toggle-btn');
+        $(document).on("click", ".trucker__nav-link", function (e) {
+          // Don't prevent default for links without submenus
+          if (!$(this).next(".trucker__submenu").length) {
+            return;
+          }
+
+          e.preventDefault();
+          e.stopPropagation();
+
+          var $submenu = $(this).next(".trucker__submenu");
+          var $toggleBtn = $(this).find(".trucker__toggle-btn");
 
           // Close all other submenus
-          $('.trucker__submenu').not($submenu).slideUp().removeClass('trucker__active');
-          $('.trucker__toggle-btn').not($toggleBtn).removeClass('trucker__active');
+          $(".trucker__submenu")
+            .not($submenu)
+            .slideUp()
+            .removeClass("trucker__active");
+          $(".trucker__toggle-btn")
+            .not($toggleBtn)
+            .removeClass("trucker__active");
 
           // Toggle current submenu
           $submenu.slideToggle(function () {
-            if ($submenu.is(':visible')) {
-              $submenu.addClass('trucker__active');
-              $toggleBtn.addClass('trucker__active');
+            if ($submenu.is(":visible")) {
+              $submenu.addClass("trucker__active");
+              $toggleBtn.addClass("trucker__active");
               animateSubmenuItems($submenu);
             } else {
-              $submenu.removeClass('trucker__active');
-              $toggleBtn.removeClass('trucker__active');
+              $submenu.removeClass("trucker__active");
+              $toggleBtn.removeClass("trucker__active");
             }
           });
         });
 
         function animateNavItems() {
-          $('.trucker__nav-item').each(function (index) {
+          $(".trucker__nav-item").each(function (index) {
             $(this).css({
-              'animation': `fadeInRight 0.3s ease forwards ${index * 0.1}s`,
-              'opacity': '0'
+              animation: `fadeInRight 0.3s ease forwards ${index * 0.1}s`,
+              opacity: "0",
             });
           });
         }
 
         function animateSubmenuItems($submenu) {
-          $submenu.find('.trucker__submenu-item').each(function (index) {
+          $submenu.find(".trucker__submenu-item").each(function (index) {
             $(this).css({
-              'animation': `fadeInDown 0.3s ease forwards ${index * 0.1}s`,
-              'opacity': '0'
+              animation: `fadeInDown 0.3s ease forwards ${index * 0.1}s`,
+              opacity: "0",
             });
           });
         }
       });
     },
-
     // End Mobile Menu Activation
 
     // Start Inline Css Activation
@@ -544,7 +588,9 @@
     // Start Nice Select Activation
     niceSelections: function () {
       $(document).ready(function () {
-        $(".trucker__language-selection, .trucker__booking-type-one, .trucker__booking-type-two").niceSelect();
+        $(
+          ".trucker__language-selection, .trucker__booking-type-one, .trucker__booking-type-two"
+        ).niceSelect();
       });
     },
     // End Nice Select Activation
@@ -556,7 +602,6 @@
       });
     },
     // End Wow Activation
-
   };
 
   mtJs.m();
