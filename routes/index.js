@@ -81,6 +81,20 @@ router.get("/404", (req, res) => {
   });
 });
 
+// Terms of Use page
+router.get("/terms", (req, res) => {
+  res.render("terms", {
+    title: "Terms of Use - Steph Logistics",
+  });
+});
+
+// Privacy Policy page
+router.get("/privacy", (req, res) => {
+  res.render("privacy", {
+    title: "Privacy Policy - Steph Logistics",
+  });
+});
+
 // Process contact form
 router.post("/contact", async (req, res) => {
   try {

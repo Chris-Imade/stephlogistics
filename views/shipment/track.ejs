@@ -201,7 +201,7 @@
   </div>
 </div>
 
-<% if (typeof extraJS === 'undefined') { %> <% const extraJS = ''; %> <% } %>
-<%- extraJS %>
+<% /* Fix for extraJS undefined error */ %> <% if (typeof extraJS !==
+'undefined') { %> <%- extraJS %> <% } %>
 
 <script src="/assets/js/tracking.js"></script>
