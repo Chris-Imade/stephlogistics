@@ -13,7 +13,7 @@ const { seedAll } = require("./seed");
 
 // Initialize Express app
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5678;
 
 // Connect to MongoDB
 mongoose

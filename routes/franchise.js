@@ -178,7 +178,7 @@ router.post("/submit-application", async (req, res) => {
               
               <div class="next-steps">
                 <h3>What Happens Next?</h3>
-                <p>Our franchise team will review your application carefully and contact you within 48 hours to discuss the next steps in the process. Please ensure that the phone number you provided is accessible during business hours.</p>
+                <p>Our franchise team will review your application carefully and contact you within 48 hours to discuss the next steps in the process. Please ensure that the phone number you provided is correct as our team is available 24/7 to assist you.</p>
               </div>
               
               <p>If you have any immediate questions or need to update any information on your application, please don't hesitate to contact our franchise team directly.</p>
