@@ -1,0 +1,663 @@
+/* Contact Page Styles */
+
+/* Contact Info Area */
+.trucker__all-contact-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: 80px 0 60px;
+  width: 100%;
+}
+
+.trucker__all-contact-item {
+  background-color: #ffffff;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  padding: 35px 25px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  text-align: center;
+  width: 270px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 3px solid transparent;
+}
+
+.trucker__all-contact-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  border-bottom: 3px solid #2a9d8f;
+}
+
+.trucker__all-contact-item img {
+  height: 60px;
+  width: auto;
+  transition: transform 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.trucker__all-contact-item:hover img {
+  transform: scale(1.1);
+}
+
+.trucker__all-contact-title {
+  margin: 10px 0;
+  color: #2c3e50;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+}
+
+.trucker__contact-text,
+.trucker__contact-text-adress,
+.trucker__contact-text-day {
+  transition: color 0.3s ease;
+  font-size: 15px;
+  line-height: 1.6;
+  display: block;
+  color: #5d6670;
+}
+
+.trucker__contact-text-adress {
+  max-width: 210px;
+  margin: 0 auto;
+}
+
+.trucker__contact-text-day {
+  margin-bottom: 5px;
+}
+
+.trucker__all-contact-item:hover .trucker__contact-text,
+.trucker__all-contact-item:hover .trucker__contact-text-adress,
+.trucker__all-contact-item:hover .trucker__contact-text-day {
+  color: #2a9d8f;
+}
+
+/* Contact Form Area */
+.trucker__contact-form-area {
+  background-color: #f8f9fa;
+  padding: 80px 0;
+  position: relative;
+}
+
+.trucker__contact-form-area::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, #2a9d8f, #264653);
+}
+
+.trucker__contact-form-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.trucker__main-title {
+  margin-bottom: 20px;
+  font-size: 36px;
+  font-weight: 700;
+  color: #2c3e50;
+  position: relative;
+  display: block;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.trucker__main-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background-color: #2a9d8f;
+  margin: 15px auto 0;
+}
+
+.trucker__title-wrapper {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.trucker__title-wrapper p {
+  max-width: 700px;
+  margin: 0 auto 30px;
+  color: #5d6670;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.trucker__contact-form-inner {
+  background-color: #ffffff;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  padding: 50px;
+  border-radius: 10px;
+  width: 40%;
+  margin: 0 auto;
+  border-top: 5px solid #2a9d8f;
+}
+
+.trucker__input-flexing {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.trucker__input-flexing-item {
+  flex: 1;
+}
+
+.trucker__input-field-name {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.trucker__input-flexing-item input,
+.trucker__input-textarea textarea {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #e1e1e1;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+  font-size: 15px;
+}
+
+.trucker__input-flexing-item input:focus,
+.trucker__input-textarea textarea:focus {
+  border-color: #2a9d8f;
+  background-color: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+}
+
+.trucker__input-textarea {
+  margin-bottom: 25px;
+}
+
+.trucker__input-textarea textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.trucker__input-form-submit {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.trucker__btn-style-1 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 35px;
+  background-color: #2a9d8f;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3);
+}
+
+.trucker__btn-style-1:hover {
+  background-color: #208b7e;
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(42, 157, 143, 0.4);
+}
+
+.trucker__btn-style-1:active {
+  transform: translateY(-1px);
+}
+
+.trucker__btn-style-1:disabled {
+  background-color: #94d1ca;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Alert Messages */
+.alert {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-left: 4px solid #28a745;
+  border-color: #c3e6cb;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-left: 4px solid #dc3545;
+  border-color: #f5c6cb;
+}
+
+.d-none {
+  display: none;
+}
+
+/* Spinner Animation */
+.fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Button Loading State */
+.trucker__btn-style-1:disabled {
+  background-color: #94d1ca;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.8;
+  position: relative;
+}
+
+.trucker__btn-style-1 .fa-spinner {
+  margin-left: 10px;
+  color: white;
+}
+
+/* Map Area */
+.trucker__office-map-area {
+  padding: 0 15px 80px;
+}
+
+.trucker__map-title-wrapper {
+  margin-bottom: 30px;
+}
+
+.trucker__map-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.trucker__map-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #2a9d8f;
+  margin: 15px auto 0;
+}
+
+.trucker__map-subtitle {
+  font-size: 16px;
+  color: #5d6670;
+  margin-bottom: 20px;
+}
+
+.trucker__map-container {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.trucker__contact-map {
+  width: 100%;
+  height: 450px;
+  border: none;
+  display: block;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .trucker__contact-form-inner {
+    width: 50%;
+    padding: 40px;
+  }
+
+  .trucker__all-contact-wrapper {
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 992px) {
+  .trucker__all-contact-item {
+    width: 250px;
+  }
+
+  .trucker__contact-form-inner {
+    padding: 35px;
+    width: 65%;
+  }
+
+  .trucker__main-title {
+    font-size: 32px;
+  }
+
+  .trucker__title-wrapper p {
+    font-size: 15px;
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 768px) {
+  .trucker__input-flexing {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .trucker__all-contact-wrapper {
+    gap: 20px;
+  }
+
+  .trucker__all-contact-item {
+    width: 220px;
+    min-height: 200px;
+    padding: 25px 15px;
+  }
+
+  .trucker__all-contact-title {
+    font-size: 20px;
+  }
+
+  .trucker__contact-text,
+  .trucker__contact-text-adress,
+  .trucker__contact-text-day {
+    font-size: 14px;
+  }
+
+  .trucker__main-title {
+    font-size: 28px;
+  }
+
+  .trucker__contact-map {
+    height: 350px;
+  }
+
+  .trucker__contact-form-inner {
+    padding: 25px;
+    border-radius: 8px;
+    width: 85%;
+  }
+
+  .trucker__contact-form-area {
+    padding: 50px 0;
+  }
+
+  .trucker__map-title {
+    font-size: 24px;
+  }
+
+  .trucker__map-subtitle {
+    font-size: 15px;
+  }
+
+  .trucker__office-map-area {
+    padding: 0 15px 50px;
+  }
+}
+
+@media (max-width: 576px) {
+  .trucker__all-contact-wrapper {
+    margin: 40px 0;
+    gap: 15px;
+  }
+
+  .trucker__all-contact-item {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .trucker__main-title::after {
+    width: 60px;
+  }
+
+  .trucker__btn-style-1 {
+    width: 100%;
+  }
+
+  .trucker__title-wrapper p {
+    padding: 0 15px;
+  }
+
+  .trucker__map-title {
+    font-size: 22px;
+  }
+
+  .trucker__map-title::after {
+    width: 50px;
+    margin-top: 10px;
+  }
+
+  .trucker__map-subtitle {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+}
+
+/* Animation Effects */
+.img-custom-anim-left,
+.img-custom-anim-right,
+.img-custom-anim-top {
+  opacity: 0;
+  transition: all 0.8s ease;
+}
+
+.img-custom-anim-left.active {
+  opacity: 1;
+  animation: fadeInLeft 0.8s ease forwards;
+}
+
+.img-custom-anim-right.active {
+  opacity: 1;
+  animation: fadeInRight 0.8s ease forwards;
+}
+
+.img-custom-anim-top.active {
+  opacity: 1;
+  animation: fadeInDown 0.8s ease forwards;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Status */
+.trucker__form-status-wrapper {
+  margin-top: 30px;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 100%;
+}
+
+.trucker__form-status-success,
+.trucker__form-status-error {
+  display: flex;
+  align-items: center;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: all 0.5s ease;
+  animation: statusPulse 2s infinite alternate;
+  position: relative;
+  overflow: hidden;
+}
+
+.trucker__form-status-success {
+  background-color: #e8f5e9;
+  border-left: 8px solid #2e7d32;
+}
+
+.trucker__form-status-error {
+  background-color: #ffebee;
+  border-left: 8px solid #c62828;
+}
+
+.trucker__status-icon {
+  font-size: 42px;
+  margin-right: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: iconBounce 1s ease-in-out infinite alternate;
+}
+
+.trucker__form-status-success .trucker__status-icon {
+  color: #2e7d32;
+}
+
+.trucker__form-status-error .trucker__status-icon {
+  color: #c62828;
+}
+
+.trucker__status-message {
+  flex: 1;
+}
+
+.trucker__status-message h4 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.trucker__form-status-success .trucker__status-message h4 {
+  color: #2e7d32;
+}
+
+.trucker__form-status-error .trucker__status-message h4 {
+  color: #c62828;
+}
+
+.trucker__status-message p {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Form status animations */
+@keyframes statusFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes statusPulse {
+  0% {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@keyframes iconBounce {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+/* Add media queries for responsive status indicators */
+@media (max-width: 768px) {
+  .trucker__form-status-success,
+  .trucker__form-status-error {
+    padding: 20px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .trucker__status-icon {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .trucker__status-message h4 {
+    font-size: 18px;
+  }
+
+  .trucker__status-message p {
+    font-size: 14px;
+  }
+}
+
+/* Form Note */
+.trucker__form-note {
+  font-size: 14px;
+  color: #666;
+  margin-top: 20px;
+  padding: 8px 10px;
+  background-color: #f5f9f8;
+  border-radius: 4px;
+  display: inline-block;
+  border-left: 3px solid #2a9d8f;
+}
+
+.trucker__form-note i {
+  color: #2a9d8f;
+  margin-right: 5px;
+}

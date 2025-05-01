@@ -50,8 +50,9 @@
             </svg>
           </span>
           <span class="trucker__footer-location-text">
-            123 Logistics Way <br />
-            London, UK
+            20 Ullswater Close <br />
+            Northampton, NN3 2DJ <br />
+            United Kingdom
           </span>
         </div>
         <div class="trucker__footer-email-phone">
@@ -87,9 +88,9 @@
           </span>
           <div class="trucker__footer-email-phone-text">
             <a
-              href="mailto:hello@stephlogistics.co.uk"
+              href="mailto:info@stephlogistics.co.uk"
               class="trucker__footer-email-text"
-              >hello@stephlogistics.co.uk</a
+              >info@stephlogistics.co.uk</a
             >
             <a href="tel:+447404888952" class="trucker__footer-phone-text"
               >+44 7404 888 952</a
@@ -163,10 +164,23 @@
       <div class="trucker__footer-newslatter wow fadeInRight">
         <h5 class="trucker__footer-newlatter-title">Newsletter</h5>
         <div class="trucker__footer-newslatter-wrapper">
-          <form method="POST">
-            <input type="email" placeholder="Enter Email Adress" />
-            <button type="submit">
-              <i class="fa-regular fa-arrow-up"></i>
+          <form
+            id="newsletterForm"
+            method="POST"
+            onsubmit="submitNewsletterForm(event)"
+          >
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter Email Address"
+              required
+            />
+            <button type="submit" id="newsletterSubmitBtn">
+              <i class="fa-regular fa-arrow-up" id="newsletterBtnIcon"></i>
+              <i
+                class="fa-regular fa-spinner fa-spin d-none"
+                id="newsletterSpinner"
+              ></i>
             </button>
           </form>
           <div class="trucker__footer-input-text-point">
@@ -228,7 +242,7 @@
           </span>
           <span class="trucker__footer-info-email-text">
             Contact Us
-            <a href="mailto:hello@stephlogistics.co.uk"
+            <a href="mailto:info@stephlogistics.co.uk"
               >info@stephlogistics.co.uk</a
             >
           </span>
