@@ -203,12 +203,11 @@ exports.getTrackingPage = async (req, res) => {
   // Check if there's a tracking ID in the query
   const trackingId = req.query.id;
 
-  // Create a sample shipment for testing
-  await createSampleShipment();
-
   // If a tracking ID is provided in the query, track the shipment
   if (trackingId) {
     try {
+      console.log("Attempting to track shipment with ID:", trackingId);
+
       // Ensure we get fresh data by using lean() to get plain objects
       // Find by either trackingId or trackingNumber (supports legacy IDs)
       const shipment = await Shipment.findOne({
@@ -218,6 +217,11 @@ exports.getTrackingPage = async (req, res) => {
         .exec();
 
       if (shipment) {
+        console.log(
+          "Found shipment:",
+          shipment.trackingId || shipment.trackingNumber
+        );
+
         // Fix any potential timestamp issues in statusHistory
         if (shipment.statusHistory && shipment.statusHistory.length > 0) {
           // Ensure all timestamps are Date objects
@@ -258,7 +262,6 @@ exports.getTrackingPage = async (req, res) => {
         const progressStyle = `${statusProgress}%`;
 
         // Debug information
-        console.log("Tracking shipment from query:", shipment.trackingId);
         console.log("Current status:", shipment.status);
         console.log(
           "Status history:",
@@ -275,14 +278,34 @@ exports.getTrackingPage = async (req, res) => {
           layout: "layouts/main",
           extraCSS: '<link rel="stylesheet" href="/assets/css/track.css">',
         });
+      } else {
+        console.log("No shipment found with tracking ID:", trackingId);
+
+        // If no shipment found, render the tracking page with an error
+        return res.render("shipment/track", {
+          title: "Track Your Shipment",
+          path: "/shipment/track",
+          errorMessage: `No shipment found with tracking number ${trackingId}`,
+          shipment: null,
+          layout: "layouts/main",
+          extraCSS: '<link rel="stylesheet" href="/assets/css/track.css">',
+        });
       }
     } catch (error) {
       console.error("Error tracking shipment from query:", error);
       // Continue to regular tracking page if there's an error
+      return res.render("shipment/track", {
+        title: "Track Your Shipment",
+        path: "/shipment/track",
+        errorMessage: "An error occurred while tracking your shipment",
+        shipment: null,
+        layout: "layouts/main",
+        extraCSS: '<link rel="stylesheet" href="/assets/css/track.css">',
+      });
     }
   }
 
-  // Render the regular tracking page
+  // Render the regular tracking page without any sample shipment
   res.render("shipment/track", {
     title: "Track Your Shipment",
     path: "/shipment/track",
@@ -497,7 +520,8 @@ exports.getCreateShipmentPage = (req, res) => {
     path: "/shipment/create",
     layout: "layouts/main", // Explicitly specify the layout
     extraCSS: '<link rel="stylesheet" href="/assets/css/create-shipment.css">',
-    extraJS: null, // Explicitly set extraJS to null so it's defined
+    extraJS:
+      '<script src="/assets/js/shipment-form.js"></script><script src="/assets/js/shipment-select.js"></script>', // Include both scripts
   });
 };
 
