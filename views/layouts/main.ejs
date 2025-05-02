@@ -384,5 +384,88 @@
           });
       }
     </script>
+    <script src="/assets/js/shipment-form.js"></script>
+    <script>
+      function submitShipmentForm() {
+        console.log("Direct submit function called");
+    
+        // Hide step 5
+        const step5 = document.getElementById("step-5");
+        if (step5) step5.style.display = "none";
+    
+        // Show payment processing
+        const processingUI = document.getElementById("payment-processing");
+        if (processingUI) processingUI.style.display = "block";
+    
+        // Update button state
+        const submitBtn = document.getElementById("btn-submit");
+        const submitText = document.getElementById("submit-text");
+        const submitSpinner = document.getElementById("submit-spinner");
+    
+        if (submitBtn && submitText && submitSpinner) {
+          submitBtn.disabled = true;
+          submitText.style.opacity = "0.6";
+          submitSpinner.style.display = "inline-block";
+        }
+    
+        // Simulate payment processing
+        const progressBar = document.getElementById("payment-progress-bar");
+        let width = 0;
+    
+        const interval = setInterval(function () {
+          if (width >= 100) {
+            clearInterval(interval);
+    
+            // Hide processing page
+            if (processingUI) processingUI.style.display = "none";
+    
+            // Show success page
+            const successPage = document.getElementById("payment-success");
+            if (successPage) successPage.style.display = "block";
+    
+            // Setup finish button
+            const finishBtn = document.getElementById("finish-button");
+            if (finishBtn) {
+              finishBtn.onclick = function () {
+                // Hide success page
+                successPage.style.display = "none";
+    
+                // Show final success message
+                const finalSuccess = document.getElementById("success-message");
+                if (finalSuccess) finalSuccess.style.display = "block";
+    
+                // Set tracking info
+                const shipmentId = `SH${Date.now().toString().slice(-10)}`;
+                const trackingId = `TR${Date.now().toString().slice(-10)}`;
+    
+                document.getElementById("shipment-id").textContent = shipmentId;
+                document.getElementById("tracking-number").textContent = trackingId;
+    
+                // Update tracking button
+                const trackBtn = document.getElementById("track-shipment-btn");
+                if (trackBtn) trackBtn.href = `/shipment/track?id=${trackingId}`;
+              };
+            }
+          } else {
+            width += 3;
+            if (progressBar) progressBar.style.width = width + "%";
+          }
+        }, 100);
+    
+        return false;
+      }
+    
+      // Add event listener to submit button directly
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("Direct inline script loaded");
+        const submitBtn = document.getElementById("btn-submit");
+        if (submitBtn) {
+          console.log("Adding direct event listener to submit button");
+          submitBtn.onclick = submitShipmentForm;
+        } else {
+          console.error("Submit button not found by direct script");
+        }
+      });
+    </script>
   </body>
 </html>
