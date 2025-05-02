@@ -8,15 +8,20 @@
         <p>
           Enter your tracking number to get real-time updates on your shipment
         </p>
+        <% if (typeof errorMessage !== 'undefined' && errorMessage !== null) {
+        %>
+        <div class="error-message"><%= errorMessage %></div>
+        <% } %>
       </div>
       <div class="tracking-form">
-        <form id="tracking-form">
+        <form id="tracking-form" action="/shipment/track" method="POST">
           <div class="form-group">
             <label for="trackingNumber">Tracking Number</label>
             <div class="input-group">
               <input
                 type="text"
                 id="trackingNumber"
+                name="trackingId"
                 placeholder="Enter your tracking number"
                 required
               />
@@ -200,6 +205,28 @@
     </div>
   </div>
 </div>
+
+<style>
+  .error-message {
+    background-color: #fce8e8;
+    border-left: 4px solid #f44336;
+    color: #721c24;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-size: 14px;
+    display: none;
+  }
+
+  .error-message.show {
+    display: block;
+  }
+
+  /* Hide the default result section when showing errors */
+  .error-message + .tracking-result-section {
+    display: none;
+  }
+</style>
 
 <% /* Fix for extraJS undefined error */ %> <% if (typeof extraJS !==
 'undefined') { %> <%- extraJS %> <% } %>

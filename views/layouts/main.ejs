@@ -711,8 +711,37 @@
           ? submitButton.innerHTML
           : "Track";
 
+        // Check if an error message exists and show it
+        const errorParam = new URLSearchParams(window.location.search).get(
+          "error"
+        );
+        if (errorParam) {
+          // Display the error in a toast if available
+          if (typeof showToast === "function") {
+            showToast(decodeURIComponent(errorParam), "error");
+          }
+        }
+
+        // If query parameter for tracking exists but no shipment is displayed,
+        // show error message for not found
+        const trackingParam = new URLSearchParams(window.location.search).get(
+          "id"
+        );
+        if (
+          trackingParam &&
+          resultSection &&
+          resultSection.style.display === "none"
+        ) {
+          if (typeof showToast === "function") {
+            showToast(
+              `No shipment found with tracking number ${trackingParam}`,
+              "error"
+            );
+          }
+        }
+
         // Initially hide result section if it exists and we're on the main tracking page
-        if (resultSection && window.location.search === "") {
+        if (resultSection && !trackingParam) {
           resultSection.style.display = "none";
         }
 
@@ -741,35 +770,35 @@
           });
         }
 
+        // Support both AJAX and traditional form submission
         trackingForm.addEventListener("submit", function (e) {
-          e.preventDefault();
-
-          console.log("Tracking form submitted");
-
           const trackingNumber = trackingInput.value.trim();
 
           if (!trackingNumber) {
             trackingInput.classList.add("error");
+            if (typeof showToast === "function") {
+              showToast("Please enter a tracking number", "error");
+            }
+            e.preventDefault();
             return;
           }
 
-          // Update button state
+          // Allow the form to submit normally to the server
+          // The server-side route will handle the tracking
+          console.log("Form will submit to server:", trackingNumber);
+
+          // Update button state to show loading
           if (submitButton) {
             submitButton.disabled = true;
             const originalHTML = submitButton.innerHTML;
             submitButton.innerHTML =
               '<i class="fa-light fa-spinner fa-spin"></i> Searching...';
 
-            // Redirect directly to tracking page with ID
-            window.location.href = `/shipment/track?id=${encodeURIComponent(
-              trackingNumber
-            )}`;
-
-            // Reset button after 3 seconds if redirect fails
+            // Set a timeout to restore button state in case submission takes too long
             setTimeout(() => {
               submitButton.disabled = false;
               submitButton.innerHTML = originalHTML;
-            }, 3000);
+            }, 5000); // 5 seconds timeout
           }
         });
 
@@ -791,6 +820,16 @@
             } else if (status === "pending") {
               progressInner.style.width = "15%";
             }
+          }
+        }
+
+        // If there's an error message in the DOM, make sure it's visible
+        const errorMessage = document.querySelector(".error-message");
+        if (errorMessage) {
+          errorMessage.style.display = "block";
+
+          if (typeof showToast === "function") {
+            showToast(errorMessage.textContent, "error");
           }
         }
       });

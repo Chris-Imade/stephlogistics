@@ -318,19 +318,26 @@ exports.getTrackingPage = async (req, res) => {
 
 // Track a shipment
 exports.trackShipment = async (req, res) => {
-  const trackingId = req.body.trackingId;
+  const trackingId = req.body.trackingId || req.query.id;
+
+  console.log("trackShipment called with tracking ID:", trackingId);
 
   // If no tracking ID provided, just show the form
   if (!trackingId) {
+    console.log("No tracking ID provided");
     return res.render("shipment/track", {
       title: "Track Your Shipment",
       path: "/shipment/track",
       errorMessage: "Please enter a tracking ID",
       shipment: null,
+      layout: "layouts/main",
+      extraCSS: '<link rel="stylesheet" href="/assets/css/track.css">',
     });
   }
 
   try {
+    console.log("Searching for shipment with tracking ID:", trackingId);
+
     // Ensure we get fresh data by using lean() to get plain objects and not mongoose documents
     const shipment = await Shipment.findOne({
       $or: [{ trackingId: trackingId }, { trackingNumber: trackingId }],
@@ -338,14 +345,26 @@ exports.trackShipment = async (req, res) => {
       .lean() // Get plain JavaScript object instead of mongoose document
       .exec();
 
+    console.log("Search result:", shipment ? "Found" : "Not found");
+
     if (!shipment) {
+      console.log("No shipment found with tracking ID:", trackingId);
       return res.render("shipment/track", {
         title: "Track Your Shipment",
         path: "/shipment/track",
         errorMessage: "No shipment found with that tracking ID",
         shipment: null,
+        layout: "layouts/main",
+        extraCSS: '<link rel="stylesheet" href="/assets/css/track.css">',
       });
     }
+
+    console.log(
+      "Shipment found:",
+      shipment._id,
+      "TrackingID:",
+      shipment.trackingId
+    );
 
     // Fix any potential timestamp issues in statusHistory
     if (shipment.statusHistory && shipment.statusHistory.length > 0) {
@@ -387,12 +406,8 @@ exports.trackShipment = async (req, res) => {
     const progressStyle = `${statusProgress}%`;
 
     // Debug information
-    console.log("Tracking shipment:", shipment.trackingId);
     console.log("Current status:", shipment.status);
-    console.log(
-      "Status history:",
-      JSON.stringify(shipment.statusHistory, null, 2)
-    );
+    console.log("Rendering track-result template");
 
     res.render("shipment/track-result", {
       title: "Shipment Information",
@@ -400,6 +415,8 @@ exports.trackShipment = async (req, res) => {
       shipment: shipment,
       statusProgress: statusProgress,
       progressStyle: progressStyle,
+      layout: "layouts/main",
+      extraCSS: '<link rel="stylesheet" href="/assets/css/track.css">',
     });
   } catch (error) {
     console.error("Error tracking shipment:", error);
@@ -408,6 +425,8 @@ exports.trackShipment = async (req, res) => {
       path: "/shipment/track",
       errorMessage: "An error occurred while tracking your shipment",
       shipment: null,
+      layout: "layouts/main",
+      extraCSS: '<link rel="stylesheet" href="/assets/css/track.css">',
     });
   }
 };

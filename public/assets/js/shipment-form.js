@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Create shipment
   function createShipment() {
     try {
-      console.log("Creating shipment");
+      console.log("Creating shipment in database");
 
       // Show loading state on finish button
       const finishButton = document.getElementById("finish-button");
@@ -202,35 +202,125 @@ document.addEventListener("DOMContentLoaded", function () {
         finishSpinner.style.display = "inline-block";
       }
 
-      // Generate a shipment ID for display
-      const tempShipmentId = `SH${Date.now().toString().slice(-10)}`;
+      // Collect all form data
+      const formData = {
+        // Customer Info
+        customerName: `${document.getElementById("first-name").value} ${
+          document.getElementById("last-name").value
+        }`,
+        customerEmail: document.getElementById("email").value,
+        customerPhone: document.getElementById("phone").value,
+        company: document.getElementById("company").value,
+        reference: document.getElementById("reference").value,
 
-      // Hide payment success page
-      document.getElementById("payment-success").style.display = "none";
+        // Origin/Destination
+        origin: `${document.getElementById("origin-address").value}, ${
+          document.getElementById("origin-city").value
+        }, ${document.getElementById("origin-postal-code").value}, ${
+          document.getElementById("origin-country").value
+        }`,
+        destination: `${
+          document.getElementById("destination-address").value
+        }, ${document.getElementById("destination-city").value}, ${
+          document.getElementById("destination-postal-code").value
+        }, ${document.getElementById("destination-country").value}`,
 
-      // Show success message
-      if (successMessage) {
-        console.log("Showing success message");
-        successMessage.style.display = "block";
+        // Package Details
+        packageType: document.getElementById("package-type").value,
+        weight: document.getElementById("weight").value,
+        dimensions: {
+          length: document.getElementById("length").value,
+          width: document.getElementById("width").value,
+          height: document.getElementById("height").value,
+        },
+        contents: document.getElementById("contents").value,
+        fragile: document.getElementById("fragile").checked,
+        insuranceIncluded: document.getElementById("insurance").checked,
+        declaredValue: document.getElementById("declared-value").value,
 
-        // Set IDs
-        document.getElementById("shipment-id").textContent = tempShipmentId;
-        document.getElementById("tracking-number").textContent =
-          "TR" + tempShipmentId.substring(2);
+        // Shipping Options
+        carrier:
+          document.querySelector('input[name="shipping-method"]:checked')
+            ?.value || "ups",
+        expressDelivery: true, // Assume all are express
+        saturdayDelivery: document.getElementById("saturday-delivery").checked,
 
-        // Update track button
-        if (trackButton) {
-          trackButton.href = `/shipment/track?id=TR${tempShipmentId.substring(
-            2
-          )}`;
-        }
-      } else {
-        console.error("Success message element not found");
-        alert("Shipment created successfully!");
-      }
+        // Payment
+        paymentMethod:
+          document.querySelector('input[name="payment-method"]:checked')
+            ?.value || "card",
+
+        // Estimated delivery (7 days from now)
+        estimatedDelivery: new Date(
+          Date.now() + 7 * 24 * 60 * 60 * 1000
+        ).toISOString(),
+      };
+
+      console.log("Form data collected:", formData);
+
+      // Send data to server
+      fetch("/shipment/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Shipment created successfully:", data);
+
+          // Hide payment success page
+          document.getElementById("payment-success").style.display = "none";
+
+          // Show success message
+          if (successMessage) {
+            console.log("Showing success message");
+            successMessage.style.display = "block";
+
+            // Use the real tracking ID returned from the server
+            document.getElementById("shipment-id").textContent =
+              data.shipmentId || "N/A";
+            document.getElementById("tracking-number").textContent =
+              data.trackingId || "N/A";
+
+            // Update track button with real tracking ID
+            if (trackButton) {
+              trackButton.href = `/shipment/track?id=${data.trackingId}`;
+            }
+          } else {
+            console.error("Success message element not found");
+            alert(
+              `Shipment created successfully! Tracking ID: ${data.trackingId}`
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error creating shipment:", error);
+          alert("Failed to create shipment. Please try again.");
+
+          // Re-enable finish button
+          if (finishButton && finishText && finishSpinner) {
+            finishButton.disabled = false;
+            finishText.style.opacity = "1";
+            finishSpinner.style.display = "none";
+          }
+        });
     } catch (error) {
       console.error("Error in createShipment:", error);
       alert("An error occurred while creating your shipment.");
+
+      // Re-enable finish button
+      if (finishButton && finishText && finishSpinner) {
+        finishButton.disabled = false;
+        finishText.style.opacity = "1";
+        finishSpinner.style.display = "none";
+      }
     }
   }
 
