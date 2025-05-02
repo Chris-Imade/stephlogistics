@@ -497,6 +497,7 @@ exports.getCreateShipmentPage = (req, res) => {
     path: "/shipment/create",
     layout: "layouts/main", // Explicitly specify the layout
     extraCSS: '<link rel="stylesheet" href="/assets/css/create-shipment.css">',
+    extraJS: null, // Explicitly set extraJS to null so it's defined
   });
 };
 

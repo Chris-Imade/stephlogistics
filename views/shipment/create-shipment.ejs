@@ -781,7 +781,6 @@
   </div>
 </div>
 
-<% if (typeof extraJS === 'undefined') { %> <% const extraJS = ''; %> <% } %>
-<%- extraJS %>
+<% if (typeof locals.extraJS !== 'undefined') { %> <%- locals.extraJS %> <% } %>
 
 <script src="/assets/js/shipment-form.js"></script>
