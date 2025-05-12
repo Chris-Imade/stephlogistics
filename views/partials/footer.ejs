@@ -168,21 +168,39 @@
             id="newsletterForm"
             method="POST"
             onsubmit="submitNewsletterForm(event)"
+            class="newsletter-modern-form"
           >
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter Email Address"
-              required
-            />
-            <button type="submit" id="newsletterSubmitBtn">
-              <i class="fa-regular fa-arrow-up" id="newsletterBtnIcon"></i>
-              <i
-                class="fa-regular fa-spinner fa-spin d-none"
-                id="newsletterSpinner"
-              ></i>
-            </button>
+            <div class="newsletter-input-wrapper">
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email address"
+                required
+                class="newsletter-input"
+              />
+              <button
+                type="submit"
+                id="newsletterSubmitBtn"
+                class="newsletter-submit-btn"
+              >
+                <i class="fa-regular fa-arrow-right" id="newsletterBtnIcon"></i>
+                <i
+                  class="fa-regular fa-spinner fa-spin d-none"
+                  id="newsletterSpinner"
+                ></i>
+              </button>
+            </div>
           </form>
+          <!-- Newsletter feedback message container -->
+          <div id="newsletter-feedback" class="newsletter-feedback d-none">
+            <i
+              class="fa-regular fa-circle-check feedback-icon success-icon d-none"
+            ></i>
+            <i
+              class="fa-regular fa-circle-xmark feedback-icon error-icon d-none"
+            ></i>
+            <span id="newsletter-message"></span>
+          </div>
           <div class="trucker__footer-input-text-point">
             <div class="trucker__agreement-container">
               <div class="trucker__checkbox"></div>

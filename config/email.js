@@ -20,14 +20,27 @@ const sendWelcomeEmail = async (recipient, token) => {
     to: recipient,
     subject: "Welcome to Steph Logistics Newsletter",
     html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333;">Welcome to Steph Logistics Newsletter!</h2>
-        <p>Thank you for subscribing to our newsletter. You'll now receive updates on shipping news, promotions, and more.</p>
-        <p>If you did not subscribe to our newsletter, or if you wish to unsubscribe, please click the link below:</p>
-        <p><a href="${
-          process.env.SITE_URL || "http://localhost:3000"
-        }/newsletter/unsubscribe/${token}" style="color: #3498db;">Unsubscribe</a></p>
-        <p>Best regards,<br>The Steph Logistics Team</p>
+      <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+        <div style="text-align: center; margin-bottom: 25px;">
+          <img src="${
+            process.env.SITE_URL || "http://localhost:3000"
+          }/assets/images/logo/logo.png" alt="Steph Logistics" style="max-width: 200px;">
+        </div>
+        <div style="background-color: #f8f9fa; border-radius: 8px; padding: 25px; border-left: 4px solid #2a9d8f;">
+          <h2 style="color: #2a9d8f; margin-top: 0;">Welcome to Our Newsletter!</h2>
+          <p style="font-size: 16px; line-height: 1.5;">Thank you for subscribing to the Steph Logistics newsletter. You'll now receive updates on:</p>
+          <ul style="font-size: 16px; line-height: 1.5;">
+            <li>Latest shipping solutions</li>
+            <li>Industry news and trends</li>
+            <li>Exclusive promotions and offers</li>
+            <li>Service updates and improvements</li>
+          </ul>
+          <p style="font-size: 16px; line-height: 1.5;">We're excited to have you join our community and look forward to serving your logistics needs.</p>
+        </div>
+        <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666; text-align: center;">
+          <p>© ${new Date().getFullYear()} Steph Logistics. All rights reserved.</p>
+          <p>20 Ullswater Close, Northampton, NN3 2DJ, United Kingdom</p>
+        </div>
       </div>
     `,
   };
