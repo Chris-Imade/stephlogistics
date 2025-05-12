@@ -57,6 +57,11 @@
     <link rel="stylesheet preload" href="/assets/css/contact.css" as="style" />
     <link rel="stylesheet preload" href="/assets/css/style.css" as="style" />
     <link rel="stylesheet preload" href="/assets/css/toast.css" as="style" />
+    <link
+      rel="stylesheet preload"
+      href="/assets/css/newsletter.css"
+      as="style"
+    />
     <link rel="stylesheet" href="/assets/css/legal.css" />
     <link
       rel="stylesheet"
@@ -833,6 +838,94 @@
           }
         }
       });
+    </script>
+    <script>
+      function submitNewsletterForm(event) {
+        event.preventDefault();
+
+        // Get form and elements
+        const form = document.getElementById("newsletterForm");
+        const email = form.querySelector('input[name="email"]').value.trim();
+        const submitBtn = document.getElementById("newsletterSubmitBtn");
+        const btnIcon = document.getElementById("newsletterBtnIcon");
+        const spinner = document.getElementById("newsletterSpinner");
+
+        // Get feedback elements
+        const feedbackContainer = document.getElementById(
+          "newsletter-feedback"
+        );
+        const feedbackMessage = document.getElementById("newsletter-message");
+        const successIcon = document.querySelector(".success-icon");
+        const errorIcon = document.querySelector(".error-icon");
+
+        // Hide any previous feedback
+        feedbackContainer.classList.add("d-none");
+        feedbackContainer.classList.remove("success", "error");
+        successIcon.classList.add("d-none");
+        errorIcon.classList.add("d-none");
+
+        // Validate email
+        if (!email) {
+          // Show error feedback
+          feedbackContainer.classList.remove("d-none");
+          feedbackContainer.classList.add("error");
+          feedbackMessage.textContent = "Please enter your email address";
+          errorIcon.classList.remove("d-none");
+          return false;
+        }
+
+        // Show spinner
+        btnIcon.classList.add("d-none");
+        spinner.classList.remove("d-none");
+        submitBtn.disabled = true;
+
+        // Send subscription request
+        fetch("/newsletter/subscribe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Reset the form
+            form.reset();
+
+            // Show success or error message
+            feedbackContainer.classList.remove("d-none");
+
+            if (data.success) {
+              feedbackContainer.classList.add("success");
+              feedbackMessage.textContent =
+                "Thank you for subscribing to our newsletter!";
+              successIcon.classList.remove("d-none");
+            } else {
+              feedbackContainer.classList.add("error");
+              feedbackMessage.textContent =
+                data.message || "An error occurred. Please try again.";
+              errorIcon.classList.remove("d-none");
+            }
+          })
+          .catch((error) => {
+            console.error("Newsletter subscription error:", error);
+
+            // Show error message
+            feedbackContainer.classList.remove("d-none");
+            feedbackContainer.classList.add("error");
+            feedbackMessage.textContent =
+              "An error occurred while processing your request. Please try again.";
+            errorIcon.classList.remove("d-none");
+          })
+          .finally(() => {
+            // Reset button state
+            btnIcon.classList.remove("d-none");
+            spinner.classList.add("d-none");
+            submitBtn.disabled = false;
+          });
+
+        return false;
+      }
     </script>
   </body>
 </html>
