@@ -22,9 +22,7 @@ const sendWelcomeEmail = async (recipient, token) => {
     html: `
       <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
         <div style="text-align: center; margin-bottom: 25px;">
-          <img src="${
-            process.env.SITE_URL || "http://localhost:3000"
-          }/assets/images/logo/logo.png" alt="Steph Logistics" style="max-width: 200px;">
+          <img src="https://stephlogistics.co.uk/assets/images/logo/logo.png" alt="Steph Logistics" style="max-width: 200px;">
         </div>
         <div style="background-color: #f8f9fa; border-radius: 8px; padding: 25px; border-left: 4px solid #2a9d8f;">
           <h2 style="color: #2a9d8f; margin-top: 0;">Welcome to Our Newsletter!</h2>
@@ -281,6 +279,186 @@ const sendFranchiseAdminNotification = async (applicantDetails) => {
   }
 };
 
+// Send quote notification to admin
+async function sendQuoteAdminNotification(data) {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: process.env.SMTP_FROM,
+    to: "support@stephlogistics.co.uk",
+    subject: `New Quote Request - ${data.serviceType} - ${data.name}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <img src="https://stephlogistics.co.uk/assets/images/logo/logo.png" alt="Steph Logistics" style="max-width: 200px;">
+        </div>
+        <div style="background-color: #f8f9fa; padding: 30px; border-radius: 10px; border-left: 4px solid #2A9D8F;">
+          <h2 style="color: #2A9D8F; margin-bottom: 20px; border-bottom: 2px solid #2A9D8F; padding-bottom: 10px;">New Quote Request Details</h2>
+          
+          <div style="margin: 20px 0; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <h3 style="color: #333; margin-bottom: 15px; font-size: 18px;">Customer Information</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Name:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${
+                  data.name
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><a href="mailto:${
+                  data.email
+                }" style="color: #2A9D8F;">${data.email}</a></td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><a href="tel:${
+                  data.phone
+                }" style="color: #2A9D8F;">${data.phone}</a></td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Company:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${
+                  data.company || "N/A"
+                }</td>
+              </tr>
+            </table>
+          </div>
+
+          <div style="margin: 20px 0; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <h3 style="color: #333; margin-bottom: 15px; font-size: 18px;">Quote Details</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Service Type:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${
+                  data.serviceType
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Origin:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${
+                  data.origin
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Destination:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${
+                  data.destination
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Weight:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${
+                  data.weight
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Dimensions:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${
+                  data.dimensions
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Special Requirements:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${
+                  data.specialRequirements || "None"
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Additional Message:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${
+                  data.message || "None"
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0;"><strong>Quote ID:</strong></td>
+                <td style="padding: 8px 0;">${data.quoteId}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div style="margin-top: 30px; text-align: center;">
+            <a href="${process.env.BASE_URL}/admin/quotes/${data.quoteId}" 
+               style="display: inline-block; padding: 12px 25px; background-color: #2A9D8F; color: #fff; text-decoration: none; border-radius: 5px; font-weight: 600;">
+              View Quote Details
+            </a>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
+          <p>© ${new Date().getFullYear()} Steph Logistics. All rights reserved.</p>
+          <p>20 Ullswater Close, Northampton, NN3 2DJ, United Kingdom</p>
+        </div>
+      </div>
+    `,
+  };
+
+  return transporter.sendMail(mailOptions);
+}
+
+// Send quote confirmation email to customer
+async function sendQuoteConfirmation(email, data) {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: process.env.SMTP_FROM,
+    to: email,
+    subject: "Quote Request Received - Steph Logistics",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <img src="https://stephlogistics.co.uk/assets/images/logo/logo.png" alt="Steph Logistics" style="max-width: 200px;">
+        </div>
+        <div style="background-color: #f8f9fa; padding: 30px; border-radius: 10px; border-left: 4px solid #2A9D8F;">
+          <h2 style="color: #2A9D8F; margin-bottom: 20px;">Thank You for Your Quote Request</h2>
+          <p style="color: #666; line-height: 1.6;">Dear ${data.name},</p>
+          <p style="color: #666; line-height: 1.6;">We have received your quote request for ${
+            data.serviceType
+          } services. Our team will review your requirements and get back to you within 24 hours.</p>
+          
+          <div style="margin: 30px 0; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <h3 style="color: #333; margin-bottom: 15px;">Your Quote Details</h3>
+            <p style="margin: 5px 0;"><strong>Service Type:</strong> ${
+              data.serviceType
+            }</p>
+            <p style="margin: 5px 0;"><strong>Quote Reference:</strong> ${
+              data.quoteId
+            }</p>
+          </div>
+
+          <div style="margin: 30px 0; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <h3 style="color: #333; margin-bottom: 15px;">What's Next?</h3>
+            <ul style="color: #666; line-height: 1.6; padding-left: 20px;">
+              <li>Our team will review your requirements</li>
+              <li>We'll prepare a detailed quote for your needs</li>
+              <li>You'll receive our response within 24 hours</li>
+            </ul>
+          </div>
+
+          <p style="color: #666; line-height: 1.6;">If you have any questions, please don't hesitate to contact us:</p>
+          <div style="margin: 20px 0; padding: 15px; background-color: #fff; border-radius: 5px; text-align: center;">
+            <p style="margin: 5px 0;">
+              <a href="mailto:support@stephlogistics.co.uk" style="color: #2A9D8F; text-decoration: none;">
+                <i class="fa-regular fa-envelope"></i> support@stephlogistics.co.uk
+              </a>
+            </p>
+            <p style="margin: 5px 0;">
+              <a href="tel:+447404888952" style="color: #2A9D8F; text-decoration: none;">
+                <i class="fa-regular fa-phone"></i> +44 7404 888 952
+              </a>
+            </p>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
+          <p>© ${new Date().getFullYear()} Steph Logistics. All rights reserved.</p>
+          <p>20 Ullswater Close, Northampton, NN3 2DJ, United Kingdom</p>
+        </div>
+      </div>
+    `,
+  };
+
+  return transporter.sendMail(mailOptions);
+}
+
 module.exports = {
   sendWelcomeEmail,
   sendShipmentConfirmation,
@@ -288,4 +466,6 @@ module.exports = {
   sendPasswordResetEmail,
   sendFranchiseConfirmation,
   sendFranchiseAdminNotification,
+  sendQuoteConfirmation,
+  sendQuoteAdminNotification,
 };
