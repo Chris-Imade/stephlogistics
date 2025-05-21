@@ -1,0 +1,179 @@
+/* Quote Area Styles */
+.trucker__quote-area {
+  padding: 100px 0;
+  background-color: #f8f9fa;
+  margin-top: 120px;
+}
+
+.trucker__quote-wrapper {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+}
+
+.trucker__quote-content {
+  flex: 1;
+  max-width: 500px;
+}
+
+.trucker__quote-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2a9d8f;
+  margin-bottom: 20px;
+}
+
+.trucker__quote-text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.trucker__quote-features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.trucker__quote-feature {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.trucker__quote-feature i {
+  font-size: 24px;
+  color: #2a9d8f;
+}
+
+.trucker__quote-feature span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.trucker__quote-form-wrapper {
+  flex: 1;
+  background: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.trucker__quote-form .form-group {
+  margin-bottom: 20px;
+}
+
+.trucker__quote-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.trucker__quote-form input,
+.trucker__quote-form select,
+.trucker__quote-form textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.trucker__quote-form input:focus,
+.trucker__quote-form select:focus,
+.trucker__quote-form textarea:focus {
+  border-color: #2a9d8f;
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+  outline: none;
+}
+
+.trucker__quote-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.trucker__quote-form button {
+  width: 100%;
+  padding: 15px 30px;
+  background-color: #2a9d8f;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.trucker__quote-form button:hover {
+  background-color: #218577;
+  transform: translateY(-1px);
+}
+
+.trucker__quote-form button:active {
+  transform: translateY(1px);
+}
+
+/* Quote feedback styles */
+.quote-feedback {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.quote-feedback.success {
+  background-color: rgba(42, 157, 143, 0.1);
+  color: #2a9d8f;
+  border-left: 3px solid #2a9d8f;
+}
+
+.quote-feedback.error {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border-left: 3px solid #dc3545;
+}
+
+/* Responsive styles */
+@media (max-width: 991px) {
+  .trucker__quote-wrapper {
+    flex-direction: column;
+  }
+
+  .trucker__quote-content {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .trucker__quote-features {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .trucker__quote-area {
+    padding: 60px 0;
+    margin-top: 100px;
+  }
+
+  .trucker__quote-form-wrapper {
+    padding: 30px 20px;
+  }
+
+  .trucker__quote-title {
+    font-size: 28px;
+  }
+}

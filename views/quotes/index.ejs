@@ -1,0 +1,159 @@
+<!-- Start Quote Area -->
+<section class="trucker__quote-area">
+  <div class="trucker__container">
+    <div class="trucker__quote-wrapper">
+      <div class="trucker__quote-content wow fadeInLeft">
+        <h2 class="trucker__quote-title">Get a Quote</h2>
+        <p class="trucker__quote-text">
+          Fill out the form below to receive a customized quote for your
+          shipping needs. Our team will review your request and get back to you
+          within 24 hours.
+        </p>
+        <div class="trucker__quote-features">
+          <div class="trucker__quote-feature">
+            <i class="fa-regular fa-clock"></i>
+            <span>24/7 Support</span>
+          </div>
+          <div class="trucker__quote-feature">
+            <i class="fa-regular fa-shield-check"></i>
+            <span>Secure Process</span>
+          </div>
+          <div class="trucker__quote-feature">
+            <i class="fa-regular fa-truck-fast"></i>
+            <span>Fast Response</span>
+          </div>
+        </div>
+      </div>
+      <div class="trucker__quote-form-wrapper wow fadeInRight">
+        <form
+          id="quoteForm"
+          class="trucker__quote-form"
+          onsubmit="submitQuoteForm(event)"
+        >
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company">Company Name</label>
+                <input type="text" id="company" name="company" />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="serviceType">Service Type *</label>
+                <select id="serviceType" name="serviceType" required>
+                  <option value="">Select a service</option>
+                  <option value="domestic">Domestic Shipping</option>
+                  <option value="international">International Shipping</option>
+                  <option value="ecommerce">E-commerce Integration</option>
+                  <option value="franchise">Franchise Opportunity</option>
+                  <option value="other">Other Services</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="origin">Origin Location *</label>
+                <input type="text" id="origin" name="origin" required />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="destination">Destination Location *</label>
+                <input
+                  type="text"
+                  id="destination"
+                  name="destination"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="weight">Weight *</label>
+                <input
+                  type="text"
+                  id="weight"
+                  name="weight"
+                  placeholder="e.g., 10 kg"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="dimensions">Dimensions *</label>
+                <input
+                  type="text"
+                  id="dimensions"
+                  name="dimensions"
+                  placeholder="e.g., 20x30x40 cm"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="specialRequirements">Special Requirements</label>
+                <textarea
+                  id="specialRequirements"
+                  name="specialRequirements"
+                  rows="2"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="message">Additional Message</label>
+                <textarea id="message" name="message" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <button
+                  type="submit"
+                  class="trucker__btn-style-1"
+                  id="quoteSubmitBtn"
+                >
+                  <span id="quoteSubmitText">Submit Quote Request</span>
+                  <i
+                    class="fa-regular fa-spinner fa-spin d-none"
+                    id="quoteSubmitSpinner"
+                  ></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <!-- Quote feedback message container -->
+        <div id="quote-feedback" class="quote-feedback d-none">
+          <i
+            class="fa-regular fa-circle-check feedback-icon success-icon d-none"
+          ></i>
+          <i
+            class="fa-regular fa-circle-xmark feedback-icon error-icon d-none"
+          ></i>
+          <span id="quote-message"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Quote Area -->
