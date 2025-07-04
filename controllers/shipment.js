@@ -534,151 +534,23 @@ exports.createShipmentRequest = async (req, res) => {
 
 // Get create shipment page
 exports.getCreateShipmentPage = (req, res) => {
+  console.log("Stripe Public Key:", process.env.STRIPE_PUBLIC_KEY); // Debugging line
   res.render("shipment/create-shipment", {
     title: "Create a Shipment",
     path: "/shipment/create",
-    layout: "layouts/main", // Explicitly specify the layout
+    layout: "layouts/payment", // Explicitly specify the layout
+    stripePublicKey: process.env.STRIPE_PUBLIC_KEY,
     extraCSS: '<link rel="stylesheet" href="/assets/css/create-shipment.css">',
-    extraJS:
-      '<script src="/assets/js/shipment-form.js"></script><script src="/assets/js/shipment-select.js"></script>', // Include both scripts
   });
 };
 
-// Create a shipment
+// Create a shipment (deprecated - use payment flow instead)
 exports.createShipment = async (req, res) => {
-  try {
-    const {
-      customerName,
-      customerEmail,
-      customerPhone,
-      company,
-      reference,
-      origin,
-      destination,
-      packageType,
-      weight,
-      dimensions,
-      contents,
-      fragile,
-      insuranceIncluded,
-      declaredValue,
-      carrier,
-      expressDelivery,
-      saturdayDelivery,
-      paymentMethod,
-      estimatedDelivery,
-    } = req.body;
-
-    // Validate required fields
-    if (
-      !customerName ||
-      !customerEmail ||
-      !customerPhone ||
-      !origin ||
-      !destination
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "Missing required fields",
-      });
-    }
-
-    // Map carrier to enum value
-    let carrierEnum = "Other";
-    if (carrier === "ups") carrierEnum = "UPS";
-    else if (carrier === "fedex") carrierEnum = "FedEx";
-    else if (carrier === "dhl") carrierEnum = "DHL";
-
-    // Map package type
-    let packageTypeEnum = "Parcel";
-    if (packageType === "envelope") packageTypeEnum = "Document";
-    else if (packageType === "pallet") packageTypeEnum = "Freight";
-    else if (expressDelivery) packageTypeEnum = "Express";
-
-    // Create new shipment
-    const shipment = new Shipment({
-      customerName,
-      customerEmail,
-      customerPhone,
-      origin,
-      destination,
-      packageType: packageTypeEnum,
-      weight,
-      dimensions: dimensions || {
-        length: 0,
-        width: 0,
-        height: 0,
-      },
-      estimatedDelivery: new Date(estimatedDelivery),
-      fragile: !!fragile,
-      insuranceIncluded: !!insuranceIncluded,
-      expressDelivery: !!expressDelivery,
-      additionalNotes: contents,
-      carrier: carrierEnum,
-      carrierServiceLevel:
-        carrierEnum + (saturdayDelivery ? " Saturday Delivery" : " Standard"),
-      paymentMethod,
-      paymentStatus: "Paid", // Since we're creating this after payment
-      statusHistory: [
-        {
-          status: "Pending",
-          location: origin,
-          note: "Shipment created",
-        },
-      ],
-      // Add trackingNumber field to match existing schema/index
-      trackingNumber: "PENDING", // This will be replaced with trackingId after save
-    });
-
-    // Save to database
-    await shipment.save();
-
-    // After saving, ensure trackingNumber matches trackingId (to fix database schema mismatch)
-    shipment.trackingNumber = shipment.trackingId;
-    await shipment.save();
-
-    console.log("Shipment created:", shipment.trackingId);
-
-    // Send email notifications
-    try {
-      // Send confirmation to customer
-      await transporter.sendMail({
-        from: `"Steph Logistics" <${
-          process.env.SMTP_USER || "noreply@stephlogistics.co.uk"
-        }>`,
-        to: customerEmail,
-        subject: "Your Shipment Confirmation",
-        html: customerShipmentConfirmationTemplate(shipment),
-      });
-
-      // Send notification to admin
-      await transporter.sendMail({
-        from: `"Steph Logistics System" <${
-          process.env.SMTP_USER || "noreply@stephlogistics.co.uk"
-        }>`,
-        to: process.env.ADMIN_EMAIL || "admin@stephlogistics.co.uk",
-        subject: `New Shipment Created - ${shipment.trackingId}`,
-        html: adminShipmentNotificationTemplate(shipment),
-      });
-
-      console.log("Shipment notification emails sent");
-    } catch (emailError) {
-      console.error("Error sending email notifications:", emailError);
-      // Continue even if emails fail
-    }
-
-    // Return success with IDs
-    res.status(201).json({
-      success: true,
-      message: "Shipment created successfully",
-      shipmentId: shipment._id,
-      trackingId: shipment.trackingId,
-    });
-  } catch (error) {
-    console.error("Error creating shipment:", error);
-    res.status(500).json({
-      success: false,
-      message: "An error occurred while creating your shipment",
-    });
-  }
+  // This endpoint is deprecated in favor of the payment flow
+  // Redirect to payment-based shipment creation
+  res.status(400).json({
+    success: false,
+    message: "Direct shipment creation is no longer supported. Please use the payment flow.",
+    redirectTo: "/shipment/create"
+  });
 };

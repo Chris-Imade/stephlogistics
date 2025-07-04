@@ -3,66 +3,115 @@
  * Handles payment processing for shipments
  */
 
-// In production, use real Stripe/PayPal SDK
-// This is a mock implementation
+let stripe;
+const initializeStripe = () => {
+  console.log("[Stripe Debug] Initializing Stripe...");
+  if (!stripe) {
+    const stripeKey = process.env.STRIPE_SECRET_KEY;
+    console.log("[Stripe Debug] Stripe key present:", !!stripeKey);
+    if (!stripeKey) {
+      console.error("[Stripe Debug] Stripe secret key is not configured");
+      return null;
+    }
+
+    try {
+      stripe = require("stripe")(stripeKey);
+      console.log("[Stripe Debug] Stripe client initialized successfully");
+    } catch (error) {
+      console.error("[Stripe Debug] Error initializing Stripe:", error);
+      return null;
+    }
+  }
+  return stripe;
+};
+
 const paymentProviders = {
   stripe: {
     createPaymentIntent: async (amount, currency, metadata) => {
-      console.log(`Creating Stripe payment intent for ${amount} ${currency}`);
-      // In production: Use Stripe SDK to create a real payment intent
+      try {
+        console.log("[Stripe Debug] Creating payment intent...");
+        const stripeClient = initializeStripe();
+        if (!stripeClient) {
+          throw new Error("Stripe is not properly configured");
+        }
 
-      // Mock successful payment
-      return {
-        id: `pi_${Date.now()}${Math.floor(Math.random() * 1000)}`,
-        amount,
-        currency,
-        status: "requires_payment_method",
-        client_secret: `seti_${Date.now()}${Math.floor(
-          Math.random() * 1000
-        )}_secret_${Math.random().toString(36).substring(2, 10)}`,
-        metadata,
-      };
+        const paymentIntent = await stripeClient.paymentIntents.create({
+          amount: Math.round(amount * 100), // Convert to cents
+          currency: currency.toLowerCase(),
+          metadata,
+          automatic_payment_methods: {
+            enabled: true,
+          },
+        });
+
+        console.log(
+          "[Stripe Debug] Payment intent created successfully:",
+          paymentIntent.id
+        );
+        return paymentIntent;
+      } catch (error) {
+        console.error("[Stripe Debug] Payment intent creation error:", {
+          message: error.message,
+          type: error.type,
+          code: error.code,
+        });
+        throw error;
+      }
     },
 
     confirmPayment: async (paymentIntentId) => {
-      console.log(`Confirming Stripe payment ${paymentIntentId}`);
-      // In production: Use Stripe SDK to confirm the payment
-
-      // Mock successful confirmation
-      return {
-        id: paymentIntentId,
-        status: "succeeded",
-      };
+      try {
+        const stripeClient = initializeStripe();
+        if (!stripeClient) {
+          throw new Error("Stripe is not properly configured");
+        }
+        const paymentIntent = await stripeClient.paymentIntents.retrieve(
+          paymentIntentId
+        );
+        return paymentIntent;
+      } catch (error) {
+        console.error("Stripe payment confirmation error:", error);
+        throw error;
+      }
     },
   },
 
   paypal: {
     createOrder: async (amount, currency, description) => {
-      console.log(`Creating PayPal order for ${amount} ${currency}`);
-      // In production: Use PayPal SDK to create a real order
-
-      // Mock successful order creation
-      return {
-        id: `order_${Date.now()}${Math.floor(Math.random() * 1000)}`,
-        status: "CREATED",
-        links: [
-          {
-            href: `https://www.sandbox.paypal.com/checkoutnow?token=order_${Date.now()}`,
-            rel: "approve",
-          },
-        ],
-      };
+      try {
+        // For PayPal hosted buttons, we don't need to create an order on the backend.
+        // The hosted button will handle the order creation.
+        return {
+          id: process.env.PAYPAL_HOSTED_BUTTON_ID,
+          status: "CREATED",
+          links: [
+            {
+              href: `https://www.paypal.com/ncp/payment/${process.env.PAYPAL_HOSTED_BUTTON_ID}`,
+              rel: "approve",
+            },
+          ],
+        };
+      } catch (error) {
+        console.error("PayPal order creation error:", error);
+        throw error;
+      }
     },
 
     captureOrder: async (orderId) => {
-      console.log(`Capturing PayPal order ${orderId}`);
-      // In production: Use PayPal SDK to capture the payment
-
-      // Mock successful capture
-      return {
-        id: orderId,
-        status: "COMPLETED",
-      };
+      try {
+        // For PayPal hosted buttons, the payment is already captured.
+        // We just need to verify the order ID matches our hosted button.
+        if (orderId === process.env.PAYPAL_HOSTED_BUTTON_ID) {
+          return {
+            id: orderId,
+            status: "COMPLETED",
+          };
+        }
+        throw new Error("Invalid PayPal order ID");
+      } catch (error) {
+        console.error("PayPal order capture error:", error);
+        throw error;
+      }
     },
   },
 };
@@ -97,7 +146,7 @@ exports.initiatePayment = async (provider, paymentDetails) => {
     // Route to appropriate payment provider
     if (provider === "stripe") {
       return await paymentProviders.stripe.createPaymentIntent(
-        amount * 100, // Stripe uses cents
+        amount,
         currency,
         { shipmentId, customerEmail }
       );
@@ -148,17 +197,4 @@ exports.completePayment = async (provider, completionDetails) => {
     console.error("Payment completion error:", error);
     throw error;
   }
-};
-
-/**
- * Generate an invoice number
- * @returns {String} Unique invoice number
- */
-exports.generateInvoiceNumber = () => {
-  const prefix = "INV";
-  const timestamp = Date.now().toString().slice(-8);
-  const random = Math.floor(Math.random() * 1000)
-    .toString()
-    .padStart(3, "0");
-  return `${prefix}-${timestamp}${random}`;
 };

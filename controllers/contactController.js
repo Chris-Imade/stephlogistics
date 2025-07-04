@@ -33,7 +33,7 @@ const userReceiptTemplate = (name) => `
             <p>Dear ${name},</p>
             <p>Thank you for reaching out to us. We have received your message and will get back to you as soon as possible.</p>
             <p>Our team typically responds within 24 hours during business days.</p>
-            <p>If you have any urgent inquiries, please don't hesitate to call us at +44 7506 323070.</p>
+            <p>If you have any urgent inquiries, please don't hesitate to call us at +44 7404 888 952.</p>
         </div>
         <div class="footer">
             <p>Best regards,<br>The DXpress Team</p>

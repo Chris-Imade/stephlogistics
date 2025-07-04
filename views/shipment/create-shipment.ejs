@@ -34,6 +34,8 @@
           </div>
         </div>
 
+        <div id="toast-container" class="toast-container"></div>
+
         <form id="shipment-form">
           <!-- Step 1: Customer Information -->
           <div id="step-1" class="step-form active">
@@ -527,261 +529,57 @@
             </div>
           </div>
 
-          <!-- Step 5: Payment & Review -->
+          <!-- Step 5: Payment Method -->
           <div id="step-5" class="step-form">
-            <h3 class="section-heading">Payment & Review</h3>
+            <h3 class="section-heading">Payment Method</h3>
+            <div id="payment-method-options">
+              <p>Select your preferred payment method:</p>
+              <div class="payment-buttons">
+                <button type="button" class="payment-btn" id="stripe-button">
+                  <span class="spinner"></span>
+                  <span class="button-text"
+                    ><i class="fab fa-stripe"></i> Stripe</span
+                  >
+                </button>
+                <button type="button" class="payment-btn" id="paypal-btn">
+                  <i class="fab fa-paypal"></i> PayPal
+                </button>
+              </div>
+              <input
+                type="hidden"
+                id="payment-method"
+                name="payment-method"
+                value=""
+              />
+            </div>
 
-            <div class="order-summary">
-              <h4>Order Summary</h4>
-              <div class="summary-row">
-                <span>Shipping Service:</span>
-                <span id="summary-service">-</span>
-              </div>
-              <div class="summary-row">
-                <span>Base Shipping Cost:</span>
-                <span id="summary-shipping">£0.00</span>
-              </div>
+            <!-- Payment Details -->
+            <div id="payment-details-container" style="display: none">
+              <!-- Stripe Elements will be inserted here -->
+              <div id="payment-element"></div>
               <div
-                class="summary-row"
-                id="summary-row-saturday"
+                id="payment-status"
+                style="color: red; margin-top: 10px"
+              ></div>
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="submit-stripe-payment"
                 style="display: none"
               >
-                <span>Saturday Delivery:</span>
-                <span id="summary-saturday">£12.50</span>
+                <span class="spinner"></span>
+                <span class="button-text">Confirm Payment</span>
+              </button>
+              <div id="paypal-button-container" style="display: none">
+                <div class="paypal-container w-100"></div>
               </div>
-              <div
-                class="summary-row"
-                id="summary-row-insurance"
-                style="display: none"
-              >
-                <span>Insurance:</span>
-                <span id="summary-insurance">£0.00</span>
-              </div>
-              <div class="summary-row">
-                <span>VAT (20%):</span>
-                <span id="summary-vat">£0.00</span>
-              </div>
-              <div class="summary-row total">
-                <span>Total:</span>
-                <span id="summary-total">£0.00</span>
-              </div>
-            </div>
-
-            <h4 class="subsection-heading">Payment Method</h4>
-            <div class="payment-methods">
-              <div class="payment-method" data-method="card">
-                <input
-                  type="radio"
-                  id="payment-card"
-                  name="payment-method"
-                  value="card"
-                  checked
-                  required
-                />
-                <div class="payment-method-icon">💳</div>
-                <div>Credit/Debit Card</div>
-              </div>
-              <div class="payment-method" data-method="paypal">
-                <input
-                  type="radio"
-                  id="payment-paypal"
-                  name="payment-method"
-                  value="paypal"
-                  required
-                />
-                <div class="payment-method-icon">🅿️</div>
-                <div>PayPal</div>
-              </div>
-            </div>
-
-            <div id="card-payment-fields" class="mt-3">
-              <div class="form-group">
-                <label for="card-name" class="form-label">Name on Card</label>
-                <input
-                  type="text"
-                  id="card-name"
-                  name="card-name"
-                  class="form-control"
-                  placeholder="Enter card name"
-                />
-              </div>
-              <div class="form-group">
-                <label for="card-number" class="form-label">Card Number</label>
-                <input
-                  type="text"
-                  id="card-number"
-                  name="card-number"
-                  class="form-control"
-                  placeholder="1234 5678 9012 3456"
-                />
-              </div>
-              <div class="form-row">
-                <div class="form-col">
-                  <div class="form-group">
-                    <label for="card-expiry" class="form-label"
-                      >Expiry Date</label
-                    >
-                    <input
-                      type="text"
-                      id="card-expiry"
-                      name="card-expiry"
-                      class="form-control"
-                      placeholder="MM/YY"
-                    />
-                  </div>
-                </div>
-                <div class="form-col">
-                  <div class="form-group">
-                    <label for="card-cvv" class="form-label">CVV</label>
-                    <input
-                      type="text"
-                      id="card-cvv"
-                      name="card-cvv"
-                      class="form-control"
-                      placeholder="123"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div id="paypal-payment-fields" class="mt-3" style="display: none">
-              <div class="form-group">
-                <p>
-                  You will be redirected to PayPal to complete your payment
-                  after you click "Complete Order".
-                </p>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="terms"
-                  name="terms"
-                  required
-                />
-                <label class="form-check-label" for="terms"
-                  >I agree to the
-                  <a href="/terms" target="_blank">Terms and Conditions</a> and
-                  <a href="/privacy" target="_blank">Privacy Policy</a></label
-                >
-              </div>
+              <div id="payment-error" class="payment-error"></div>
             </div>
 
             <div class="btn-group">
-              <button type="button" class="btn btn-outline" id="btn-back-4">
+              <button type="button" class="btn btn-secondary" id="btn-back-4">
                 <span class="icon">←</span> Back
               </button>
-              <button
-                type="button"
-                class="btn btn-success"
-                id="btn-submit"
-                onclick="submitShipmentForm(); return false;"
-              >
-                <span id="submit-text">Complete Order</span>
-                <span id="submit-spinner" class="spinner" style="display: none">
-                  <i class="fa fa-circle-notch fa-spin"></i>
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Payment Processing Page (shown during payment processing) -->
-          <div
-            id="payment-processing"
-            class="step-form"
-            style="display: none; text-align: center; padding: 40px 20px"
-          >
-            <div class="processing-icon mb-4">
-              <i
-                class="fa fa-credit-card fa-3x"
-                style="color: var(--primary)"
-              ></i>
-              <div class="spinner-overlay">
-                <div class="spinner-circle"></div>
-              </div>
-            </div>
-            <h3>Processing Payment</h3>
-            <p class="text-muted">
-              Please wait while we process your payment...
-            </p>
-            <div class="progress" style="height: 10px; margin: 30px 0">
-              <div
-                id="payment-progress-bar"
-                class="progress-inner"
-                style="width: 0%"
-              ></div>
-            </div>
-            <p class="text-muted small">
-              Do not close this window or refresh the page.
-            </p>
-          </div>
-
-          <!-- Payment Success Page (shown after payment is successful) -->
-          <div
-            id="payment-success"
-            class="step-form"
-            style="display: none; text-align: center; padding: 40px 20px"
-          >
-            <div class="success-icon mb-4">
-              <i
-                class="fa fa-check-circle fa-3x"
-                style="color: var(--success)"
-              ></i>
-            </div>
-            <h3>Payment Successful!</h3>
-            <p>Your payment has been processed successfully.</p>
-            <p class="text-muted">We're now creating your shipment...</p>
-
-            <button id="finish-button" class="btn btn-primary">
-              <span id="finish-text">Finish</span>
-              <span id="finish-spinner" class="spinner" style="display: none">
-                <i class="fa fa-circle-notch fa-spin"></i>
-              </span>
-            </button>
-          </div>
-
-          <!-- Replace the old success message with this one -->
-          <div
-            id="success-message"
-            class="success-message"
-            style="display: none"
-          >
-            <div class="success-icon">✅</div>
-            <h3>Shipment Created Successfully!</h3>
-            <div class="shipment-info">
-              <div class="info-item">
-                <span class="info-label">Shipment ID:</span>
-                <span class="info-value" id="shipment-id">SH12345678</span>
-                <button class="copy-btn" data-clipboard-target="#shipment-id">
-                  <i class="fa fa-copy"></i>
-                </button>
-              </div>
-              <div class="info-item">
-                <span class="info-label">Tracking Number:</span>
-                <span class="info-value" id="tracking-number">TR12345678</span>
-                <button
-                  class="copy-btn"
-                  data-clipboard-target="#tracking-number"
-                >
-                  <i class="fa fa-copy"></i>
-                </button>
-              </div>
-            </div>
-            <p class="mt-2">
-              We've sent a confirmation email with all the details to your email
-              address.
-            </p>
-            <div class="mt-3">
-              <a
-                href="/shipment/track"
-                class="btn btn-primary"
-                id="track-shipment-btn"
-                >Track Your Shipment</a
-              >
             </div>
           </div>
         </form>
@@ -791,88 +589,3 @@
 </div>
 
 <% if (typeof locals.extraJS !== 'undefined') { %> <%- locals.extraJS %> <% } %>
-
-<!-- <script src="/assets/js/shipment-form.js"></script>
-
-<script>
-  function submitShipmentForm() {
-    console.log("Direct submit function called");
-
-    // Hide step 5
-    const step5 = document.getElementById("step-5");
-    if (step5) step5.style.display = "none";
-
-    // Show payment processing
-    const processingUI = document.getElementById("payment-processing");
-    if (processingUI) processingUI.style.display = "block";
-
-    // Update button state
-    const submitBtn = document.getElementById("btn-submit");
-    const submitText = document.getElementById("submit-text");
-    const submitSpinner = document.getElementById("submit-spinner");
-
-    if (submitBtn && submitText && submitSpinner) {
-      submitBtn.disabled = true;
-      submitText.style.opacity = "0.6";
-      submitSpinner.style.display = "inline-block";
-    }
-
-    // Simulate payment processing
-    const progressBar = document.getElementById("payment-progress-bar");
-    let width = 0;
-
-    const interval = setInterval(function () {
-      if (width >= 100) {
-        clearInterval(interval);
-
-        // Hide processing page
-        if (processingUI) processingUI.style.display = "none";
-
-        // Show success page
-        const successPage = document.getElementById("payment-success");
-        if (successPage) successPage.style.display = "block";
-
-        // Setup finish button
-        const finishBtn = document.getElementById("finish-button");
-        if (finishBtn) {
-          finishBtn.onclick = function () {
-            // Hide success page
-            successPage.style.display = "none";
-
-            // Show final success message
-            const finalSuccess = document.getElementById("success-message");
-            if (finalSuccess) finalSuccess.style.display = "block";
-
-            // Set tracking info
-            const shipmentId = `SH${Date.now().toString().slice(-10)}`;
-            const trackingId = `TR${Date.now().toString().slice(-10)}`;
-
-            document.getElementById("shipment-id").textContent = shipmentId;
-            document.getElementById("tracking-number").textContent = trackingId;
-
-            // Update tracking button
-            const trackBtn = document.getElementById("track-shipment-btn");
-            if (trackBtn) trackBtn.href = `/shipment/track?id=${trackingId}`;
-          };
-        }
-      } else {
-        width += 3;
-        if (progressBar) progressBar.style.width = width + "%";
-      }
-    }, 100);
-
-    return false;
-  }
-
-  // Add event listener to submit button directly
-  document.addEventListener("DOMContentLoaded", function () {
-    console.log("Direct inline script loaded");
-    const submitBtn = document.getElementById("btn-submit");
-    if (submitBtn) {
-      console.log("Adding direct event listener to submit button");
-      submitBtn.onclick = submitShipmentForm;
-    } else {
-      console.error("Submit button not found by direct script");
-    }
-  });
-</script> -->

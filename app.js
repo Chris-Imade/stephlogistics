@@ -97,6 +97,7 @@ const faqRoutes = require("./routes/faq");
 const careersRoutes = require("./routes/careers");
 const legalRoutes = require("./routes/legal");
 const quotesRoutes = require("./routes/quotes");
+const paymentRoutes = require("./routes/payment");
 
 // Apply routes
 app.use("/", indexRoutes);
@@ -120,6 +121,7 @@ app.use("/faq", faqRoutes);
 app.use("/careers", careersRoutes);
 app.use("/legal", legalRoutes);
 app.use("/quotes", quotesRoutes);
+app.use("/payment", paymentRoutes);
 
 // 404 page
 app.use((req, res) => {

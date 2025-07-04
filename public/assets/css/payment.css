@@ -1,0 +1,156 @@
+/* Payment Method Selection */
+.payment-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-btn {
+  flex: 1;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.payment-btn:hover {
+  border-color: #667eea;
+  background-color: #f1f3fe;
+}
+
+.payment-btn.active {
+  border-color: #667eea;
+  background-color: #e6e9fd;
+  color: #5a67d8;
+  font-weight: 600;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5);
+}
+
+.payment-btn i {
+  font-size: 1.5rem;
+}
+
+/* Stripe Payment Element */
+#payment-element {
+  margin-bottom: 1.5rem;
+}
+
+/* Payment Error Messages */
+.payment-error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Toast Notifications */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast-message {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  border-left: 5px solid;
+  transform: translateX(120%);
+  transition: transform 0.3s ease-in-out;
+  width: 350px;
+  max-width: 90vw;
+}
+
+.toast-message.show {
+  transform: translateX(0);
+}
+
+.toast-message.success {
+  border-color: #28a745;
+}
+
+.toast-message.error {
+  border-color: #dc3545;
+}
+
+.toast-message.info {
+  border-color: #17a2b8;
+}
+
+.toast-icon {
+  font-size: 24px;
+  margin-right: 15px;
+}
+
+.toast-icon .fa-check-circle {
+  color: #28a745;
+}
+
+.toast-icon .fa-times-circle {
+  color: #dc3545;
+}
+
+.toast-icon .fa-info-circle {
+  color: #17a2b8;
+}
+
+.toast-content {
+  flex-grow: 1;
+}
+
+.toast-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.toast-body {
+  font-size: 14px;
+  color: #555;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.toast-close:hover {
+  color: #333;
+}
+
+/* Spinner */
+.spinner {
+  display: none;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border-left-color: #667eea;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

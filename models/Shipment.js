@@ -118,12 +118,24 @@ const shipmentSchema = new mongoose.Schema({
   ],
   paymentStatus: {
     type: String,
-    enum: ["Unpaid", "Paid", "Refunded"],
+    enum: ["Unpaid", "Paid", "Refunded", "Failed", "Processing"],
     default: "Unpaid",
   },
   paymentMethod: String,
   paymentId: String,
+  paymentIntentId: String,
+  paymentProvider: String,
+  paymentCompletedAt: Date,
   invoiceId: String,
+  shippingCostCalculated: {
+    baseAmount: Number,
+    vatAmount: Number,
+    totalAmount: Number,
+    currency: {
+      type: String,
+      default: "GBP",
+    },
+  },
 });
 
 // Generate tracking ID pre-save
