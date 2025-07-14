@@ -20,14 +20,14 @@
 <!-- Payment Scripts -->
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-  window.PAYPAL_HOSTED_BUTTON_ID = "<%= process.env.PAYPAL_HOSTED_BUTTON_ID %>";
+  window.STRIPE_PUBLIC_KEY = "<%= process.env.STRIPE_PUBLIC_KEY %>";
 </script>
-<script src="https://www.paypal.com/sdk/js?client-id=<%= process.env.PAYPAL_CLIENT_ID %>&components=hosted-buttons&disable-funding=venmo&currency=GBP"></script>
-
+<script src="https://www.paypal.com/sdk/js?client-id=<%= process.env.PAYPAL_CLIENT_ID %>&components=buttons&disable-funding=venmo&currency=GBP"></script>
 <!-- Load shipment form and payment scripts -->
 <script src="/assets/js/shipment-form.js" defer></script>
 <script src="/assets/js/stripe-payment.js" type="module"></script>
-<script src="/assets/js/shipment-select.js" type="module"></script>
+<script src="/assets/js/shipment-select.js"></script>
+<script src="/assets/js/paypal-payment.js"></script>
 
 <!-- Fix for WOW.js animations -->
 <script>
@@ -64,6 +64,8 @@
     }, 1000); // Give the main JS time to initialize
   });
 </script>
+
+<!-- Contact Form logic -->
 <script>
   function submitContactForm() {
     const form = document.getElementById("contactForm");
@@ -134,6 +136,8 @@
       });
   }
 </script>
+
+<!-- Franchise form logic -->
 <script>
   function submitFranchiseForm() {
     const form = document.getElementById("franchiseForm");
@@ -210,6 +214,8 @@
       });
   }
 </script>
+
+<!-- Shipment form submission script -->
 <script>
   function submitShipmentForm() {
     console.log("Direct submit function called");
@@ -512,6 +518,9 @@
     console.log("Order summary updated successfully");
   }
 </script>
+
+<!-- Shipment Tracking functionality -->
+<!-- Only include this script on the tracking page -->
 <script>
   /**
    * Shipment Tracking functionality
@@ -646,6 +655,8 @@
     }
   });
 </script>
+
+<!-- Newsletter Subscription Script -->
 <script>
   function submitNewsletterForm(event) {
     event.preventDefault();
@@ -731,36 +742,4 @@
 
     return false;
   }
-</script>
-<script>
-  (function () {
-    if (!window.chatbase || window.chatbase("getState") !== "initialized") {
-      window.chatbase = (...args) => {
-        if (!window.chatbase.q) {
-          window.chatbase.q = [];
-        }
-        window.chatbase.q.push(args);
-      };
-      window.chatbase = new Proxy(window.chatbase, {
-        get(target, prop) {
-          if (prop === "q") {
-            return target.q;
-          }
-          return (...args) => target(prop, ...args);
-        },
-      });
-    }
-    const onLoad = function () {
-      const script = document.createElement("script");
-      script.src = "https://www.chatbase.co/embed.min.js";
-      script.id = "kRCsHAl6IVDOlXyFkd9Re";
-      script.domain = "www.chatbase.co";
-      document.body.appendChild(script);
-    };
-    if (document.readyState === "complete") {
-      onLoad();
-    } else {
-      window.addEventListener("load", onLoad);
-    }
-  })();
 </script>

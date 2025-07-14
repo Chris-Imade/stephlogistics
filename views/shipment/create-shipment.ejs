@@ -561,17 +561,11 @@
                 id="payment-status"
                 style="color: red; margin-top: 10px"
               ></div>
-              <button
-                type="button"
-                class="btn btn-primary"
-                id="submit-stripe-payment"
-                style="display: none"
-              >
-                <span class="spinner"></span>
-                <span class="button-text">Confirm Payment</span>
-              </button>
               <div id="paypal-button-container" style="display: none">
-                <div class="paypal-container w-100"></div>
+                <div
+                  class="paypal-container w-100"
+                  style="min-height: 200px"
+                ></div>
               </div>
               <div id="payment-error" class="payment-error"></div>
             </div>
@@ -580,6 +574,11 @@
               <button type="button" class="btn btn-secondary" id="btn-back-4">
                 <span class="icon">←</span> Back
               </button>
+              <!-- Stripe submit button will be shown only when Stripe is selected -->
+              <button type="button" class="btn btn-primary" id="submit-stripe-payment" style="display: none;">
+                <span class="spinner"></span>
+                <span class="button-text">Confirm Payment</span>
+              </button>
             </div>
           </div>
         </form>
@@ -587,5 +586,8 @@
     </div>
   </div>
 </div>
+
+<!-- Your custom JS -->
+<script src="/assets/js/shipment-form.js"></script>
 
 <% if (typeof locals.extraJS !== 'undefined') { %> <%- locals.extraJS %> <% } %>

@@ -16,4 +16,7 @@ router.post("/request", shipmentController.createShipmentRequest);
 router.get("/create", shipmentController.getCreateShipmentPage);
 router.post("/create", shipmentController.createShipment);
 
+// Route to update shipment payment status
+router.post("/:id/payment-status", shipmentController.updateShipmentPaymentStatus);
+
 module.exports = router;

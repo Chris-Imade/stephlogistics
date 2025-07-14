@@ -510,6 +510,22 @@
   text-align: center;
 }
 
+.paypal-wrapper {
+  display: flex;
+  justify-content: center; /* centers horizontally */
+  align-items: center; /* centers vertically (if needed) */
+  width: 100%; /* full width container */
+}
+
+#paypal-button-container {
+  display: block;
+  width: auto;
+}
+
+.paypal-container {
+  width: 100% !important;
+}
+
 /* Hidden elements */
 .hidden {
   display: none;

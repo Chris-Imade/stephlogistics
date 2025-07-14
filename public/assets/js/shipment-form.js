@@ -69,7 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function showToast(message, type = "error") {
-    const toastContainer = document.getElementById("toast-container") || createToastContainer();
+    const toastContainer =
+      document.getElementById("toast-container") || createToastContainer();
     const toast = document.createElement("div");
     toast.className = `toast ${type} show`;
     toast.innerHTML = `<div class="toast-content"><div class="toast-message">${message}</div></div>`;
@@ -89,20 +90,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.collectFormData = function () {
     const packageTypeMapping = {
-      "envelope": "Document",
+      envelope: "Document",
       "small-package": "Parcel",
       "medium-package": "Parcel",
       "large-package": "Parcel",
-      "pallet": "Freight",
+      pallet: "Freight",
     };
     const selectedPackageType = document.getElementById("package-type").value;
 
     return {
-      customerName: `${document.getElementById("first-name").value} ${document.getElementById("last-name").value}`,
+      customerName: `${document.getElementById("first-name").value} ${
+        document.getElementById("last-name").value
+      }`,
       customerEmail: document.getElementById("email").value,
       customerPhone: document.getElementById("phone").value,
-      origin: `${document.getElementById("origin-address").value}, ${document.getElementById("origin-city").value}, ${document.getElementById("origin-postal-code").value}, ${document.getElementById("origin-country").value}`,
-      destination: `${document.getElementById("destination-address").value}, ${document.getElementById("destination-city").value}, ${document.getElementById("destination-postal-code").value}, ${document.getElementById("destination-country").value}`,
+      origin: `${document.getElementById("origin-address").value}, ${
+        document.getElementById("origin-city").value
+      }, ${document.getElementById("origin-postal-code").value}, ${
+        document.getElementById("origin-country").value
+      }`,
+      destination: `${document.getElementById("destination-address").value}, ${
+        document.getElementById("destination-city").value
+      }, ${document.getElementById("destination-postal-code").value}, ${
+        document.getElementById("destination-country").value
+      }`,
       packageType: packageTypeMapping[selectedPackageType] || "Parcel",
       weight: document.getElementById("weight").value,
       dimensions: {
@@ -118,10 +129,15 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   window.calculateTotalAmount = function () {
-    const selectedShipping = document.querySelector('input[name="shipping-method"]:checked');
+    const selectedShipping = document.querySelector(
+      'input[name="shipping-method"]:checked'
+    );
     if (!selectedShipping) return 0;
-    const basePrice = parseFloat(selectedShipping.getAttribute("data-price")) || 0;
-    const saturdayPrice = document.getElementById("saturday-delivery")?.checked ? 12.50 : 0;
+    const basePrice =
+      parseFloat(selectedShipping.getAttribute("data-price")) || 0;
+    const saturdayPrice = document.getElementById("saturday-delivery")?.checked
+      ? 12.5
+      : 0;
     return basePrice + saturdayPrice;
   };
 
@@ -163,17 +179,63 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Payment Method Toggle
-  document.getElementById("stripe-btn").addEventListener("click", () => {
-    document.getElementById("payment-method").value = "stripe";
-    document.getElementById("payment-details-container").style.display = "block";
+  const stripeBtn = document.getElementById("stripe-button");
+  const paypalBtn = document.getElementById("paypal-btn");
+  const paymentMethodInput = document.getElementById("payment-method");
+  const submitStripePaymentButton = document.getElementById("submit-stripe-payment");
+
+  stripeBtn.addEventListener("click", () => {
+    paymentMethodInput.value = "stripe";
+    // Show Stripe payment element and the submit button
+    document.getElementById("payment-element").style.display = "block";
+    submitStripePaymentButton.style.display = "block";
+    // Hide PayPal elements
     document.getElementById("paypal-button-container").style.display = "none";
   });
 
-  document.getElementById("paypal-btn").addEventListener("click", () => {
-    document.getElementById("payment-method").value = "paypal";
-    document.getElementById("payment-details-container").style.display = "none";
+  paypalBtn.addEventListener("click", () => {
+    paymentMethodInput.value = "paypal";
+    // Hide Stripe elements and the submit button
+    document.getElementById("payment-element").style.display = "none";
+    submitStripePaymentButton.style.display = "none";
+    // Show PayPal elements (paypal-payment.js handles rendering)
     document.getElementById("paypal-button-container").style.display = "block";
   });
+
+  // Add event listener to the Stripe submit button
+  if (submitStripePaymentButton) {
+    submitStripePaymentButton.addEventListener("click", async () => {
+      // Prevent double submission if already processing
+      if (submitStripePaymentButton.disabled) return;
+
+      setButtonLoading(submitStripePaymentButton, true);
+      try {
+        if (!window.stripeElementsInstance || !window.stripeShipmentId) {
+          showMessage("Stripe payment not initialized. Please select Stripe again.", true);
+          setButtonLoading(submitStripePaymentButton, false);
+          return;
+        }
+
+        const { error } = await stripe.confirmPayment({
+          elements: window.stripeElementsInstance,
+          confirmParams: {
+            return_url: `${window.location.origin}/payment/success.html?shipment_id=${window.stripeShipmentId}`,
+          },
+        });
+
+        if (error) {
+          showMessage(error.message || "Stripe payment failed.", true);
+        } else {
+          showMessage("Stripe payment initiated. Redirecting...", false);
+        }
+      } catch (err) {
+        console.error("Stripe payment submission error:", err);
+        showMessage("An unexpected error occurred during Stripe payment.", true);
+      } finally {
+        setButtonLoading(submitStripePaymentButton, false);
+      }
+    });
+  }
 
   // Initial setup
   updateProgressBar();

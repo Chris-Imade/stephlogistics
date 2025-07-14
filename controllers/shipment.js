@@ -534,7 +534,7 @@ exports.createShipmentRequest = async (req, res) => {
 
 // Get create shipment page
 exports.getCreateShipmentPage = (req, res) => {
-  console.log("Stripe Public Key:", process.env.STRIPE_PUBLIC_KEY); // Debugging line
+  // console.log("Stripe Public Key:", process.env.STRIPE_PUBLIC_KEY); // Debugging line
   res.render("shipment/create-shipment", {
     title: "Create a Shipment",
     path: "/shipment/create",
@@ -553,4 +553,33 @@ exports.createShipment = async (req, res) => {
     message: "Direct shipment creation is no longer supported. Please use the payment flow.",
     redirectTo: "/shipment/create"
   });
+};
+
+// Update shipment payment status
+exports.updateShipmentPaymentStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, paymentDetails } = req.body;
+
+    const shipment = await Shipment.findById(id);
+
+    if (!shipment) {
+      return res.status(404).json({ success: false, message: "Shipment not found." });
+    }
+
+    shipment.status = status; // e.g., "Paid"
+    shipment.paymentDetails = paymentDetails; // Store payment gateway details
+    shipment.statusHistory.push({
+      status: status,
+      location: "Payment Gateway", // Or more specific location if available
+      note: `Payment processed via ${paymentDetails?.provider || 'unknown'}`,
+    });
+
+    await shipment.save();
+
+    res.json({ success: true, message: "Shipment payment status updated successfully." });
+  } catch (error) {
+    console.error("Error updating shipment payment status:", error);
+    res.status(500).json({ success: false, message: "An error occurred while updating payment status." });
+  }
 };

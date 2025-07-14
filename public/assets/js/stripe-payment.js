@@ -1,12 +1,19 @@
-import { loadStripe } from "@stripe/stripe-js";
+console.log(
+  "<------------ assets/js/stripe-payment loaded successfully ------------>"
+);
 
-console.log("<------------ assets/js/stripe-payment loaded successfully ------------>");
-
-function showMessage(msg, isError = true) {
+function showMessage(msg, isError = true, timeout = 5000) {
   const status = document.getElementById("payment-status");
   if (!status) return;
   status.textContent = msg;
   status.style.color = isError ? "red" : "green";
+
+  if (timeout > 0) {
+    setTimeout(() => {
+      status.textContent = "";
+      status.style.color = "";
+    }, timeout);
+  }
 }
 
 function setButtonLoading(button, isLoading) {
@@ -24,7 +31,7 @@ const stripePublicKey = document.querySelector(
   "meta[name='stripe-public-key']"
 ).content;
 console.log("Pub Key accessed from client side: ", stripePublicKey);
-const stripe = await loadStripe(stripePublicKey);
+const stripe = Stripe(stripePublicKey);
 
 const stripeButton = document.getElementById("stripe-button");
 stripeButton?.addEventListener("click", async () => {
@@ -33,6 +40,9 @@ stripeButton?.addEventListener("click", async () => {
   const paymentDetailsContainer = document.getElementById(
     "payment-details-container"
   );
+  // Hide PayPal container and show Stripe elements
+  document.getElementById("paypal-button-container").style.display = "none";
+  document.getElementById("payment-element").style.display = "block"; // Ensure Stripe element container is visible
   paymentDetailsContainer.style.display = "block";
 
   try {
@@ -77,6 +87,11 @@ stripeButton?.addEventListener("click", async () => {
     const { data } = await paymentRes.json();
     const { clientSecret } = data;
 
+    if(clientSecret) {
+      // Proceed with payment
+      
+    }
+
     if (!clientSecret) {
       showMessage("Stripe client secret missing.");
       setButtonLoading(stripeButton, false);
@@ -85,28 +100,17 @@ stripeButton?.addEventListener("click", async () => {
 
     // 3. Mount Stripe payment element
     const elements = stripe.elements({ clientSecret });
+    console.log("Stripe clientSecret:", clientSecret);
+
+    const existing = document.querySelector("#payment-element > *");
+    if (existing) existing.remove();
+
     const paymentElement = elements.create("payment");
     paymentElement.mount("#payment-element");
 
-    const submitStripePayment = document.getElementById(
-      "submit-stripe-payment"
-    );
-    submitStripePayment.style.display = "block";
-
-    submitStripePayment.addEventListener("click", async () => {
-      setButtonLoading(submitStripePayment, true);
-      const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: `${window.location.origin}/payment/success.html?shipment_id=${shipmentId}`,
-        },
-      });
-
-      if (error) {
-        showMessage(error.message || "Payment failed");
-        setButtonLoading(submitStripePayment, false);
-      }
-    });
+    // Store elements and shipmentId for later use by the form submission
+    window.stripeElementsInstance = elements;
+    window.stripeShipmentId = shipmentId;
 
     showMessage("Stripe payment form loaded. Please complete payment.", false);
   } catch (err) {
