@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const paymentService = require("../services/paymentService");
 const Shipment = require("../models/Shipment");
+const shipmentController = require("../controllers/shipment");
+
+// Payment success route
+router.get("/success", shipmentController.paymentSuccess);
 
 // Create a payment
 router.post("/create", async (req, res) => {

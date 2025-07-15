@@ -583,3 +583,49 @@ exports.updateShipmentPaymentStatus = async (req, res) => {
     res.status(500).json({ success: false, message: "An error occurred while updating payment status." });
   }
 };
+
+// Payment success page
+exports.paymentSuccess = async (req, res) => {
+  try {
+    const { shipmentId, payment_intent, redirect_status } = req.query;
+
+    if (!shipmentId || !payment_intent || redirect_status !== "succeeded") {
+      return res.status(400).render("404", {
+        title: "Invalid Payment",
+        message: "Invalid payment details provided.",
+      });
+    }
+
+    const shipment = await Shipment.findOne({
+      $or: [{ trackingId: shipmentId }, { _id: shipmentId }],
+    });
+
+    if (!shipment) {
+      return res.status(404).render("404", {
+        title: "Shipment Not Found",
+        message: "The requested shipment could not be found.",
+      });
+    }
+
+    // Update payment status if it's not already paid
+    if (shipment.paymentStatus !== "Paid") {
+      shipment.paymentStatus = "Paid";
+      shipment.paymentIntentId = payment_intent;
+      shipment.paymentCompletedAt = new Date();
+      await shipment.save();
+    }
+
+    res.render("shipment/success", {
+      title: "Payment Successful",
+      layout: "layouts/main",
+      shipment,
+      extraCSS: '<link rel="stylesheet" href="/assets/css/payment-success.css">',
+    });
+  } catch (error) {
+    console.error("Error handling payment success:", error);
+    res.status(500).render("404", {
+      title: "Server Error",
+      message: "An unexpected error occurred.",
+    });
+  }
+};

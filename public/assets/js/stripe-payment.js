@@ -112,11 +112,54 @@ stripeButton?.addEventListener("click", async () => {
     window.stripeElementsInstance = elements;
     window.stripeShipmentId = shipmentId;
 
+    // Show the confirm payment button
+    const stripeSubmitButton = document.getElementById("submit-stripe-payment");
+    if (stripeSubmitButton) {
+      stripeSubmitButton.style.display = "inline-block";
+    }
+
     showMessage("Stripe payment form loaded. Please complete payment.", false);
   } catch (err) {
     console.error("Stripe Error:", err);
     showMessage("An error occurred during payment.");
   } finally {
     setButtonLoading(stripeButton, false);
+  }
+});
+
+// Handle the Stripe payment submission
+const stripeSubmitButton = document.getElementById("submit-stripe-payment");
+stripeSubmitButton?.addEventListener("click", async (e) => {
+  e.preventDefault();
+  setButtonLoading(stripeSubmitButton, true);
+  showMessage("Confirming payment... Please wait.", false);
+
+  const { stripeElementsInstance, stripeShipmentId } = window;
+
+  if (!stripeElementsInstance || !stripeShipmentId) {
+    showMessage("Stripe elements not initialized.");
+    setButtonLoading(stripeSubmitButton, false);
+    return;
+  }
+
+  try {
+    const { error } = await stripe.confirmPayment({
+      elements: stripeElementsInstance,
+      confirmParams: {
+        return_url: `${window.location.origin}/payment/success?shipmentId=${stripeShipmentId}`,
+      },
+    });
+
+    if (error) {
+      showMessage(error.message);
+      setButtonLoading(stripeSubmitButton, false);
+    } else {
+      showMessage("Payment successful! Redirecting...", false);
+      // The user will be redirected automatically by Stripe.
+    }
+  } catch (err) {
+    console.error("Stripe Confirmation Error:", err);
+    showMessage("An error occurred during payment confirmation.");
+    setButtonLoading(stripeSubmitButton, false);
   }
 });

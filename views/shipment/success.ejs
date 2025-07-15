@@ -1,0 +1,172 @@
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  rel="stylesheet"
+/>
+
+<div class="background-particles"></div>
+<div class="confetti"></div>
+<div class="success-container">
+  <div class="success-card">
+    <div class="success-icon-container">
+      <div class="success-pulse"></div>
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+    </div>
+
+    <h1 class="success-title">Payment Successful!</h1>
+    <p class="success-message">
+      Thank you for your payment. Your shipment is confirmed and ready for
+      processing.
+    </p>
+
+    <div class="shipment-info">
+      <div class="info-item">
+        <i class="fas fa-barcode info-icon"></i>
+        <span class="info-label">Tracking Number:</span>
+        <span class="info-value"><%= shipment.trackingId %></span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-map-marker-alt info-icon"></i>
+        <span class="info-label">Destination:</span>
+        <span class="info-value"><%= shipment.destination %></span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-clock info-icon"></i>
+        <span class="info-label">Estimated Delivery:</span>
+        <span class="info-value"
+          ><%= new Date(shipment.estimatedDelivery).toDateString() %></span
+        >
+      </div>
+    </div>
+
+    <a
+      href="/shipment/track?id=<%= shipment.trackingId %>"
+      class="track-button"
+    >
+      <i class="fas fa-shipping-fast"></i>
+      Track Your Shipment
+    </a>
+  </div>
+</div>
+
+<script>
+  // Create floating particles
+  function createParticles() {
+    const container = document.querySelector(".background-particles");
+    if (!container) return;
+    const particleCount = 50;
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement("div");
+      particle.className = "particle";
+      particle.style.left = Math.random() * 100 + "%";
+      particle.style.top = Math.random() * 100 + "%";
+      particle.style.animationDelay = Math.random() * 6 + "s";
+      particle.style.animationDuration = Math.random() * 3 + 4 + "s";
+      container.appendChild(particle);
+    }
+  }
+
+  // Create confetti animation
+  function createConfetti() {
+    const container = document.querySelector(".confetti");
+    if (!container) return;
+    const colors = [
+      "#f39c12",
+      "#e74c3c",
+      "#9b59b6",
+      "#3498db",
+      "#2ecc71",
+      "#f1c40f",
+    ];
+
+    for (let i = 0; i < 100; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti-piece";
+      confetti.style.left = Math.random() * 100 + "%";
+      confetti.style.backgroundColor =
+        colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDelay = Math.random() * 3 + "s";
+      confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
+      container.appendChild(confetti);
+
+      setTimeout(() => {
+        confetti.remove();
+      }, 5000);
+    }
+  }
+
+  // Add hover effect to info items
+  function addHoverEffects() {
+    const infoItems = document.querySelectorAll(".info-item");
+
+    infoItems.forEach((item) => {
+      item.addEventListener("mouseenter", function () {
+        this.style.transform = "translateX(8px) scale(1.02)";
+      });
+
+      item.addEventListener("mouseleave", function () {
+        this.style.transform = "translateX(0) scale(1)";
+      });
+    });
+  }
+
+  // Add click effect to track button
+  function addButtonEffects() {
+    const trackButton = document.querySelector(".track-button");
+    if (!trackButton) return;
+
+    trackButton.addEventListener("click", function (e) {
+      const ripple = document.createElement("div");
+      ripple.style.position = "absolute";
+      ripple.style.borderRadius = "50%";
+      ripple.style.background = "rgba(255, 255, 255, 0.6)";
+      ripple.style.transform = "scale(0)";
+      ripple.style.animation = "ripple 0.6s linear";
+
+      const rect = e.target.getBoundingClientRect();
+      ripple.style.left = e.clientX - rect.left + "px";
+      ripple.style.top = e.clientY - rect.top + "px";
+
+      ripple.style.width = ripple.style.height = "20px";
+
+      this.appendChild(ripple);
+
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
+    });
+  }
+
+  // Initialize animations
+  document.addEventListener("DOMContentLoaded", function () {
+    createParticles();
+    createConfetti();
+    addHoverEffects();
+    addButtonEffects();
+
+    // Add pulse effect to success icon
+    const successIcon = document.querySelector(".success-icon");
+    if (successIcon) {
+      setInterval(() => {
+        successIcon.style.animation = "none";
+        setTimeout(() => {
+          successIcon.style.animation = "bounceIn 0.5s ease-out";
+        }, 10);
+      }, 5000);
+    }
+  });
+
+  // Add ripple animation CSS
+  const style = document.createElement("style");
+  style.textContent = `
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+  document.head.appendChild(style);
+</script>
