@@ -206,7 +206,7 @@ const sendFranchiseAdminNotification = async (applicantDetails) => {
 
   const mailOptions = {
     from: `"Steph Logistics Franchise System" <${process.env.EMAIL_USERNAME}>`,
-    to: "info@stephlogistics.co.uk",
+    to: "contact@steplogistics.co.uk",
     subject: `New Franchise Information Request - ${applicantDetails.firstName} ${applicantDetails.lastName}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -437,8 +437,8 @@ async function sendQuoteConfirmation(email, data) {
           <p style="color: #666; line-height: 1.6;">If you have any questions, please don't hesitate to contact us:</p>
           <div style="margin: 20px 0; padding: 15px; background-color: #fff; border-radius: 5px; text-align: center;">
             <p style="margin: 5px 0;">
-              <a href="mailto:support@stephlogistics.co.uk" style="color: #2A9D8F; text-decoration: none;">
-                <i class="fa-regular fa-envelope"></i> support@stephlogistics.co.uk
+              <a href="mailto:contact@stephlogistics.co.uk" style="color: #2A9D8F; text-decoration: none;">
+                <i class="fa-regular fa-envelope"></i> contact@stephlogistics.co.uk
               </a>
             </p>
             <p style="margin: 5px 0;">

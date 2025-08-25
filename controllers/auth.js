@@ -162,8 +162,8 @@ exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    // Allow both support@stephlogistics.co.uk and test email
-    const allowedEmails = ["support@stephlogistics.co.uk", "imadechriswebdev@gmail.com"];
+    // Allow both contact@stephlogistics.co.uk and test email
+    const allowedEmails = ["contact@stephlogistics.co.uk", "imadechriswebdev@gmail.com"];
 
     // For security, always show success message even if user doesn't exist
     if (!email || !allowedEmails.includes(email)) {
@@ -177,7 +177,7 @@ exports.forgotPassword = async (req, res) => {
       });
     }
 
-    // Find user by email and role (could be support@stephlogistics.co.uk or test email)
+    // Find user by email and role (could be contact@stephlogistics.co.uk or test email)
     const user = await User.findOne({ email, role: "admin" });
 
     if (!user) {

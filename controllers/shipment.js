@@ -61,7 +61,7 @@ const customerShipmentConfirmationTemplate = (shipment) => `
               shipment.trackingId
             }" class="button">Track Shipment</a>
             
-            <p>If you have any questions about your shipment, please contact our customer service team at support@stephlogistics.co.uk or call +44 7404 888 952.</p>
+            <p>If you have any questions about your shipment, please contact our customer service team at contact@stephlogistics.co.uk or call +44 7404 888 952.</p>
         </div>
         <div class="footer">
             <p>Best regards,<br>The Steph Logistics Team</p>

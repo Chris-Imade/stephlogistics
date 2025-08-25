@@ -66,7 +66,7 @@ const userReceiptTemplate = (name, subject) => `
             <div class="contact-info">
                 <p><strong>Need immediate assistance?</strong></p>
                 <p>Phone: +44 7404 888 952</p>
-                <p>Email: info@stephlogistics.co.uk</p>
+                <p>Email: contact@steplogistics.co.uk</p>
                 <p>Business Hours: 24/7 Service</p>
             </div>
             
@@ -220,7 +220,7 @@ exports.submitContactForm = async (req, res) => {
       // Send notification to admin
       const adminMailInfo = await transporter.sendMail({
         from: `"Steph Logistics Contact Form" <${process.env.SMTP_USER}>`,
-        to: "info@stephlogistics.co.uk",
+        to: "contact@steplogistics.co.uk",
         subject: `New Contact Form: ${subject}`,
         html: adminNotificationTemplate({
           name,
