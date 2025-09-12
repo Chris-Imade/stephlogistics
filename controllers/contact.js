@@ -65,7 +65,7 @@ const userReceiptTemplate = (name, subject) => `
             
             <div class="contact-info">
                 <p><strong>Need immediate assistance?</strong></p>
-                <p>Phone: +44 7404 888 952</p>
+                <p>Phone: +44 1604 300 726</p>
                 <p>Email: contact@steplogistics.co.uk</p>
                 <p>Business Hours: 24/7 Service</p>
             </div>

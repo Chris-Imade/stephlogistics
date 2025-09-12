@@ -61,7 +61,7 @@ const customerShipmentConfirmationTemplate = (shipment) => `
               shipment.trackingId
             }" class="button">Track Shipment</a>
             
-            <p>If you have any questions about your shipment, please contact our customer service team at contact@stephlogistics.co.uk or call +44 7404 888 952.</p>
+            <p>If you have any questions about your shipment, please contact our customer service team at contact@stephlogistics.co.uk or call +44 1604 300 726.</p>
         </div>
         <div class="footer">
             <p>Best regards,<br>The Steph Logistics Team</p>
@@ -550,8 +550,9 @@ exports.createShipment = async (req, res) => {
   // Redirect to payment-based shipment creation
   res.status(400).json({
     success: false,
-    message: "Direct shipment creation is no longer supported. Please use the payment flow.",
-    redirectTo: "/shipment/create"
+    message:
+      "Direct shipment creation is no longer supported. Please use the payment flow.",
+    redirectTo: "/shipment/create",
   });
 };
 
@@ -564,7 +565,9 @@ exports.updateShipmentPaymentStatus = async (req, res) => {
     const shipment = await Shipment.findById(id);
 
     if (!shipment) {
-      return res.status(404).json({ success: false, message: "Shipment not found." });
+      return res
+        .status(404)
+        .json({ success: false, message: "Shipment not found." });
     }
 
     shipment.status = status; // e.g., "Paid"
@@ -572,15 +575,23 @@ exports.updateShipmentPaymentStatus = async (req, res) => {
     shipment.statusHistory.push({
       status: status,
       location: "Payment Gateway", // Or more specific location if available
-      note: `Payment processed via ${paymentDetails?.provider || 'unknown'}`,
+      note: `Payment processed via ${paymentDetails?.provider || "unknown"}`,
     });
 
     await shipment.save();
 
-    res.json({ success: true, message: "Shipment payment status updated successfully." });
+    res.json({
+      success: true,
+      message: "Shipment payment status updated successfully.",
+    });
   } catch (error) {
     console.error("Error updating shipment payment status:", error);
-    res.status(500).json({ success: false, message: "An error occurred while updating payment status." });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "An error occurred while updating payment status.",
+      });
   }
 };
 
@@ -619,7 +630,8 @@ exports.paymentSuccess = async (req, res) => {
       title: "Payment Successful",
       layout: "layouts/main",
       shipment,
-      extraCSS: '<link rel="stylesheet" href="/assets/css/payment-success.css">',
+      extraCSS:
+        '<link rel="stylesheet" href="/assets/css/payment-success.css">',
     });
   } catch (error) {
     console.error("Error handling payment success:", error);

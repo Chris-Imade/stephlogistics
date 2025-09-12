@@ -184,7 +184,7 @@ const sendFranchiseConfirmation = async (recipient, applicantDetails) => {
             <li>Complete our full application process</li>
           </ol>
         </div>
-        <p>If you have any immediate questions, please feel free to contact our franchise team at <a href="mailto:franchise@stephlogistics.co.uk" style="color: #2a9d8f;">franchise@stephlogistics.co.uk</a> or call us at +44 7404 888 952.</p>
+        <p>If you have any immediate questions, please feel free to contact our franchise team at <a href="mailto:franchise@stephlogistics.co.uk" style="color: #2a9d8f;">franchise@stephlogistics.co.uk</a> or call us at +44 1604 300 726.</p>
         <p>We look forward to discussing this exciting opportunity with you further!</p>
         <p>Best regards,<br>The Steph Logistics Franchise Team</p>
       </div>
@@ -442,8 +442,8 @@ async function sendQuoteConfirmation(email, data) {
               </a>
             </p>
             <p style="margin: 5px 0;">
-              <a href="tel:+447404888952" style="color: #2A9D8F; text-decoration: none;">
-                <i class="fa-regular fa-phone"></i> +44 7404 888 952
+              <a href="tel:+441604300726" style="color: #2A9D8F; text-decoration: none;">
+                <i class="fa-regular fa-phone"></i> +44 1604 300 726
               </a>
             </p>
           </div>
