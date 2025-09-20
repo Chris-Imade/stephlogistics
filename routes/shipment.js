@@ -12,9 +12,6 @@ router.post("/track", shipmentController.trackShipment);
 router.get("/request", shipmentController.getRequestPage);
 router.post("/request", shipmentController.createShipmentRequest);
 
-// Create shipment page
-router.get("/create", shipmentController.getCreateShipmentPage);
-router.post("/create", shipmentController.createShipment);
 
 // Route to update shipment payment status
 router.post("/:id/payment-status", shipmentController.updateShipmentPaymentStatus);

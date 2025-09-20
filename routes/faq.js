@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-// FAQ page route handler
-router.get("/", (req, res) => {
-  res.render("faq/index", {
-    title: "FAQ - Steph Logistics",
-    layout: "layouts/main"
+// GET faq page
+router.get('/faq', (req, res) => {
+  res.render('faq', {
+    title: 'Frequently Asked Questions',
+    path: '/faq',
   });
 });
 
-module.exports = router; 
+module.exports = router;

@@ -532,29 +532,6 @@ exports.createShipmentRequest = async (req, res) => {
   }
 };
 
-// Get create shipment page
-exports.getCreateShipmentPage = (req, res) => {
-  // console.log("Stripe Public Key:", process.env.STRIPE_PUBLIC_KEY); // Debugging line
-  res.render("shipment/create-shipment", {
-    title: "Create a Shipment",
-    path: "/shipment/create",
-    layout: "layouts/payment", // Explicitly specify the layout
-    stripePublicKey: process.env.STRIPE_PUBLIC_KEY,
-    extraCSS: '<link rel="stylesheet" href="/assets/css/create-shipment.css">',
-  });
-};
-
-// Create a shipment (deprecated - use payment flow instead)
-exports.createShipment = async (req, res) => {
-  // This endpoint is deprecated in favor of the payment flow
-  // Redirect to payment-based shipment creation
-  res.status(400).json({
-    success: false,
-    message:
-      "Direct shipment creation is no longer supported. Please use the payment flow.",
-    redirectTo: "/shipment/create",
-  });
-};
 
 // Update shipment payment status
 exports.updateShipmentPaymentStatus = async (req, res) => {

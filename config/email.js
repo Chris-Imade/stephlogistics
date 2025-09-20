@@ -284,7 +284,7 @@ async function sendQuoteAdminNotification(data) {
   const transporter = createTransporter();
 
   const mailOptions = {
-    from: process.env.SMTP_FROM,
+    from: process.env.SMTP_USER,
     to: "support@stephlogistics.co.uk",
     subject: `New Quote Request - ${data.serviceType} - ${data.name}`,
     html: `
@@ -400,7 +400,7 @@ async function sendQuoteConfirmation(email, data) {
   const transporter = createTransporter();
 
   const mailOptions = {
-    from: process.env.SMTP_FROM,
+    from: process.env.SMTP_USER,
     to: email,
     subject: "Quote Request Received - Steph Logistics",
     html: `
